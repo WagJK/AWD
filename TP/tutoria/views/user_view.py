@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response
-
+from .. models import Student
 def homepage(request):
-    return render_to_response('tutoria/home.html')
+    student = Student.objects.get(user=request.user)
+    return render_to_response('tutoria/home.html',locals())

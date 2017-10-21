@@ -3,8 +3,7 @@ from django.http import HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User, Group
 from . import user_view
-
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from ..models import Student
 
 def login(request):
     if request.method == 'GET':
@@ -27,4 +26,7 @@ def registrate(request):
     user = User.objects.create_user(
         username=username, password=password
     )
+    g = Group.objects.get(name='Student')
+    g.user_set.add(user)
+    Student.objects.create(user=user, user_identity='Student')
     return render_to_response('tutoria/login.html')
