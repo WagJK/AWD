@@ -1,0 +1,23 @@
+{% load static %}
+<div>
+    <ul class="longProfile">
+        <h2>Name</h2>
+            <h4><li>{{selectedTutor.user.last_name}} {{selectedTutor.user.first_name}}</li></h4>
+        <h2>University</h2>
+            <h4><li>{{selectedTutor.profile.university}}</li></h4>
+        <h2>Hourly-rate</h2>
+            <h4><li>{{selectedTutor.profile.hourly_rate}}</li></h4>
+        <h2>Average Review</h2>
+            <h4><li>{{selectedTutor.profile.average_review}}</li></h4>
+        <h2>Introduction</h2>
+            <h4><li>{{selectedTutor.profile.introduction}}</li></h4>
+        <h2>Availability</h2>
+            <h4><li>{{selectedTutor.profile.availability}}</li></h4>
+        <h2>Introduction</h2>
+            <h4><li>{{selectedTutor.profile.introduction}}</li></h4>
+        <h2>Contact</h2>
+            <h4><li>{{selectedTutor.profile.contact}}</li></h4>
+    </ul><br>
+
+    <button id="slotButton" onclick="getAvailableSlots('{{ tutor_id }}')">View Timeslots</button>
+</div>

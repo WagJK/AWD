@@ -16,6 +16,7 @@ def login(request):
         password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
         if user is not None and user.is_active:
+            auth.login(request,user)
             return user_view.homepage(request)
         else:
             return render_to_response('tutoria/login.html')

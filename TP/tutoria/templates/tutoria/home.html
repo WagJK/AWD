@@ -1,14 +1,74 @@
 <html>
 <head>
     <title>Tutoria Platform</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <h2>{{ student.user }}</h2>
-    <h1>{{ student.user_identity }}</h1>
-<button>search<button>
+<p>Hello!!</p>
+<div id="searchResult"><br></div>
+<button id="searchButton" onclick="getShortProfiles()">Search</button>
+
 </body>
+
 </html>
 
 <script>
+    function getShortProfiles() {
+        $.ajax({
+            url : "/student/shortProfile/", // the endpoint
+            type : "GET", // http method
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+                $('#searchButton').css("display", "none");
+            }
+        });
+    }
+
+    function getDetailedProfile(tutorID){
+        $.ajax({
+            url : "/student/detailedProfile/", // the endpoint
+            type : "POST", // http method
+            data : {
+            'tutorID' : tutorID
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function getAvailableSlots(tutorID){
+        $.ajax({
+            url : "/student/availableSlot/", // the endpoint
+            type : "POST", // http method
+            data : {
+            'tutorID' : tutorID
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function bookSlot(slotID){
+        var bookOrNot=confirm("Are you sure to book this timeslot?");
+        if (bookOrNot){
+            $.ajax({
+                url : "/student/bookSlot/", // the endpoint
+                type : "POST", // http method
+                data : {
+                'slotID' : slotID
+                },
+                // handle a successful response
+                success : function(response) {
+                    $('#searchResult').html(response);
+                    $('#searchButton').css("display", "block");
+                }
+            });
+        }
+    }
 </script>
