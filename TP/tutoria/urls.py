@@ -3,6 +3,7 @@ from .views import log_view, user_view
 urlpatterns = [
     url(r'^$', log_view.login, name='login'),
     url(r'^registration/',log_view.registrate, name='registrate'),
+    url(r'^logout/',log_view.logout, name='logout'),
     url(r'^home/', user_view.homepage, name='homepage'),
     url(r'^student/',include([
         url(r'^shortProfile/', user_view.shortProfile, name='shortProfile'),

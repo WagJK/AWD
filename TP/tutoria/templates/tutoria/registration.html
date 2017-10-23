@@ -6,14 +6,12 @@
 </head>
 
 <body>
-    <div>
-        <form id='login_form' action='/' method='POST'> 
+        <form id='register_form' action='/registration/' method='POST'>
             Username: <input name='username' type='text'/> <br>
             Password: <input name='password' type='password'/> <br>
-            <input type='submit' value='Sign in'></input>
-            <a href="{% url 'registrate' %}"> Sign up </a>
+            <input type='submit' value='Register'></input>
+            <a href="{% url 'login' %}"> Back to login </a>
         </form>
     </div>
 </body>
 </html>
-
