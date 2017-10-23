@@ -14,12 +14,21 @@ class Client(models.Model):
     class Meta:
         abstract = True
 
+
+
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
 
 class Student(Client):
-    pass
+    def studentModifyBooking(self,transaction):
+        self.balance-=transaction
+        self.save()
+
+    def studentModifyCancelling(self,transaction,cancelledSlot):
+        self.balance+=transaction
+        self.timeslot_set.remove(cancelledSlot)
+        self.save()
 
 
 class TutorProfile(models.Model):
@@ -50,6 +59,7 @@ class Tutor(Client):
     courses = models.ManyToManyField(Course)
 
 
+
 class Timeslot(models.Model):
     is_booked = models.BooleanField(default=False)  # default set to false
     is_finished = models.BooleanField(default=False)
@@ -60,4 +70,27 @@ class Timeslot(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
 
+    def slotModifyBooking(self, bookingStudent):
+        self.is_booked = True
+        self.student=bookingStudent
+        self.save()
 
+    def slotModifyCancelling(self):
+        self.is_booked = False
+        self.save()
+
+    @staticmethod
+    def tutorGetAllSlots(selectedTutor):
+        try:
+            return Timeslot.objects.filter(is_booked=False, is_finished=False, tutor=selectedTutor)
+
+        except Timeslot.DoesNotExist:
+            return None
+
+    @staticmethod
+    def studentGetAllSlots(bookingStudent):
+        try:
+            return Timeslot.objects.filter(is_booked = True, student = bookingStudent)
+
+        except Timeslot.DoesNotExist:
+            return None
