@@ -8,6 +8,7 @@
 <p>Hello!!</p>
 <div id="searchResult"><br></div>
 <button id="searchButton" onclick="getShortProfiles()">Search</button>
+<button id="scheduleButton" onclick="viewSchedule()">View Booked Timeslots</button>
 
 </body>
 
@@ -67,6 +68,34 @@
                 success : function(response) {
                     $('#searchResult').html(response);
                     $('#searchButton').css("display", "block");
+                }
+            });
+        }
+    }
+
+    function viewSchedule(){
+        $.ajax({
+            url : "/student/schedule/", // the endpoint
+            type : "GET", // http method
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function cancelSlot(slotID){
+        var cancelOrNot=confirm("Are you sure to cancel this timeslot?");
+        if (cancelOrNot){
+            $.ajax({
+                url : "/student/cancelSlot/", // the endpoint
+                type : "POST", // http method
+                data : {
+                'slotID' : slotID
+                },
+                // handle a successful response
+                success : function(response) {
+                    $('#searchResult').html(response);
                 }
             });
         }

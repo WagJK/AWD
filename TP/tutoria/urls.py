@@ -8,6 +8,8 @@ urlpatterns = [
         url(r'^shortProfile/', user_view.shortProfile, name='shortProfile'),
         url(r'^detailedProfile/', user_view.detailedProfile, name='detailedProfile'),
         url(r'^availableSlot/', user_view.availableTimeSlot, name='availableSlot'),
-        url(r'^bookSlot/', user_view.bookTimeSlot, name='bookSlot')
+        url(r'^bookSlot/', user_view.bookTimeSlot, name='bookSlot'),
+        url(r'^schedule/', user_view.schedule, name='schedule'),
+        url(r'^cancelSlot/', user_view.cancelTimeSlot, name='cancelSlot')
     ])),
 ]

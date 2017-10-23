@@ -58,6 +58,6 @@ class Timeslot(models.Model):
     startTime = models.TextField(default="0:00a.m")
     endTime = models.TextField(default="1:00a.m")
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
 
 

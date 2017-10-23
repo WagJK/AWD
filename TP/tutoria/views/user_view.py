@@ -6,9 +6,6 @@ def homepage(request):
     student = Student.objects.get(user=request.user)
     return render_to_response('tutoria/home.html',locals())
 
-def test(request):
-    return render_to_response('tutoria/home.html')
-
 
 def shortProfile(request):
     all_tutors = []
@@ -20,9 +17,7 @@ def shortProfile(request):
 
 def detailedProfile(request):
     tutor_id = request.POST['tutorID']
-    print(tutor_id)
     selectedTutor = Tutor.objects.get(id=tutor_id)
-    print(selectedTutor.profile.university)
     return render_to_response('tutoria/detailedProfile.html', locals())
 
 def availableTimeSlot(request):
@@ -38,7 +33,31 @@ def bookTimeSlot(request):
     slot_id = request.POST['slotID']
     selectedSlot = Timeslot.objects.get(id=slot_id)
     selectedSlot.is_booked = True
-    selectedSlot.student = Student.objects.get(user=request.user)
-    selectedSlot.student.balance -= 50
+    bookingStudent = Student.objects.get(user=request.user)
+    bookingStudent.balance -= 50
+    selectedSlot.student = bookingStudent
+
+    bookingStudent.save()
     selectedSlot.save()
     return HttpResponse("Timeslot Successfully Booked!")
+
+def schedule(request):
+    all_bookings = []
+    bookingStudent = Student.objects.get(user=request.user)
+    for booking in Timeslot.objects.filter(is_booked = True, student = bookingStudent):
+        all_bookings.append(booking)
+
+    return render_to_response('tutoria/schedule.html', locals())
+
+def cancelTimeSlot(request):
+    slot_id = request.POST['slotID']
+    cancelledSlot = Timeslot.objects.get(id=slot_id)
+    cancelledSlot.is_booked = False
+    cancellingStudent = Student.objects.get(user=request.user)
+    cancellingStudent.balance += 50
+    cancellingStudent.timeslot_set.remove(cancelledSlot)
+
+    cancellingStudent.save()
+    cancelledSlot.save()
+    return HttpResponse("Timeslot Successfully Cancelled!")
+
