@@ -1,0 +1,22 @@
+*{
+	box-sizing: border-box;
+}
+
+body{
+    font-size: 20pt;
+}
+
+button {
+	font-size: 20px;
+	font-weight: bold;
+	margin-left: 20px;
+}
+
+table {
+	width: 85%;
+	text-align: center;
+}
+
+td{
+	height: 70px;
+}

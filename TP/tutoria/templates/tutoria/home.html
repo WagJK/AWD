@@ -1,12 +1,16 @@
 <html>
 <head>
+    {% load static %}
     <title>Tutoria Platform</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'tutoria/css/home.css' %}"/>
+    <script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
 
 <body>
-<p>Hello!!</p>
-<div id="searchResult"><br></div>
+<h1>Homepage (Version 1.0)</h1>
+<p>This page currently implemented the search function.</p><br>
+<p>Search is tested on all tutor data and doesn't deal with tag matching.</p><br>
+<div id="searchResult"></div>
 <button id="searchButton" onclick="getShortProfiles()">Search</button>
 <button id="scheduleButton" onclick="viewSchedule()">View Booked Timeslots</button>
 <a href="{% url 'logout' %}">Logout</a>
@@ -22,7 +26,7 @@
             // handle a successful response
             success : function(response) {
                 $('#searchResult').html(response);
-                $('#searchButton').css("display", "none");
+                //$('#searchButton').css("display", "none");
             }
         });
     }

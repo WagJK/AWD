@@ -1,21 +1,17 @@
-{% load static %}
-{% for booking in all_bookings %}
-<div class="bookedSlot">
+<table frame="box" rules="all">
+    <tr>
+        <th>Tutor</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+		<th>Cancel Session</th>
+    </tr>
+    {% for booking in all_bookings %}
+    <tr>
+        <td>{{ booking.tutor.user.username }}</td>
+        <td>{{ booking.startTime }}</td>
+        <td>{{ booking.endTime }}</td>
+		<td><button onclick="cancelSlot('{{ booking.id }}')">Cancel</button></td>
+    </tr>
+    {% endfor %}
+</table>
 
-    <table>
-        <tr>
-            <th>Tutor</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-        </tr>
-        <tr>
-            <td>{{booking.tutor.user.last_name}} {{booking.tutor.user.first_name}}</td>
-            <td>{{booking.startTime}}</td>
-            <td>{{booking.endTime}}</td>
-        </tr>
-    </table>
-    <br>
-    <button onclick="cancelSlot('{{booking.id}}')">Cancel Session</button>
-    <a href="{% url 'logout' %}">Logout</a>
-</div>
-{% endfor %}

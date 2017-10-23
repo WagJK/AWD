@@ -9,7 +9,7 @@ class Client(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # many-to-one
     login_type = models.CharField(max_length=20, default="Student")
-    balance = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+    balance = models.IntegerField(default=0)
 
     class Meta:
         abstract = True
@@ -36,8 +36,8 @@ class TutorProfile(models.Model):
     tutor_type = models.CharField(max_length=20, default="Contract")
     university = models.CharField(max_length=50, default="HKU")
     # university course
-    hourly_rate = models.DecimalField(max_digits=5, decimal_places=2, default=10.0)
-    average_review = models.DecimalField(max_digits=5, decimal_places=2, default=100.0)
+    hourly_rate = models.IntegerField(default=10)
+    average_review = models.IntegerField(default=100)
     # subject tags
 
     introduction = models.TextField()

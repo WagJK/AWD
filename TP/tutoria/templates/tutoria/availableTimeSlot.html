@@ -1,12 +1,9 @@
-{% load static %}
-{% for slot in all_slots %}
-<div onclick="bookSlot('{{slot.id}}')">
-    <ul class="timeslot">
-        <h2>Start Time</h2>
-            <h4><li>{{slot.startTime}}</li></h4>
-        <h2>End Time</h2>
-            <h4><li>{{slot.endTime}}</li></h4>
-    </ul><br>
-    <a href="{% url 'logout' %}">Logout</a>
-</div>
-{% endfor %}
+<table frame="box" rules="rule">
+    <tr><th>Start Time</th><th>End Time</th></tr>
+    {% for slot in all_slots %}
+        <tr>
+            <td onclick="bookSlot('{{ slot.id }}')">{{ slot.startTime }}</td>
+            <td onclick="bookSlot('{{ slot.id }}')">{{ slot.endTime }}</td>
+        </tr>
+    {% endfor %}
+</table>

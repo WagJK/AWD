@@ -2,10 +2,12 @@
 <head>
     {% load static %}
     <title>Tutoria Platform</title>
+	<link rel="stylesheet" href="{% static 'tutoria/css/home.css' %}"/>
     <script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
 
 <body>
+    <div>
         <form id='register_form' action='/registration/' method='POST'>
             Username: <input name='username' type='text'/> <br>
             Password: <input name='password' type='password'/> <br>

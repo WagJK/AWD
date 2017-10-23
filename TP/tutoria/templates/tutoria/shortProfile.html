@@ -1,16 +1,14 @@
 {% load static %}
-{% for tutor in all_tutors %}
-<div onclick="getDetailedProfile('{{tutor.id}}')">
-    <ul class="profile">
-        <h2>Name</h2>
-            <h4><li>{{tutor.user.last_name}} {{tutor.user.first_name}}</li></h4>
-        <h2>University</h2>
-            <h4><li>{{tutor.profile.university}}</li></h4>
-        <h2>Hourly-rate</h2>
-            <h4><li>{{tutor.profile.hourly_rate}}</li></h4>
-        <h2>Average Review</h2>
-            <h4><li>{{tutor.profile.average_review}}</li></h4>
-    </ul><br>
-</div>
-{% endfor %}
-<a href="{% url 'logout' %}">Logout</a>
+<table id="short_profile_list" 	frame="box" rules="all">
+    <tr>
+        <th>Name</th><th>University</th><th>Hourly-rate</th><th>average_review</th>
+    </tr>
+    {% for tutor in all_tutors %}
+    <tr>
+        <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.user.username }}</td>
+        <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.university }}</td>
+        <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.hourly_rate }}</td>
+        <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.average_review }}</td>
+    </tr>
+    {% endfor %}
+</table>
