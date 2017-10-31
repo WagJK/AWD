@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response
-from ..models import Tutor, Timeslot, Student
+from ..models import Tutor, Timeslot, Student, Client, Confirmation
 from django.http import HttpResponse
 
 def homepage(request):
@@ -38,6 +38,8 @@ def bookTimeSlot(request):
     bookingStudent.studentModifyBooking(50)
     selectedSlot.slotModifyBooking(bookingStudent)
 
+    Confirmation.clientCreateConfirmation("booking", selectedSlot)
+
     return HttpResponse("Timeslot Successfully Booked!")
 
 def schedule(request):
@@ -51,9 +53,18 @@ def cancelTimeSlot(request):
     cancelledSlot = Timeslot.objects.get(id=slot_id)
     cancellingStudent = Student.objects.get(user=request.user)
 
-    cancelledSlot.slotModifyCancelling()
+    Confirmation.clientCreateConfirmation("cancellation", cancelledSlot)
 
+    cancelledSlot.slotModifyCancelling()
     cancellingStudent.studentModifyCancelling(50, cancelledSlot)
 
     return HttpResponse("Timeslot Successfully Cancelled!")
+
+def confirmation (request):
+
+    requestingStudent = Student.objects.get(user=request.user)
+    all_confirmations = Confirmation.clientGetAllConfirmations(requestingStudent)
+
+    output = reversed(all_confirmations)
+    return render_to_response('tutoria/confirmation.html', locals())
 

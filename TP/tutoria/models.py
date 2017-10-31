@@ -94,3 +94,30 @@ class Timeslot(models.Model):
 
         except Timeslot.DoesNotExist:
             return None
+
+
+class Confirmation(models.Model):
+    category = models.CharField(max_length=20, default="booking")
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    timeslot = models.ForeignKey(Timeslot, on_delete=models.CASCADE)
+
+    @staticmethod
+    def clientGetAllConfirmations(requestingClient):
+        try:
+            if requestingClient.login_type == "Student":
+                return Confirmation.objects.filter(student = requestingClient)
+
+            elif requestingClient.login_type == "Tutor":
+                return Confirmation.objects.filter(tutor = requestingClient)
+
+        except Confirmation.DoesNotExist:
+            return None
+
+    @staticmethod
+    def clientCreateConfirmation(type, slot):
+
+        newConfirmation = Confirmation(category=type, tutor=slot.tutor, student=slot.student, timeslot=slot)
+        newConfirmation.save()
+        return
+

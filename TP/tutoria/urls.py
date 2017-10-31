@@ -11,6 +11,7 @@ urlpatterns = [
         url(r'^availableSlot/', user_view.availableTimeSlot, name='availableSlot'),
         url(r'^bookSlot/', user_view.bookTimeSlot, name='bookSlot'),
         url(r'^schedule/', user_view.schedule, name='schedule'),
-        url(r'^cancelSlot/', user_view.cancelTimeSlot, name='cancelSlot')
+        url(r'^cancelSlot/', user_view.cancelTimeSlot, name='cancelSlot'),
+        url(r'^confirmation/', user_view.confirmation, name='confirmation')
     ])),
 ]

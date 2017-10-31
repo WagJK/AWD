@@ -13,6 +13,7 @@
 <div id="searchResult"></div>
 <button id="searchButton" onclick="getShortProfiles()">Search</button>
 <button id="scheduleButton" onclick="viewSchedule()">View Booked Timeslots</button>
+<button id="confirmation" onclick="viewConfirmation()">My Confirmations</button>
 <a href="{% url 'logout' %}">Logout</a>
 </body>
 
@@ -103,5 +104,16 @@
                 }
             });
         }
+    }
+
+    function viewConfirmation(){
+        $.ajax({
+            url : "/student/confirmation/", // the endpoint
+            type : "GET", // http method
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
     }
 </script>
