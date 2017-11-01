@@ -3,22 +3,37 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
-from . import user_view
-from ..models import Student
+from . import user_view, tutor_view
+from ..models import Student,Tutor
 
+def typeSelect(id):
+    if Student.objects.filter(user__pk=id).exists():
+        #print(Student.objects.filter(user__pk=id).login_type)
+        return Student.objects.filter(user__pk=id)[0].login_type
+    elif Tutor.objects.filter(user__pk=id).exists():
+        #print(Tutor.objects.filter(user__pk=id).login_type)
+        return Tutor.objects.filter(user__pk=id)[0].login_type
 def login(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
-            return user_view.homepage(request)
+            user_type = typeSelect(request.user.id)
+            if user_type == "Student":
+                return user_view.homepage(request)
+            elif user_type == "Tutor":
+                return tutor_view.homepage(request)
         else:
             return render_to_response('tutoria/login.html')
     else:
         username = request.POST['username']
         password = request.POST['password']
+        user_type = request.POST['type']
         user = auth.authenticate(username=username, password=password)
         if user is not None and user.is_active:
             auth.login(request,user)
-            return user_view.homepage(request)
+            if user_type == "1":
+                return user_view.homepage(request)
+            elif user_type == "2":
+                return tutor_view.homepage(request)
         else:
             return render_to_response('tutoria/login.html')
 

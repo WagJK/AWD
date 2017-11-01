@@ -1,5 +1,5 @@
 from django.conf.urls import url, include
-from .views import log_view, user_view
+from .views import log_view, user_view, tutor_view
 urlpatterns = [
     url(r'^$', log_view.login, name='login'),
     url(r'^registration/',log_view.registrate, name='registrate'),
@@ -14,4 +14,7 @@ urlpatterns = [
         url(r'^cancelSlot/', user_view.cancelTimeSlot, name='cancelSlot'),
         url(r'^confirmation/', user_view.confirmation, name='confirmation')
     ])),
+    url(r'^tutor',include([
+        url(r'^home/',tutor_view.homepage, name="tutorhome")
+    ]))
 ]
