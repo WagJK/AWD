@@ -1,6 +1,6 @@
 from django.db import models
-from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 
@@ -10,11 +10,11 @@ class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # many-to-one
     login_type = models.CharField(max_length=20, default="Student")
     balance = models.IntegerField(default=0)
+    avatar = models.TextField(default="This is an avatar")
+    phone = models.CharField(max_length = 10, default="None")
 
     class Meta:
         abstract = True
-
-
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
@@ -22,11 +22,11 @@ class Client(models.Model):
 
 class Student(Client):
     def studentModifyBooking(self,transaction):
-        self.balance-=transaction
+        self.balance -= transaction
         self.save()
 
     def studentModifyCancelling(self,transaction,cancelledSlot):
-        self.balance+=transaction
+        self.balance += transaction
         self.timeslot_set.remove(cancelledSlot)
         self.save()
 
@@ -39,8 +39,7 @@ class TutorProfile(models.Model):
     hourly_rate = models.IntegerField(default=10)
     average_review = models.IntegerField(default=100)
     # subject tags
-
-    introduction = models.TextField()
+    introduction = models.TextField(default="This is an introduction")
     # reviews
     availability = models.BooleanField(default=True)
     contact = models.EmailField(default = "tutor@hku.hk")  # may change in further version
@@ -65,8 +64,8 @@ class Timeslot(models.Model):
     is_finished = models.BooleanField(default=False)
 
     # can be changed to datetimefield
-    startTime = models.TextField(default="0:00a.m")
-    endTime = models.TextField(default="1:00a.m")
+    startTime = models.DateTimeField(default=datetime.now())
+    endTime = models.DateTimeField(default=datetime.now())
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
 
