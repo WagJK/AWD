@@ -12,3 +12,12 @@
     </tr>
     {% endfor %}
 </table>
+<br>
+<form action="/student/sort" method="POST">
+    <select name="sort_method">
+        <option value="1">hourly-rate</option>
+        <option value="2">hourly-rate DESC</option>
+        <option value="3">average_review</option>
+        <option value="4">average_review DESC</option>
+    </select>
+</form>
