@@ -3,7 +3,7 @@
     <tr>
         <th>Name</th><th>University</th><th>Hourly-rate</th><th>average_review</th>
     </tr>
-    {% for tutor in all_tutors %}
+    {% for tutor in sortedList %}
     <tr>
         <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.user.username }}</td>
         <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.university }}</td>
@@ -13,11 +13,10 @@
     {% endfor %}
 </table>
 <br>
-<form action="/student/sort" method="POST">
-    <select name="sort_method">
-        <option value="1">hourly-rate</option>
-        <option value="2">hourly-rate DESC</option>
-        <option value="3">average_review</option>
-        <option value="4">average_review DESC</option>
-    </select>
-</form>
+<select id="sortOption" name="sort_method">
+    <option value="1">hourly-rate</option>
+    <option value="2">hourly-rate DESC</option>
+    <option value="3">average_review</option>
+    <option value="4">average_review DESC</option>
+</select><br>
+<button onclick="sortProfile()">Sort</button>

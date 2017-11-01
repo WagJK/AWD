@@ -12,6 +12,7 @@ def shortProfile(request):
     for tutor in Tutor.objects.all():
         all_tutors.append(tutor)
 
+    sortedList = sorted(all_tutors, key=lambda x: x.profile.hourly_rate, reverse=False)
     return render_to_response('tutoria/shortProfile.html', locals())
 
 def detailedProfile(request):
@@ -79,3 +80,17 @@ def addValue(request):
     requestingStudent.save()
 
     return HttpResponse(requestingStudent.balance)
+
+def sort(request):
+    all_tutors = Tutor.objects.all()
+
+    if request.POST['option'] == "1":
+        sortedList = sorted(all_tutors, key=lambda x: x.profile.hourly_rate, reverse=False)
+    elif request.POST['option'] == "2":
+        sortedList = sorted(all_tutors, key=lambda x: x.profile.hourly_rate, reverse=True)
+    elif request.POST['option'] == "3":
+        sortedList = sorted(all_tutors, key=lambda x: x.profile.average_review, reverse=False)
+    else:
+        sortedList = sorted(all_tutors, key=lambda x: x.profile.average_review, reverse=True)
+
+    return render_to_response('tutoria/shortProfile.html', locals())

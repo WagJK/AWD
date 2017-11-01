@@ -11,7 +11,7 @@
     <p>This page currently implemented the search function.</p>
     <p>Search is tested on all tutor data and doesn't deal with tag matching.</p>
 
-    <div id="wallet" style="float:left; padding-bottom: 10px">
+    <div id="wallet" style="padding-bottom: 10px">
         Balance: <b id="balance"> {{ student.balance }} </b> HKD
         <button id="addValue" onclick="addValue()"> Add Value </button>
         <input id="value" type="text"> </input>
@@ -47,6 +47,7 @@
             success : function(response) {
                 $('#searchResult').html(response);
                 //$('#searchButton').css("display", "none");
+                $('#profile').css("display", "none");
             }
         });
     }
@@ -104,6 +105,7 @@
             // handle a successful response
             success : function(response) {
                 $('#searchResult').html(response);
+                $('#profile').css("display", "none");
             }
         });
     }
@@ -132,6 +134,7 @@
             // handle a successful response
             success : function(response) {
                 $('#searchResult').html(response);
+                $('#profile').css("display", "none");
             }
         });
     }
@@ -148,5 +151,23 @@
                 $('#balance').html(response);
             }
         });
+    }
+
+    function sortProfile() {
+        $.ajax({
+            url : "/student/sort/", // the endpoint
+            type : "POST", // http method
+            data : {
+                'option' : $('#sortOption').val()
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function loadProfile(){
+        $('#profile').css("display", "block");
     }
 </script>

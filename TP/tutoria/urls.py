@@ -13,7 +13,8 @@ urlpatterns = [
         url(r'^schedule/', user_view.schedule, name='schedule'),
         url(r'^cancelSlot/', user_view.cancelTimeSlot, name='cancelSlot'),
         url(r'^confirmation/', user_view.confirmation, name='confirmation'),
-        url(r'^addValue/', user_view.addValue, name='addValue')
+        url(r'^addValue/', user_view.addValue, name='addValue'),
+        url(r'^sort/', user_view.sort, name='sort')
     ])),
     url(r'^tutor/',include([
         url(r'^home/',tutor_view.homepage, name="tutorhome"),
