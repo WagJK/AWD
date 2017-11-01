@@ -34,13 +34,16 @@ def bookTimeSlot(request):
     slot_id = request.POST['slotID']
     selectedSlot = Timeslot.objects.get(id=slot_id)
     bookingStudent = Student.objects.get(user=request.user)
+    
+    if (selectedSlot.tutor.profile.tutor_type == "Contract"):
+        fee = 0
+    else:
+        fee = selectedSlot.tutor.profile.hourly_rate * 1.05
 
-    # need to calculate the fee, considering the commission and contract/private
-
-    if bookingStudent.balance >= 50:
-        bookingStudent.studentModifyBooking(50)
+    if bookingStudent.balance >= fee:
+        bookingStudent.studentModifyBooking(fee)
         selectedSlot.slotModifyBooking(bookingStudent)
-        Confirmation.clientCreateConfirmation("booking", selectedSlot)
+        Confirmation.clientCreateConfirmation("booking", selectedSlot, fee)
         return HttpResponse("Timeslot Successfully Booked!")
     else:
         return HttpResponse("Booking Rejected Due to Insufficient Balance!")

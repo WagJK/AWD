@@ -56,8 +56,7 @@ class Course(models.Model):
 class Tutor(Client):
     profile = models.OneToOneField(TutorProfile, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course)
-
-
+    
 
 class Timeslot(models.Model):
     is_booked = models.BooleanField(default=False)  # default set to false
@@ -100,6 +99,7 @@ class Confirmation(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     timeslot = models.ForeignKey(Timeslot, on_delete=models.CASCADE)
+    fee = models.FloatField(default="0.00")
 
     @staticmethod
     def clientGetAllConfirmations(requestingClient):
@@ -114,9 +114,13 @@ class Confirmation(models.Model):
             return None
 
     @staticmethod
-    def clientCreateConfirmation(type, slot):
-
-        newConfirmation = Confirmation(category=type, tutor=slot.tutor, student=slot.student, timeslot=slot)
+    def clientCreateConfirmation(type, slot, fee):
+        newConfirmation = Confirmation(
+            category=type, 
+            tutor=slot.tutor, 
+            student=slot.student,
+            timeslot=slot,
+            fee=fee)
         newConfirmation.save()
         return
 
