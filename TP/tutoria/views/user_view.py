@@ -1,11 +1,11 @@
 from django.shortcuts import render_to_response
 from ..models import Tutor, Timeslot, Student, Client, Confirmation
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 
 def homepage(request):
     student = Student.objects.get(user=request.user)
     return render_to_response('tutoria/home.html',locals())
-
 
 def shortProfile(request):
     all_tutors = []
@@ -13,7 +13,6 @@ def shortProfile(request):
         all_tutors.append(tutor)
 
     return render_to_response('tutoria/shortProfile.html', locals())
-
 
 def detailedProfile(request):
 
@@ -59,19 +58,14 @@ def cancelTimeSlot(request):
     cancelledSlot = Timeslot.objects.get(id=slot_id)
     cancellingStudent = Student.objects.get(user=request.user)
 
-    if (cancelledSlot.tutor.profile.tutor_type == "Contract"):
-        fee = 0
-    else:
-        fee = cancelledSlot.tutor.profile.hourly_rate * 1.05
-
-    Confirmation.clientCreateConfirmation("cancellation", cancelledSlot,fee)
+    Confirmation.clientCreateConfirmation("cancellation", cancelledSlot)
 
     cancelledSlot.slotModifyCancelling()
-    cancellingStudent.studentModifyCancelling(fee, cancelledSlot)
+    cancellingStudent.studentModifyCancelling(50, cancelledSlot)
 
     return HttpResponse("Timeslot Successfully Cancelled!")
 
-def confirmation (request):
+def confirmation(request):
 
     requestingStudent = Student.objects.get(user=request.user)
     all_confirmations = Confirmation.clientGetAllConfirmations(requestingStudent)
@@ -79,3 +73,9 @@ def confirmation (request):
     output = reversed(all_confirmations)
     return render_to_response('tutoria/confirmation.html', locals())
 
+def addValue(request):
+    requestingStudent = Student.objects.get(user=request.user)
+    requestingStudent.balance = requestingStudent.balance + int(request.POST['value'])
+    requestingStudent.save()
+
+    return HttpResponse(requestingStudent.balance)

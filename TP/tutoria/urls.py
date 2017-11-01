@@ -12,10 +12,12 @@ urlpatterns = [
         url(r'^bookSlot/', user_view.bookTimeSlot, name='bookSlot'),
         url(r'^schedule/', user_view.schedule, name='schedule'),
         url(r'^cancelSlot/', user_view.cancelTimeSlot, name='cancelSlot'),
-        url(r'^confirmation/', user_view.confirmation, name='confirmation')
+        url(r'^confirmation/', user_view.confirmation, name='confirmation'),
+        url(r'^addValue/', user_view.addValue, name='addValue')
     ])),
     url(r'^tutor/',include([
         url(r'^home/',tutor_view.homepage, name="tutorhome"),
-        url(r'^confirmation/',tutor_view.confirmation, name="tutorConfirmation")
+        url(r'^confirmation/',tutor_view.confirmation, name="tutorConfirmation"),
+        url(r'^withdraw/', tutor_view.withdraw, name="withdraw")
     ]))
 ]

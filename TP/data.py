@@ -113,7 +113,7 @@ def generate_student(num_student):
 		login_type = "Student"
 		avatar = "This field will be replaced by image"
 		phone = str(rand(49494949) + 31231231)
-		balance = 1000
+		balance = 1000.0
 		try:
 			obj = User.objects.get(username = given_name.lower() + surname.lower())
 		except User.DoesNotExist:

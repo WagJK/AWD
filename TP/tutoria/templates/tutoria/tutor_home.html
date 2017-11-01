@@ -7,10 +7,26 @@
 </head>
 
 <body>
-This is tutor home<br>
-<div id="searchResult"></div>
-<button id="confirmation" onclick="viewConfirmation()">My Confirmations</button>
-<a href="{% url 'logout' %}">Logout</a>
+    <h1>Tutor Homepage (Version 1.0)</h1>
+    <p>This page currently implemented the search function.</p>
+
+    <div id="wallet" style="float:left; padding-bottom: 10px">
+    Balance: <b id="balance"> {{ tutor.balance }} </b> HKD
+    <button id="withdraw" onclick="withdraw()"> Withdraw </button>
+    <input id="value" type="text"> </input>
+    </div>
+
+    <div id="profile" onload="loadProfile()">
+        <table id="userProfile" frame="box" rules="all">
+            <tr> <th>Name</th> <td>{{ tutor.user.username }}</td> </tr>
+            <tr> <th>Email</th><td>{{ tutor.user.email }}</td> </tr>
+            <tr> <th>Avatar</th><td>{{ tutor.avatar }}</td> </tr>
+            <tr> <th>Phone</th><td>{{ tutor.phone}}</td> </tr>
+        </table>
+    </div>
+
+    <button id="confirmation" onclick="viewConfirmation()">My Confirmations</button>
+    <a href="{% url 'logout' %}">Logout</a>
 </body>
 
 </html>
@@ -23,6 +39,20 @@ This is tutor home<br>
             // handle a successful response
             success : function(response) {
                 $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function withdraw() {
+        $.ajax({
+            url : "/tutor/withdraw/", // the endpoint
+            type : "POST", // http method
+            data : {
+                'value' : $('#value').val()
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#balance').html(response);
             }
         });
     }

@@ -7,14 +7,33 @@
 </head>
 
 <body>
-<h1>Homepage (Version 1.0)</h1>
-<p>This page currently implemented the search function.</p><br>
-<p>Search is tested on all tutor data and doesn't deal with tag matching.</p><br>
-<div id="searchResult"></div>
-<button id="searchButton" onclick="getShortProfiles()">Search</button>
-<button id="scheduleButton" onclick="viewSchedule()">View Booked Timeslots</button>
-<button id="confirmation" onclick="viewConfirmation()">My Confirmations</button>
-<a href="{% url 'logout' %}">Logout</a>
+    <h1>Homepage (Version 1.0)</h1>
+    <p>This page currently implemented the search function.</p>
+    <p>Search is tested on all tutor data and doesn't deal with tag matching.</p>
+
+    <div id="wallet" style="float:left; padding-bottom: 10px">
+        Balance: <b id="balance"> {{ student.balance }} </b> HKD
+        <button id="addValue" onclick="addValue()"> Add Value </button>
+        <input id="value" type="text"> </input>
+    </div>
+
+    <div id="profile" onload="loadProfile()">
+        <table id="userProfile" frame="box" rules="all">
+            <tr> <th>Name</th> <td>{{ student.user.username }}</td> </tr>
+            <tr> <th>Email</th><td>{{ student.user.email }}</td> </tr>
+            <tr> <th>Avatar</th><td>{{ student.avatar }}</td> </tr>
+            <tr> <th>Phone</th><td>{{ student.phone}}</td> </tr>
+        </table>
+    </div>
+
+    <div id="searchResult"></div>
+
+    <div id="options">
+        <button id="searchButton" onclick="getShortProfiles()">Search</button>
+        <button id="scheduleButton" onclick="viewSchedule()">View Booked Timeslots</button>
+        <button id="confirmation" onclick="viewConfirmation()">My Confirmations</button>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
 </body>
 
 </html>
@@ -90,7 +109,7 @@
     }
 
     function cancelSlot(slotID){
-        var cancelOrNot=confirm("Are you sure to cancel this timeslot?");
+        var cancelOrNot = confirm("Are you sure to cancel this timeslot?");
         if (cancelOrNot){
             $.ajax({
                 url : "/student/cancelSlot/", // the endpoint
@@ -113,6 +132,20 @@
             // handle a successful response
             success : function(response) {
                 $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function addValue() {
+        $.ajax({
+            url : "/student/addValue/", // the endpoint
+            type : "POST", // http method
+            data : {
+                'value' : $('#value').val()
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#balance').html(response);
             }
         });
     }
