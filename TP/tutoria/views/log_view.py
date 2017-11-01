@@ -29,13 +29,20 @@ def login(request):
         user_type = request.POST['type']
         user = auth.authenticate(username=username, password=password)
         if user is not None and user.is_active:
-            auth.login(request,user)
             if user_type == "1":
-                return user_view.homepage(request)
+                auth.login(request,user)
+                if Student.objects.filter(user=request.user).exists():
+                    return user_view.homepage(request)
+                else:
+                    return passive_logout(request)
             elif user_type == "2":
-                return tutor_view.homepage(request)
+                auth.login(request,user)
+                if Tutor.objects.filter(user=request.user).exists():
+                    return tutor_view.homepage(request)
+                else:
+                    return passive_logout(request)
         else:
-            return render_to_response('tutoria/login.html')
+            return render_to_response('tutoria/login.html',{'wrong_password': True, 'wrong_type':False})
 
 def registrate(request):
     if request.method == 'POST':
@@ -55,3 +62,8 @@ def registrate(request):
 def logout(request):
     auth.logout(request)
     return render_to_response('tutoria/login.html')
+
+@login_required
+def passive_logout(request):
+    auth.logout(request)
+    return render_to_response('tutoria/login.html',{'wrong_password': False, 'wrong_type': True})

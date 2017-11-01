@@ -22,3 +22,15 @@
 </body>
 </html>
 
+{% if wrong_type %}
+<script>
+    confirm("wrong type");
+</script>
+{% endif %}
+
+{% if wrong_password %}
+<script>
+    confirm("wrong password");
+</script>
+{% endif %}
+
