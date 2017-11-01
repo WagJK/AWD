@@ -59,10 +59,15 @@ def cancelTimeSlot(request):
     cancelledSlot = Timeslot.objects.get(id=slot_id)
     cancellingStudent = Student.objects.get(user=request.user)
 
-    Confirmation.clientCreateConfirmation("cancellation", cancelledSlot)
+    if (cancelledSlot.tutor.profile.tutor_type == "Contract"):
+        fee = 0
+    else:
+        fee = cancelledSlot.tutor.profile.hourly_rate * 1.05
+
+    Confirmation.clientCreateConfirmation("cancellation", cancelledSlot,fee)
 
     cancelledSlot.slotModifyCancelling()
-    cancellingStudent.studentModifyCancelling(50, cancelledSlot)
+    cancellingStudent.studentModifyCancelling(fee, cancelledSlot)
 
     return HttpResponse("Timeslot Successfully Cancelled!")
 

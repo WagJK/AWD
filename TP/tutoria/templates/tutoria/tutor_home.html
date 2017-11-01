@@ -7,8 +7,23 @@
 </head>
 
 <body>
-This is tutor home
+This is tutor home<br>
+<div id="searchResult"></div>
+<button id="confirmation" onclick="viewConfirmation()">My Confirmations</button>
 <a href="{% url 'logout' %}">Logout</a>
 </body>
 
 </html>
+
+<script>
+    function viewConfirmation(){
+        $.ajax({
+            url : "/tutor/confirmation/", // the endpoint
+            type : "GET", // http method
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
+    }
+</script>

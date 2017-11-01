@@ -14,7 +14,8 @@ urlpatterns = [
         url(r'^cancelSlot/', user_view.cancelTimeSlot, name='cancelSlot'),
         url(r'^confirmation/', user_view.confirmation, name='confirmation')
     ])),
-    url(r'^tutor',include([
-        url(r'^home/',tutor_view.homepage, name="tutorhome")
+    url(r'^tutor/',include([
+        url(r'^home/',tutor_view.homepage, name="tutorhome"),
+        url(r'^confirmation/',tutor_view.confirmation, name="tutorConfirmation")
     ]))
 ]
