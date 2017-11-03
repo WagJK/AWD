@@ -13,6 +13,7 @@ def typeSelect(id):
     elif Tutor.objects.filter(user__pk=id).exists():
         #print(Tutor.objects.filter(user__pk=id).login_type)
         return Tutor.objects.filter(user__pk=id)[0].login_type
+
 def login(request):
     if request.method == 'GET':
         if request.user.is_authenticated():

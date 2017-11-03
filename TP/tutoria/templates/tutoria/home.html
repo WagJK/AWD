@@ -12,8 +12,9 @@
     <p>Search is tested on all tutor data and doesn't deal with tag matching.</p>
 
     <div id="wallet" style="padding-bottom: 10px">
-        Balance: <b id="balance"> {{ student.balance }} </b> HKD
-        <button id="addValue" onclick="addValue()"> Add Value </button>
+        <b id="balance"> Balance: HKD </b> 
+        <button id="refresh" onclick="addValue(0)"> View Balance </button>
+        <button id="addValue" onclick="addValue($('#value').val())"> Add Value </button>
         <input id="value" type="text"> </input>
     </div>
 
@@ -57,7 +58,7 @@
             url : "/student/detailedProfile/", // the endpoint
             type : "POST", // http method
             data : {
-            'tutorID' : tutorID
+                'tutorID' : tutorID
             },
             // handle a successful response
             success : function(response) {
@@ -81,13 +82,13 @@
     }
 
     function bookSlot(slotID){
-        var bookOrNot=confirm("Are you sure to book this timeslot?");
+        var bookOrNot = confirm("Are you sure to book this timeslot?");
         if (bookOrNot){
             $.ajax({
                 url : "/student/bookSlot/", // the endpoint
                 type : "POST", // http method
                 data : {
-                'slotID' : slotID
+                    'slotID' : slotID
                 },
                 // handle a successful response
                 success : function(response) {
@@ -117,7 +118,7 @@
                 url : "/student/cancelSlot/", // the endpoint
                 type : "POST", // http method
                 data : {
-                'slotID' : slotID
+                    'slotID' : slotID
                 },
                 // handle a successful response
                 success : function(response) {
@@ -139,16 +140,16 @@
         });
     }
 
-    function addValue() {
+    function addValue(value) {
         $.ajax({
             url : "/student/addValue/", // the endpoint
             type : "POST", // http method
             data : {
-                'value' : $('#value').val()
+                'value' : value
             },
             // handle a successful response
             success : function(response) {
-                $('#balance').html(response);
+                $('#balance').html("Balance: " + response + " HKD");
             }
         });
     }
