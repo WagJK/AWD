@@ -44,7 +44,7 @@ class Course(models.Model):
         return self.code
 
 class Tutor(Client):
-    profile = models.OneToOneField(TutorProfile, on_delete=models.CASCADE)
+    profile = models.OneToOneField(TutorProfile, on_delete=models.CASCADE, null=True)
     courses = models.ManyToManyField(Course)
 
 

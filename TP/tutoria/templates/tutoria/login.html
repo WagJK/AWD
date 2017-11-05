@@ -11,22 +11,12 @@
         <form id='login_form' action='/' method='POST'> 
             Username: <input name='username' type='text'/> <br>
             Password: <input name='password' type='password'/> <br>
-            <select name="type">
-                <option value="1">Student</option>
-                <option value="2">Tutor</option>
-            </select>
             <input type='submit' value='Sign in'></input>
-            <a href="{% url 'registrate' %}"> Sign up </a>
+            <a href="{% url 'registration' %}"> Sign up </a>
         </form>
     </div>
 </body>
 </html>
-
-{% if wrong_type %}
-<script>
-    confirm("wrong type");
-</script>
-{% endif %}
 
 {% if wrong_password %}
 <script>
