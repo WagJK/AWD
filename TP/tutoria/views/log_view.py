@@ -1,10 +1,9 @@
-from django.shortcuts import render_to_response,render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render_to_response
 from django.contrib import auth
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from . import user_view, tutor_view
-from ..models import Student,Tutor
+from ..models import Tutor, Student
 
 def typeSelect(id):
     if Student.objects.filter(user__pk=id).exists():

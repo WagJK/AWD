@@ -11,7 +11,7 @@ class Client(models.Model):
     login_type = models.CharField(max_length=20, default="Student")
     balance = models.IntegerField(default=0)
     avatar = models.TextField(default="This is an avatar")
-    phone = models.CharField(max_length = 10, default="None")
+    phone = models.CharField(max_length=10, default="None")
 
     class Meta:
         abstract = True
@@ -19,17 +19,8 @@ class Client(models.Model):
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
-
 class Student(Client):
-    def studentModifyBooking(self,transaction):
-        self.balance -= transaction
-        self.save()
-
-    def studentModifyCancelling(self,transaction,cancelledSlot):
-        self.balance += transaction
-        self.timeslot_set.remove(cancelledSlot)
-        self.save()
-
+    pass
 
 class TutorProfile(models.Model):
     # avatar = models.ImageField()
@@ -42,7 +33,7 @@ class TutorProfile(models.Model):
     introduction = models.TextField(default="This is an introduction")
     # reviews
     availability = models.BooleanField(default=True)
-    contact = models.EmailField(default = "tutor@hku.hk")  # may change in further version
+    contact = models.EmailField(default="tutor@hku.hk")  # may change in further version
 
 
 class Course(models.Model):
@@ -52,11 +43,74 @@ class Course(models.Model):
     def __str__(self):
         return self.code
 
-
 class Tutor(Client):
     profile = models.OneToOneField(TutorProfile, on_delete=models.CASCADE)
     courses = models.ManyToManyField(Course)
-    
+
+
+class Operation(models.Model):
+    @staticmethod
+    def all_slots_to_book(client):
+        try:
+            if client.login_type == "Tutor" or client.login_type == "Both":
+                return Timeslot.objects.filter(is_booked=False, is_finished=False, tutor=client)
+
+        except Timeslot.DoesNotExist:
+            return None
+
+    @staticmethod
+    def all_slots_to_cancel(client):
+        try:
+            if client.login_type == "Student" or client.login_type == "Both":
+                return Timeslot.objects.filter(is_booked=True, student=client)
+
+        except Timeslot.DoesNotExist:
+            return None
+
+
+    @staticmethod
+    def book(booking_student, timeslot):
+
+        if timeslot.tutor.profile.tutor_type == "Contract":
+            fee = 0
+        else:
+            fee = timeslot.tutor.profile.hourly_rate * 1.05
+
+        if booking_student.balance >= fee:
+            # Student modify booking
+            booking_student.balance -= fee
+            booking_student.save()
+
+            # Slot modify booking
+            timeslot.is_booked = True
+            timeslot.student = booking_student
+            timeslot.save()
+
+            Confirmation.clientCreateConfirmation("booking", timeslot, fee)
+            return True
+        else:
+            return False
+
+
+    @staticmethod
+    def cancel(cancelling_student, timeslot):
+
+        if timeslot.tutor.profile.tutor_type == "Contract":
+            fee = 0
+        else:
+            fee = timeslot.tutor.profile.hourly_rate * 1.05
+
+        Confirmation.clientCreateConfirmation("cancellation", timeslot, fee)
+
+        # Slot modify cancelling
+        timeslot.is_booked = False
+        timeslot.save()
+
+        # Student modify cancelling
+        cancelling_student.balance += fee
+        cancelling_student.timeslot_set.remove(timeslot)
+        cancelling_student.save()
+
 
 class Timeslot(models.Model):
     is_booked = models.BooleanField(default=False)  # default set to false
@@ -67,31 +121,6 @@ class Timeslot(models.Model):
     endTime = models.DateTimeField(default=datetime.now())
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
-
-    def slotModifyBooking(self, bookingStudent):
-        self.is_booked = True
-        self.student=bookingStudent
-        self.save()
-
-    def slotModifyCancelling(self):
-        self.is_booked = False
-        self.save()
-
-    @staticmethod
-    def tutorGetAllSlots(selectedTutor):
-        try:
-            return Timeslot.objects.filter(is_booked=False, is_finished=False, tutor=selectedTutor)
-
-        except Timeslot.DoesNotExist:
-            return None
-
-    @staticmethod
-    def studentGetAllSlots(bookingStudent):
-        try:
-            return Timeslot.objects.filter(is_booked = True, student = bookingStudent)
-
-        except Timeslot.DoesNotExist:
-            return None
 
 
 class Confirmation(models.Model):

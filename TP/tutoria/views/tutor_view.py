@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response
-from ..models import Tutor, Timeslot, Student, Confirmation
+from ..models import Tutor, Confirmation
 from django.http import HttpResponse
 
 def homepage(request):
@@ -17,9 +17,9 @@ def confirmation (request):
 def withdraw(request):
     requestingTutor = Tutor.objects.get(user=request.user)
     if (requestingTutor.balance - int(request.POST['value']) >= 0):
-    	requestingTutor.balance = requestingTutor.balance - int(request.POST['value'])
+        requestingTutor.balance = requestingTutor.balance - int(request.POST['value'])
     else:
-    	requestingTutor.balance = 0
+        requestingTutor.balance = 0
     requestingTutor.save()
 
     return HttpResponse(requestingTutor.balance)
