@@ -11,6 +11,9 @@
         <form id='register_form' action='/registration/' method='POST'>
             Username: <input name='username' type='text'/> <br>
             Password: <input name='password' type='password'/> <br>
+            Firstname: <input name='firstname' type='text'/> <br>
+            Lastname: <input name='lastname' type='text'/> <br>
+            Email: <input name='email' type='email'/> <br>
             <input type='submit' value='Register'></input>
             <a href="{% url 'login' %}"> Back to login </a>
         </form>

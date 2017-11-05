@@ -2,27 +2,30 @@ from django.shortcuts import render_to_response
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from . import user_view, tutor_view
+#import from self defined packages
+from .student_view import 
 from ..models import Tutor, Student
 
 def typeSelect(id):
     if Student.objects.filter(user__pk=id).exists():
-        #print(Student.objects.filter(user__pk=id).login_type)
         return Student.objects.filter(user__pk=id)[0].login_type
     elif Tutor.objects.filter(user__pk=id).exists():
-        #print(Tutor.objects.filter(user__pk=id).login_type)
         return Tutor.objects.filter(user__pk=id)[0].login_type
 
 def login(request):
+    #if GET method 
     if request.method == 'GET':
+        #user's previous login has not expired
         if request.user.is_authenticated():
             user_type = typeSelect(request.user.id)
             if user_type == "Student":
                 return user_view.homepage(request)
             elif user_type == "Tutor":
                 return tutor_view.homepage(request)
+        #simply request login page
         else:
             return render_to_response('tutoria/login.html')
+    #if POST method
     else:
         username = request.POST['username']
         password = request.POST['password']
@@ -48,13 +51,15 @@ def registrate(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        email = request.POST['email']
         user = User.objects.create_user(
-            username=username, password=password
+            username=username, password=password, email=email, first_name=firstname, last_name=lastname
         )
-        #g = Group.objects.get(name='Student')
-        #g.user_set.add(user)
         Student.objects.create(user=user)
         return render_to_response('tutoria/login.html')
+    # if request registration
     else:
         return render_to_response('tutoria/registration.html')
 
