@@ -42,7 +42,7 @@
 <script>
     function getShortProfiles() {
         $.ajax({
-            url : "/student/shortProfile/", // the endpoint
+            url : "/student/search/shortProfile/", // the endpoint
             type : "GET", // http method
             // handle a successful response
             success : function(response) {
@@ -55,7 +55,7 @@
 
     function getDetailedProfile(tutorID){
         $.ajax({
-            url : "/student/detailedProfile/", // the endpoint
+            url : "/student/search/detailedProfile/", // the endpoint
             type : "POST", // http method
             data : {
                 'tutorID' : tutorID
@@ -69,7 +69,7 @@
 
     function getAvailableSlots(tutorID){
         $.ajax({
-            url : "/student/availableSlot/", // the endpoint
+            url : "/student/search/availableSlot/", // the endpoint
             type : "POST", // http method
             data : {
             'tutorID' : tutorID
@@ -85,7 +85,7 @@
         var bookOrNot = confirm("Are you sure to book this timeslot?");
         if (bookOrNot){
             $.ajax({
-                url : "/student/bookSlot/", // the endpoint
+                url : "/student/search/bookSlot/", // the endpoint
                 type : "POST", // http method
                 data : {
                     'slotID' : slotID
@@ -115,7 +115,7 @@
         var cancelOrNot = confirm("Are you sure to cancel this timeslot?");
         if (cancelOrNot){
             $.ajax({
-                url : "/student/cancelSlot/", // the endpoint
+                url : "/student/schedule/cancelSlot/", // the endpoint
                 type : "POST", // http method
                 data : {
                     'slotID' : slotID
@@ -130,7 +130,7 @@
 
     function viewConfirmation(){
         $.ajax({
-            url : "/student/confirmation/", // the endpoint
+            url : "/student/message/confirmation/", // the endpoint
             type : "GET", // http method
             // handle a successful response
             success : function(response) {
@@ -142,7 +142,7 @@
 
     function addValue(value) {
         $.ajax({
-            url : "/student/addValue/", // the endpoint
+            url : "/student/wallet/addValue/", // the endpoint
             type : "POST", // http method
             data : {
                 'value' : value
@@ -156,7 +156,7 @@
 
     function sortProfile() {
         $.ajax({
-            url : "/student/sort/", // the endpoint
+            url : "/student/search/sort/", // the endpoint
             type : "POST", // http method
             data : {
                 'option' : $('#sortOption').val()

@@ -4,9 +4,7 @@ from datetime import datetime
 
 # Create your models here.
 
-
 class Client(models.Model):
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # many-to-one
     login_type = models.CharField(max_length=20, default="Student")
     balance = models.IntegerField(default=0)
@@ -19,19 +17,18 @@ class Client(models.Model):
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
+
 class Student(Client):
     pass
 
+class Admin (Client):
+    pass
+
 class TutorProfile(models.Model):
-    # avatar = models.ImageField()
-    tutor_type = models.CharField(max_length=20, default="Contract")
     university = models.CharField(max_length=50, default="HKU")
-    # university course
     hourly_rate = models.IntegerField(default=10)
     average_review = models.IntegerField(default=100)
-    # subject tags
     introduction = models.TextField(default="This is an introduction")
-    # reviews
     availability = models.BooleanField(default=True)
     contact = models.EmailField(default="tutor@hku.hk")  # may change in further version
 
@@ -43,16 +40,19 @@ class Course(models.Model):
     def __str__(self):
         return self.code
 
+
 class Tutor(Client):
+    login_type = models.CharField(max_length=20, default="Tutor")
     profile = models.OneToOneField(TutorProfile, on_delete=models.CASCADE, null=True)
     courses = models.ManyToManyField(Course)
+    tutor_type = models.CharField(max_length=20, default="Contract")
 
 
 class Operation(models.Model):
     @staticmethod
     def all_slots_to_book(client):
         try:
-            if client.login_type == "Tutor" or client.login_type == "Both":
+            if client.login_type == "Tutor":
                 return Timeslot.objects.filter(is_booked=False, is_finished=False, tutor=client)
 
         except Timeslot.DoesNotExist:
@@ -61,17 +61,16 @@ class Operation(models.Model):
     @staticmethod
     def all_slots_to_cancel(client):
         try:
-            if client.login_type == "Student" or client.login_type == "Both":
+            if client.login_type == "Student":
                 return Timeslot.objects.filter(is_booked=True, student=client)
 
         except Timeslot.DoesNotExist:
             return None
 
-
     @staticmethod
     def book(booking_student, timeslot):
 
-        if timeslot.tutor.profile.tutor_type == "Contract":
+        if timeslot.tutor.tutor_type == "Contract":
             fee = 0
         else:
             fee = timeslot.tutor.profile.hourly_rate * 1.05
@@ -91,11 +90,10 @@ class Operation(models.Model):
         else:
             return False
 
-
     @staticmethod
     def cancel(cancelling_student, timeslot):
 
-        if timeslot.tutor.profile.tutor_type == "Contract":
+        if timeslot.tutor.tutor_type == "Contract":
             fee = 0
         else:
             fee = timeslot.tutor.profile.hourly_rate * 1.05
@@ -119,6 +117,7 @@ class Timeslot(models.Model):
     # can be changed to datetimefield
     startTime = models.DateTimeField(default=datetime.now())
     endTime = models.DateTimeField(default=datetime.now())
+
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
 
@@ -152,4 +151,3 @@ class Confirmation(models.Model):
             fee=fee)
         newConfirmation.save()
         return
-

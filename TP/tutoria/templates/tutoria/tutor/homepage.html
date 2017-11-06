@@ -36,7 +36,7 @@
 <script>
     function viewConfirmation(){
         $.ajax({
-            url : "/tutor/confirmation/", // the endpoint
+            url : "/tutor/message/confirmation/", // the endpoint
             type : "GET", // http method
             // handle a successful response
             success : function(response) {
@@ -48,7 +48,7 @@
 
     function withdraw() {
         $.ajax({
-            url : "/tutor/withdraw/", // the endpoint
+            url : "/tutor/wallet/withdraw/", // the endpoint
             type : "POST", // http method
             data : {
                 'value' : $('#value').val()
