@@ -17,7 +17,6 @@ class Client(models.Model):
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
 
-
 class Student(Client):
     pass
 
@@ -30,8 +29,6 @@ class TutorProfile(models.Model):
     average_review = models.IntegerField(default=100)
     introduction = models.TextField(default="This is an introduction")
     availability = models.BooleanField(default=True)
-    contact = models.EmailField(default="tutor@hku.hk")  # may change in further version
-
 
 class Course(models.Model):
     code = models.CharField(max_length=200)
@@ -144,8 +141,8 @@ class Confirmation(models.Model):
     @staticmethod
     def clientCreateConfirmation(type, slot, fee):
         newConfirmation = Confirmation(
-            category=type, 
-            tutor=slot.tutor, 
+            category=type,
+            tutor=slot.tutor,
             student=slot.student,
             timeslot=slot,
             fee=fee)

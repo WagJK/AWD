@@ -7,12 +7,21 @@
 </head>
 
 <body>
-    <h1>Homepage (Version 1.0)</h1>
-    <p>This page currently implemented the search function.</p>
-    <p>Search is tested on all tutor data and doesn't deal with tag matching.</p>
+    <div id="header">
+		<h1>Student Homepage</h1>
+	</div>
+
+	<div id="navigation">
+		<ul class="navigation-bar">
+			<li> <a href=""> Home </a> </li>
+			<li> <a href=""> Search </a> </li>
+			<li> <a href=""> Schedule </a> </li>
+			<li> <a href=""> Wallet </a> </li>
+		</ul>
+	</div>
 
     <div id="wallet" style="padding-bottom: 10px">
-        <b id="balance"> Balance: HKD </b> 
+        <b id="balance"> Balance: HKD </b>
         <button id="refresh" onclick="addValue(0)"> View Balance </button>
         <button id="addValue" onclick="addValue($('#value').val())"> Add Value </button>
         <input id="value" type="text"> </input>

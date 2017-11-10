@@ -5,7 +5,6 @@ from django.http import HttpResponse
 
 def shortProfile(request):
     all_tutors = Tutor.objects.all()
-
     sortedList = sorted(all_tutors, key=lambda x: x.profile.hourly_rate, reverse=False)
     return render_to_response('tutoria/student/shortProfile.html', locals())
 
