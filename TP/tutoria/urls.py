@@ -1,5 +1,4 @@
 from django.conf.urls import url, include
-
 from .views import log_view
 from .views.student_view import homepage_view as student_home, message_view as student_message
 from .views.student_view import schedule_view as student_schedule, search_view as student_search
@@ -93,3 +92,15 @@ urlpatterns = [
         ])),
     ])),
 ]
+
+import logging
+from pytz import utc
+from .views.manage_sch import manage
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+from apscheduler.executors.pool import ProcessPoolExecutor
+
+scheduler = BackgroundScheduler()
+job = scheduler.add_job(manage, 'interval', seconds=100)
+scheduler.configure(timezone=utc)
+scheduler.start()

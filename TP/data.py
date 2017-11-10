@@ -88,11 +88,14 @@ def generate_tutor(num_tutor, tutor_type):
 			new_tutor.courses.add(courses[rand(len(courses))])
 			# timeslot
 			time_id = rand(len(list_time) - 1)
-			for date in ["3", "5", "9"]:
+			for date in ["13", "15", "19"]:
 				for timeslot in generate_timeslot_list("2017", "11", date, tutor_type):
 					new_timeslot = Timeslot.objects.create(
+						fee = hourly_rate,
 						is_booked = False,
 						is_finished = False,
+						available_for_booking = False,
+						available_for_cancelling = False,
 						tutor = new_tutor,
 						startTime = timeslot[0] + "+08:00",
 						endTime = timeslot[1] + "+08:00",
@@ -187,11 +190,14 @@ def generate_both(num_tutor, tutor_type):
 			new_tutor.courses.add(courses[rand(len(courses))])
 			# timeslot
 			time_id = rand(len(list_time) - 1)
-			for date in ["3", "5", "9"]:
+			for date in ["13", "15", "19"]:
 				for timeslot in generate_timeslot_list("2017", "11", date, tutor_type):
 					new_timeslot = Timeslot.objects.create(
+						fee = hourly_rate,
 						is_booked = False,
 						is_finished = False,
+						available_for_booking = False,
+						available_for_cancelling = False,
 						tutor = new_tutor,
 						startTime = timeslot[0] + "+08:00",
 						endTime = timeslot[1] + "+08:00",

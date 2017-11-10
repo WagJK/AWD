@@ -12,24 +12,13 @@ JK 在model稳定之后搞一套data方便大家测试用
 3. apply一下之前的UI设计 -- jk & ghp
 	1. 登陆后分为home，search，wallet，schedule，meesage
 	2. timeslot相关全部使用calendar设计
-	3. To be added ...
-
-E2 需要实现的use cases
-4. registration & authentication -- xy
-	1. 基本注册 -- 用户名，密码
-	2. 重置密码
-	3. 用户指定自己的类型
-	4. admin 也需要以用户形式登陆
-	5. admin 以 token形式重置密码
-5. session locking and ending (manage all sessions) -- jk
+	3. To be added
+4. session locking and ending (manage all sessions) -- jk
 	怕是需要一波调研，主要是怎么测试trigger
 	可能需要加一个手动的trigger来方便我们测试，instruction上说可以用第三方的东西
-	1. seesion结束tutor收钱
-	2. 24小时内不能book cancel
-	3. 收钱之后notification
-	4. Mytutor 在tutor收钱的同时也要收到自己的commission fee
-	5. student收到review通知
-6. search -- xy & qp
+	1. 24小时内不能book cancel
+	2. session结束tutor收钱, 收钱之后notification, Mytutor 在tutor收钱的同时也要收到自己的commission fee student收到review通知 ------------ 	每半小时定时任务
+5. search -- xy & qp
 	1. search by universiy, university course, subject tag, hourly price， contracted or private， show all (没时间的就不要显示了)
 	2. search by family and given name
 	3. sort
