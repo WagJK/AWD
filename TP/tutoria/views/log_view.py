@@ -8,11 +8,23 @@ from .tutor_view import homepage_view as tutor_homepage_view
 from .both_view import homepage_view as both_homepage_view
 from ..models import Tutor, Student
 
-def typeSelect(id):
+#select login type
+def typeSelect(id):   
+    isStudent = False
+    isTutor = False
+    
     if Student.objects.filter(user__pk=id).exists():
-        return Student.objects.filter(user__pk=id)[0].login_type
-    elif Tutor.objects.filter(user__pk=id).exists():
-        return Tutor.objects.filter(user__pk=id)[0].login_type
+        isStudent = True
+    if Tutor.objects.filter(user__pk=id).exists():
+        isTutor = True
+    
+    if isStudent:
+        if isTutor:
+            return 'Both'
+        else:
+            return 'Student'
+    else:
+        return 'Tutor'
 
 def login(request):
     #if GET method 
@@ -59,16 +71,13 @@ def registrate(request):
         )
         #create a corresponding type object
         usr_type = request.POST['type']
-        print(usr_type)
-        if usr_type == 'student':
-            print('student')
+        if usr_type == 'student':       
             Student.objects.create(user=user, login_type='Student')
         elif usr_type == 'tutor':
-            print('tutor')
             Tutor.objects.create(user=user, login_type='Tutor')
         elif usr_type == 'both':
-            print('both')
-            Tutor.objects.create(user=user, login_type='Both')
+            Student.objects.create(user=user, login_type='Student')
+            Tutor.objects.create(user=user, login_type='Tutor')
 
         return render_to_response('tutoria/login.html')
     # if request registration
