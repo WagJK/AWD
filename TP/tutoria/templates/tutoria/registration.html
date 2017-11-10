@@ -15,15 +15,28 @@
             Lastname: <input name='lastname' type='text'/> <br>
             Email: <input name='email' type='email'/> <br>
             Your identity:
-            <select name='type'>
+            <select name='type' onchange='showTutorReg()'>
                 <option value="student"> Student </option>
                 <option value="tutor"> Tutor </option>
                 <option value="both"> Both student and tutor </option>
                 <option value="admin"> admin </option>
             </select>
+            <br> <br>
+            <div id='tutor'>
+                Tutor type:
+                <select name='tutortype'>
+                    <option value='contract'> Contract </option>
+                    <option value='private'> Private </option>
+            </div>
             <input type='submit' value='Register'></input>
-            <a href="{% url 'login' %}"> Back to login </a>
         </form>
+        <a href="{% url 'login' %}"> Back to login </a>
     </div>
 </body>
 </html>
+
+<script>
+    function showTutorReg(){
+        $("#tutor").css('display','block')
+    }
+</script>
