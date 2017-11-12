@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'tutoria.apps.TutoriaConfig',
+    'tutoria.templatetags.index',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

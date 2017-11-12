@@ -8,9 +8,19 @@ body{
 }
 
 button {
-	font-size: 20px;
-	font-weight: bold;
-	margin-left: 20px;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+button:hover{
+	background-color: #6CCF70;
+	cursor: pointer;
 }
 
 table {
@@ -44,15 +54,80 @@ td{
 
 #navigation li{
     float: left;
-}
-
-#navigation li a {
     display: block;
     text-align: center;
     padding: 16px;
     text-decoration: none;
 }
 
-#navigation li a:hover {
+#navigation li:hover {
     background-color: #AAAAAA;
+    cursor: pointer;
+}
+
+#navigation li:active {
+	background-color: #777777;
+}
+
+#schedule-button-div {
+	font-size: 20px;
+	padding : 5px;
+	text-align: center;
+}
+
+.flex-table{
+	display: flex;
+	flex-direction: row;
+	background-color: #FFFDDF;
+	font-size: 18px;
+	text-align: center;
+	width: auto;
+	margin: auto;
+}
+
+.flex-column{
+	width: 12.5%;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	border: 1px solid black;
+	margin: -1px;
+}
+
+.flex-elem{
+	height: 30px;
+	border: 1px solid black;
+	text-align: center;
+	margin: -1px;
+	padding: 3px;
+}
+
+.flex-head{
+	height: 30px;
+	border: 1px solid black;
+	margin: -1px;
+	padding: 2px;
+}
+
+.booked{
+	background-color: green;
+	color: white;
+}
+
+.bookable{
+	background-color: green;
+	color: white;
+}
+
+.bookable:hover{
+	cursor: pointer;
+}
+
+.disable{
+	display: none;
+}
+
+.extend{
+	height: 58px;
+	line-height: 48px;
 }

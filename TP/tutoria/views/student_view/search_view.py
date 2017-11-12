@@ -1,6 +1,8 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from ...operations import *
+from tutoria.operations import *
+from tutoria.views.calendar import *
+from tutoria.models import Tutor, Timeslot, Student
 
 def searchOption(request):
     all_university = TutorProfile.objects.order_by('university').values_list('university', flat=True).distinct()
@@ -87,12 +89,33 @@ def detailedProfile(request):
 
 
 def availableTimeSlot(request):
+    offset = int(request.POST['offset'])
+    calendar = Calendar(range(0, 7), range(8, 20), [0, 30])
+    weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    today = date.today()
+    start_date = today - timedelta(days=today.weekday()+1, weeks=-offset)
+    end_date = start_date + timedelta(weeks=1)
 
     tutor_id = request.POST['tutorID']
-    selectedTutor = Tutor.objects.get(id=tutor_id)
-    all_slots = all_slots_to_book(selectedTutor)
-    return render_to_response('tutoria/student/availableTimeSlot.html', locals())
+    tutor = Tutor.objects.get(id=tutor_id)
+    bookable_timeslots = get_bookable_timeslots_interval(tutor, start_date, end_date)
 
+    for timeslot in bookable_timeslots:
+        d = timeslot.startTime.weekday()
+        h = timeslot.startTime.hour + 7
+        m = timeslot.startTime.minute
+
+        calendar.timeslots[d][h][m].state = True
+        calendar.timeslots[d][h][m].timeslot = timeslot
+
+        if (timeslot.endTime - timeslot.startTime).total_seconds() > 2700:
+            calendar.next(calendar.timeslots[d][h][m]).state = True
+            calendar.next(calendar.timeslots[d][h][m]).timeslot = timeslot
+
+            calendar.timeslots[d][h][m].extend = True
+            calendar.next(calendar.timeslots[d][h][m]).disable = True
+
+    return render_to_response('tutoria/student/availableTimeSlot.html', locals())
 
 def bookTimeSlot(request):
     slot_id = request.POST['slotID']

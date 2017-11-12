@@ -1,9 +1,36 @@
-<table frame="box" rules="rule">
-    <tr><th>Start Time</th><th>End Time</th></tr>
-    {% for slot in all_slots %}
-        <tr>
-            <td onclick="bookSlot('{{ slot.id }}')">{{ slot.startTime }}</td>
-            <td onclick="bookSlot('{{ slot.id }}')">{{ slot.endTime }}</td>
-        </tr>
-    {% endfor %}
-</table>
+<div id="available-timeslots">
+	<div id="available-calendar" class="flex-table">
+	{% load index %}
+		<div class="flex-column">
+			<div class="flex-head"> Calendar </div>
+			{% for hour, minute_dict in calendar.timeslots.0.items %}
+				{% for minute, timeslot in minute_dict.items %}
+			<div class="flex-elem"> {{ timeslot }} </div>
+				{% endfor %}
+			{% endfor %}
+		</div>
+		{% for day, hour_dict in calendar.timeslots.items %}
+		<div class="flex-column">
+			<div class="flex-head"> {{ weekday|index:day }} </div>
+			{% for hour, minute_dict in hour_dict.items %}
+				{% for minute, timeslot in minute_dict.items %}
+			<div class="flex-elem
+				{% if timeslot.state  %} bookable {% else %} not-bookable {% endif %}
+				{% if timeslot.disable %} disable {% endif %}
+				{% if timeslot.extend %} extend {% endif %}"
+				{% if timeslot.state  %} onclick="bookSlot('{{ timeslot.timeslot.id }}')" {% endif %}>
+				{% if timeslot.state %}
+					book
+				{% endif %}
+			</div>
+				{% endfor %}
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+	<div id="available-button-div">
+		<button id="prev" onclick="getAvailableSlots({{tutor_id}}, -1)"> Previous Week </button>
+		{{ start_date }} - {{ end_date}}
+		<button id="next" onclick="getAvailableSlots({{tutor_id}}, 1)"> Next week </button>
+	</div>
+</div>
