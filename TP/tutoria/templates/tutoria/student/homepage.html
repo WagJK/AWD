@@ -39,7 +39,7 @@
     <div id="searchResult"></div>
 
     <div id="options">
-        <button id="searchButton" onclick="getShortProfiles()">Search</button>
+        <button id="searchButton" onclick="search()">Search</button>
         <button id="scheduleButton" onclick="viewSchedule()">View Booked Timeslots</button>
         <button id="confirmation" onclick="viewConfirmation()">My Confirmations</button>
         <a href="{% url 'logout' %}">Logout</a>
@@ -49,15 +49,47 @@
 </html>
 
 <script>
-    function getShortProfiles() {
+    function search() {
         $.ajax({
-            url : "/student/search/shortProfile/", // the endpoint
+            url : "/student/search/searchOption/", // the endpoint
             type : "GET", // http method
             // handle a successful response
             success : function(response) {
                 $('#searchResult').html(response);
                 //$('#searchButton').css("display", "none");
                 $('#profile').css("display", "none");
+            }
+        });
+    }
+
+    function getShortProfiles() {
+        $.ajax({
+            url : "/student/search/shortProfile/", // the endpoint
+            type : "POST", // http method
+            data : {
+                'university_list': $('.university:checked').map(function() {
+                    return this.value;
+                }).get(),
+                'course_list': $('.course:checked').map(function() {
+                    return this.value;
+                }).get(),
+                'tag_list': $('.tag:checked').map(function() {
+                    return this.value;
+                }).get(),
+                'min_rate': $('#min').val(),
+                'max_rate': $('#max').val(),
+                'type': $('.type:checked').map(function() {
+                    return this.value;
+                }).get(),
+                'limited': ($('.coverage:checked').map(function() {
+                    return this.value;
+                }).get()).length,
+                'last_name': $('#last').val(),
+                'first_name': $('#first').val()
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
             }
         });
     }
@@ -164,11 +196,14 @@
     }
 
     function sortProfile() {
-        $.ajax({
+       $.ajax({
             url : "/student/search/sort/", // the endpoint
             type : "POST", // http method
             data : {
-                'option' : $('#sortOption').val()
+                'option' : $('#sortOption').val(),
+                'id_list': $('.short').map(function () {
+                    return this.id;
+                }).get()
             },
             // handle a successful response
             success : function(response) {

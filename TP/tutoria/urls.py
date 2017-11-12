@@ -20,6 +20,7 @@ urlpatterns = [
 
         # student search
         url(r'^search/', include([
+            url(r'^searchOption/', student_search.searchOption, name='searchOption'),
             url(r'^shortProfile/', student_search.shortProfile, name='shortProfile'),
             url(r'^detailedProfile/', student_search.detailedProfile, name='detailedProfile'),
             url(r'^availableSlot/', student_search.availableTimeSlot, name='availableSlot'),
@@ -67,6 +68,7 @@ urlpatterns = [
 
         # both search
         url(r'^search/', include([
+            url(r'^searchOption/', student_search.searchOption, name='searchOption'),
             url(r'^shortProfile/', student_search.shortProfile, name='shortProfile'),
             url(r'^detailedProfile/', student_search.detailedProfile, name='detailedProfile'),
             url(r'^availableSlot/', student_search.availableTimeSlot, name='availableSlot'),
@@ -93,12 +95,9 @@ urlpatterns = [
     ])),
 ]
 
-import logging
 from pytz import utc
 from .views.manage_sch import manage
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from apscheduler.executors.pool import ProcessPoolExecutor
 
 scheduler = BackgroundScheduler()
 job = scheduler.add_job(manage, 'interval', seconds=100)

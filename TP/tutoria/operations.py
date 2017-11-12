@@ -1,6 +1,3 @@
-import logging
-from django.db import models
-from django.contrib.auth.models import User
 from .models import *
 from .views.manage_sch import manage
 

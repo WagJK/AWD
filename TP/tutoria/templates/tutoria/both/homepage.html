@@ -1,1 +1,234 @@
-this both homepage
+<html>
+<head>
+    {% load static %}
+    <title>Tutoria Platform</title>
+    <link rel="stylesheet" href="{% static 'tutoria/css/home.css' %}"/>
+    <script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
+</head>
+
+<body>
+    <div id="header">
+		<h1>Student Tutor Homepage</h1>
+	</div>
+
+	<div id="navigation">
+		<ul class="navigation-bar">
+			<li> <a href=""> Home </a> </li>
+			<li> <a href=""> Search </a> </li>
+			<li> <a href=""> Schedule </a> </li>
+			<li> <a href=""> Wallet </a> </li>
+		</ul>
+	</div>
+
+    <div id="wallet" style="padding-bottom: 10px">
+        <b id="balance"> Balance: HKD </b>
+        <button id="refresh" onclick="addValue(0)"> View Balance </button>
+        <button id="addValue" onclick="addValue($('#value').val())"> Add Value </button>
+        <input id="value" type="text"> </input>
+        <button id="withdraw" onclick="withdraw()"> Withdraw </button>
+        <input id="money" type="text"> </input>
+    </div>
+
+    <div id="profile" onload="loadProfile()">
+        <table id="userProfile" frame="box" rules="all">
+            <tr> <th>Name</th> <td>{{ student.user.username }}</td> </tr>
+            <tr> <th>Email</th><td>{{ student.user.email }}</td> </tr>
+            <tr> <th>Avatar</th><td>{{ student.avatar }}</td> </tr>
+            <tr> <th>Phone</th><td>{{ student.phone}}</td> </tr>
+        </table>
+    </div>
+
+    <div id="searchResult"></div>
+
+    <div id="options">
+        <button id="searchButton" onclick="search()">Search</button>
+        <button id="scheduleButton" onclick="viewSchedule()">View Booked Timeslots</button>
+        <button id="confirmation" onclick="viewConfirmation()">My Confirmations</button>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function search() {
+        $.ajax({
+            url : "/both/search/searchOption/", // the endpoint
+            type : "GET", // http method
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+                //$('#searchButton').css("display", "none");
+                $('#profile').css("display", "none");
+            }
+        });
+    }
+
+    function getShortProfiles() {
+        $.ajax({
+            url : "/both/search/shortProfile/", // the endpoint
+            type : "POST", // http method
+            data : {
+                'university_list': $('.university:checked').map(function() {
+                    return this.value;
+                }).get(),
+                'course_list': $('.course:checked').map(function() {
+                    return this.value;
+                }).get(),
+                'tag_list': $('.tag:checked').map(function() {
+                    return this.value;
+                }).get(),
+                'min_rate': $('#min').val(),
+                'max_rate': $('#max').val(),
+                'type': $('.type:checked').map(function() {
+                    return this.value;
+                }).get(),
+                'limited': ($('.coverage:checked').map(function() {
+                    return this.value;
+                }).get()).length,
+                'last_name': $('#last').val(),
+                'first_name': $('#first').val()
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function getDetailedProfile(tutorID){
+        $.ajax({
+            url : "/both/search/detailedProfile/", // the endpoint
+            type : "POST", // http method
+            data : {
+                'tutorID' : tutorID
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function getAvailableSlots(tutorID){
+        $.ajax({
+            url : "/both/search/availableSlot/", // the endpoint
+            type : "POST", // http method
+            data : {
+            'tutorID' : tutorID
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function bookSlot(slotID){
+        var bookOrNot = confirm("Are you sure to book this timeslot?");
+        if (bookOrNot){
+            $.ajax({
+                url : "/both/search/bookSlot/", // the endpoint
+                type : "POST", // http method
+                data : {
+                    'slotID' : slotID
+                },
+                // handle a successful response
+                success : function(response) {
+                    $('#searchResult').html(response);
+                    $('#searchButton').css("display", "block");
+                }
+            });
+        }
+    }
+
+    function viewSchedule(){
+        $.ajax({
+            url : "/both/schedule/", // the endpoint
+            type : "GET", // http method
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+                $('#profile').css("display", "none");
+            }
+        });
+    }
+
+    function cancelSlot(slotID){
+        var cancelOrNot = confirm("Are you sure to cancel this timeslot?");
+        if (cancelOrNot){
+            $.ajax({
+                url : "/both/schedule/cancelSlot/", // the endpoint
+                type : "POST", // http method
+                data : {
+                    'slotID' : slotID
+                },
+                // handle a successful response
+                success : function(response) {
+                    $('#searchResult').html(response);
+                }
+            });
+        }
+    }
+
+    function viewConfirmation(){
+        $.ajax({
+            url : "/both/message/confirmation/", // the endpoint
+            type : "GET", // http method
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+                $('#profile').css("display", "none");
+            }
+        });
+    }
+
+    function addValue(value) {
+        $.ajax({
+            url : "/both/wallet/addValue/", // the endpoint
+            type : "POST", // http method
+            data : {
+                'value' : value
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#balance').html("Balance: " + response + " HKD");
+            }
+        });
+    }
+
+    function withdraw() {
+        $.ajax({
+            url : "/both/wallet/withdraw/", // the endpoint
+            type : "POST", // http method
+            data : {
+                'value' : $('#value').val()
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#balance').html("Balance: " + response + " HKD");
+            }
+        });
+    }
+
+    function sortProfile() {
+        $.ajax({
+            url : "/both/search/sort/", // the endpoint
+            type : "POST", // http method
+            data : {
+                'option' : $('#sortOption').val(),
+                'id_list': $('.short').map(function () {
+                    return this.id;
+                }).get()
+            },
+            // handle a successful response
+            success : function(response) {
+                $('#searchResult').html(response);
+            }
+        });
+    }
+
+    function loadProfile(){
+        $('#profile').css("display", "block");
+    }
+</script>

@@ -29,7 +29,7 @@ class MyTutor(models.Model):
 	balance = models.FloatField(default="0.00")
 
 class TutorProfile(models.Model):
-	university = models.CharField(max_length=50, default="HKU")
+	university = models.CharField(max_length=50)
 	hourly_rate = models.IntegerField(default=10)
 	average_review = models.IntegerField(default=100)
 	introduction = models.TextField(default="This is an introduction")
@@ -43,11 +43,18 @@ class Course(models.Model):
 	def __str__(self):
 		return self.code
 
+class Tag(models.Model):
+	content = models.CharField(max_length=50)
+
+	def __str__(self):
+		return self.content
+
 
 class Tutor(Client):
 	login_type = models.CharField(max_length=20, default="Tutor")
 	profile = models.OneToOneField(TutorProfile, on_delete=models.CASCADE, null=True)
-	courses = models.ManyToManyField(Course)
+	course = models.ManyToManyField(Course)
+	tag = models.ManyToManyField(Tag)
 	tutor_type = models.CharField(max_length=20, default="Contract")
 
 
@@ -93,60 +100,3 @@ class Confirmation(models.Model):
 			fee=fee)
 		newConfirmation.save()
 		return
-
-
-class Operation(models.Model):
-	@staticmethod
-	def all_slots_to_book(client):
-		try:
-			if client.login_type == "Tutor":
-				return Timeslot.objects.filter(is_booked=False, is_finished=False, tutor=client)
-		except Timeslot.DoesNotExist:
-			return None
-
-	@staticmethod
-	def all_slots_to_cancel(client):
-		try:
-			if client.login_type == "Student":
-				return Timeslot.objects.filter(is_booked=True, student=client)
-		except Timeslot.DoesNotExist:
-			return None
-
-	@staticmethod
-	def book(booking_student, timeslot):
-		fee = timeslot.fee * 1.05
-		if booking_student.balance < fee:
-			return False
-		manage()
-		if not timeslot.available_for_booking:
-			return False
-		# modify student wallet
-		booking_student.balance -= fee
-		booking_student.save()
-		# modify timeslot status
-		timeslot.is_booked = True
-		timeslot.available_for_booking = False
-		timeslot.available_for_cancelling = True
-		timeslot.student = booking_student
-		timeslot.save()
-		# sending confirmation
-		Confirmation.clientCreateConfirmation("booking", timeslot, fee)
-		return True
-
-	@staticmethod
-	def cancel(cancelling_student, timeslot):
-		refund = timeslot.fee * 1.05
-		manage()
-		if not timeslot.available_for_cancelling:
-			return False
-		# modify timeslot status
-		timeslot.is_booked = False
-		timeslot.available_for_booking = True
-		timeslot.available_for_cancelling = False
-		timeslot.save()
-		# modify student wallet
-		cancelling_student.balance += refund
-		cancelling_student.timeslot_set.remove(timeslot)
-		cancelling_student.save()
-		# sending confirmation
-		Confirmation.clientCreateConfirmation("cancellation", timeslot, refund)
