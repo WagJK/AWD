@@ -100,6 +100,6 @@ from .views.manage_sch import manage
 from apscheduler.schedulers.background import BackgroundScheduler
 
 scheduler = BackgroundScheduler()
-job = scheduler.add_job(manage, 'interval', seconds=100)
+job = scheduler.add_job(manage, 'interval', seconds=10)
 scheduler.configure(timezone=utc)
 scheduler.start()

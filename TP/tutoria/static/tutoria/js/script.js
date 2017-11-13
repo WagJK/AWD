@@ -61,7 +61,7 @@ function getDetailedProfile(tutorID){
 }
 
 function getAvailableSlots(tutorID, delta_offset, reset=false){
-    if (reset) available_offset = true;
+    if (reset) available_offset = 0;
     available_offset += delta_offset;
     $.ajax({
         url : "/student/search/availableSlot/", // the endpoint
@@ -96,7 +96,7 @@ function bookSlot(slotID){
 }
 
 function viewSchedule(delta_offset, reset=false){
-    if (reset) schedule_offset = true;
+    if (reset) schedule_offset = 0;
     schedule_offset += delta_offset;
     $.ajax({
         url : "/student/schedule/", // the endpoint

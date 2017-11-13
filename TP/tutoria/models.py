@@ -59,8 +59,8 @@ class Tutor(Client):
 
 
 class Timeslot(models.Model):
-	available_for_booking = models.BooleanField(default=False)
-	available_for_cancelling = models.BooleanField(default=False)
+	bookable = models.BooleanField(default=False)
+	cancellable = models.BooleanField(default=False)
 	is_booked = models.BooleanField(default=False)
 	is_finished = models.BooleanField(default=False)
 

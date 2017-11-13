@@ -29,7 +29,7 @@ def all_bookable_timeslots(client):
 	try:
 		if client.login_type == "Tutor":
 			return Timeslot.objects.filter(
-				available_for_booking=True, 
+				bookable=True, 
 				is_booked=False, 
 				is_finished=False, 
 				tutor=client)
@@ -41,7 +41,7 @@ def get_bookable_timeslots_interval(client, start_date, end_date):
 	try:
 		if client.login_type == "Tutor":
 			return Timeslot.objects.filter(
-				available_for_booking=True,
+				bookable=True,
 				is_booked=False, 
 				is_finished=False, 
 				tutor=client, 
@@ -53,7 +53,7 @@ def all_cancellable_timeslots(client):
 	try:
 		if client.login_type == "Student":
 			return Timeslot.objects.filter(
-				available_for_cancelling=True, 
+				cancellable=True, 
 				is_booked=True, 
 				student=client)
 	except Timeslot.DoesNotExist:
@@ -63,16 +63,16 @@ def book(booking_student, timeslot):
 	fee = timeslot.fee * 1.05
 	if booking_student.balance < fee:
 		return False
-	# manage()
-	if not timeslot.available_for_booking:
+	manage()
+	if not timeslot.bookable:
 		return False
 	# modify student wallet
 	booking_student.balance -= fee
 	booking_student.save()
 	# modify timeslot status
 	timeslot.is_booked = True
-	timeslot.available_for_booking = False
-	timeslot.available_for_cancelling = True
+	timeslot.bookable = False
+	timeslot.cancellable = True
 	timeslot.student = booking_student
 	timeslot.save()
 	# sending confirmation
@@ -82,12 +82,12 @@ def book(booking_student, timeslot):
 def cancel(cancelling_student, timeslot):
 	refund = timeslot.fee * 1.05
 	manage()
-	if not timeslot.available_for_cancelling:
+	if not timeslot.cancellable:
 		return False
 	# modify timeslot status
 	timeslot.is_booked = False
-	timeslot.available_for_booking = True
-	timeslot.available_for_cancelling = False
+	timeslot.bookable = True
+	timeslot.cancellable = False
 	timeslot.save()
 	# modify student wallet
 	cancelling_student.balance += refund
