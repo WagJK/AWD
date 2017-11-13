@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
-# Create your models here.
-
 class Client(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)  # many-to-one
 	login_type = models.CharField(max_length=20, default="Student")
@@ -25,8 +23,11 @@ class Student(Client):
 class Admin (Client):
 	pass
 
+
 class MyTutor(models.Model):
 	balance = models.FloatField(default="0.00")
+	commission_rate = models.FloatField(default="0.05")
+
 
 class TutorProfile(models.Model):
 	university = models.CharField(max_length=50)
@@ -42,6 +43,7 @@ class Course(models.Model):
 
 	def __str__(self):
 		return self.code
+
 
 class Tag(models.Model):
 	content = models.CharField(max_length=50)
@@ -77,26 +79,3 @@ class Confirmation(models.Model):
 	student = models.ForeignKey(Student, on_delete=models.CASCADE)
 	timeslot = models.ForeignKey(Timeslot, on_delete=models.CASCADE)
 	fee = models.FloatField(default="0.00")
-
-	@staticmethod
-	def clientGetAllConfirmations(requestingClient):
-		try:
-			if requestingClient.login_type == "Student":
-				return Confirmation.objects.filter(student = requestingClient)
-
-			elif requestingClient.login_type == "Tutor":
-				return Confirmation.objects.filter(tutor = requestingClient)
-
-		except Confirmation.DoesNotExist:
-			return None
-
-	@staticmethod
-	def clientCreateConfirmation(type, slot, fee):
-		newConfirmation = Confirmation(
-			category=type,
-			tutor=slot.tutor,
-			student=slot.student,
-			timeslot=slot,
-			fee=fee)
-		newConfirmation.save()
-		return

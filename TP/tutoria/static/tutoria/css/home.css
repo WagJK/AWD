@@ -109,6 +109,15 @@ td{
 	padding: 2px;
 }
 
+.disable{
+	display: none;
+}
+
+.extend{
+	height: 58px;
+	line-height: 48px;
+}
+
 .booked{
 	background-color: green;
 	color: white;
@@ -123,11 +132,10 @@ td{
 	cursor: pointer;
 }
 
-.disable{
-	display: none;
+.cancellable{
+	background-color: blue;
 }
 
-.extend{
-	height: 58px;
-	line-height: 48px;
+.cancellable:hover{
+	cursor: pointer;
 }

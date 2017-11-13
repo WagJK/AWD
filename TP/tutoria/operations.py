@@ -59,6 +59,27 @@ def all_cancellable_timeslots(client):
 	except Timeslot.DoesNotExist:
 		return None
 
+def clientGetAllConfirmations(requestingClient):
+	try:
+		if requestingClient.login_type == "Student":
+			return Confirmation.objects.filter(student = requestingClient)
+
+		elif requestingClient.login_type == "Tutor":
+			return Confirmation.objects.filter(tutor = requestingClient)
+
+	except Confirmation.DoesNotExist:
+		return None
+
+def clientCreateConfirmation(type, slot, fee):
+	newConfirmation = Confirmation(
+		category=type,
+		tutor=slot.tutor,
+		student=slot.student,
+		timeslot=slot,
+		fee=fee)
+	newConfirmation.save()
+	return
+
 def book(booking_student, timeslot):
 	fee = timeslot.fee * 1.05
 	if booking_student.balance < fee:
@@ -76,7 +97,7 @@ def book(booking_student, timeslot):
 	timeslot.student = booking_student
 	timeslot.save()
 	# sending confirmation
-	Confirmation.clientCreateConfirmation("booking", timeslot, fee)
+	clientCreateConfirmation("booking", timeslot, fee)
 	return True
 
 def cancel(cancelling_student, timeslot):
@@ -94,4 +115,4 @@ def cancel(cancelling_student, timeslot):
 	cancelling_student.timeslot_set.remove(timeslot)
 	cancelling_student.save()
 	# sending confirmation
-	Confirmation.clientCreateConfirmation("cancellation", timeslot, refund)
+	clientCreateConfirmation("cancellation", timeslot, refund)
