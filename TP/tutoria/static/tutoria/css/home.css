@@ -18,18 +18,13 @@ button {
     font-size: 16px;
 }
 
-button:hover{
-	background-color: #6CCF70;
-	cursor: pointer;
-}
-
 table {
 	width: 85%;
 	text-align: center;
 }
 
-td{
-	height: 70px;
+.nav-item:hover {
+	background-color: #444444;
 }
 
 #header {
@@ -39,34 +34,8 @@ td{
 	width: auto;
 }
 
-#navigation {
-	text-align: center;
-	background: #DDDDDD;
-}
-
-#navigation ul {
-	text-align: center;
-	list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-#navigation li{
-    float: left;
-    display: block;
-    text-align: center;
-    padding: 16px;
-    text-decoration: none;
-}
-
-#navigation li:hover {
-    background-color: #AAAAAA;
-    cursor: pointer;
-}
-
-#navigation li:active {
-	background-color: #777777;
+#profile {
+	padding: 20px;
 }
 
 #schedule-button-div {

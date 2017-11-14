@@ -1,0 +1,48 @@
+{% load static %}
+
+<div id="university_list">
+    <p>University</p>
+    {% for univ in all_university %}
+        <input type="checkbox" class="university" name="checkbox" value="{{ univ }}">{{univ}}<br>
+    {% endfor %}
+</div>
+
+<div id="course_list">
+    <p>Course</p>
+    {% for course in all_course %}
+        <input type="checkbox" class="course" name="checkbox" value="{{course}}">{{course}}<br>
+    {% endfor %}
+</div>
+
+<div id="tag_list">
+    <p>Tag</p>
+    {% for tag in all_tag %}
+        <input type="checkbox" class="tag" name="checkbox" value="{{tag}}">{{tag}}<br>
+    {% endfor %}
+</div>
+
+<div id="hourly_rate_range">
+    <p>Hourly Rate</p>
+    <input id="min" type="text" size="30" name="textbox"> HKD - <input id="max" type="text" size="30" name="textbox"> HKD <br>
+</div>
+
+<div id="tutor_type">
+    <p>Tutor Type</p>
+    <input type="checkbox" class="type" name="checkbox" value="Contract">Contract<br>
+    <input type="checkbox" class="type" name="checkbox" value="Private">Private<br>
+</div>
+
+<div id="seven_day">
+    <p>Coverage</p>
+    <input type="checkbox" class="coverage" name="checkbox" value="limited">Only show tutors available in next 7 days?<br>
+</div>
+
+<div id="tutor_name">
+    <p>Tutor Name</p>
+    Last Name: <input id="last" type="text" size="30" name="textbox">
+    First Name: <input id="first" type="text" size="30" name="textbox"><br>
+</div>
+
+<button onclick="getShortProfiles()">Search Tutor</button>
+
+

@@ -1,0 +1,14 @@
+<table frame="box" rules="all">
+    <tr>
+        <th>My Confirmations</th>
+    </tr>
+    {% for confirmation in output %}
+    <tr>
+        <td><p>You have successfully made the {{ confirmation.category}} of tutorial session</p>
+            <p>From {{ confirmation.timeslot.startTime}} to {{ confirmation.timeslot.endTime}}</p>
+            <p>Taught by {{ confirmation.tutor.user.username }}</p>
+            <p>Transaction: {{ confirmation.fee }} HKD</p>
+        </td>
+    </tr>
+    {% endfor %}
+</table>s

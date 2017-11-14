@@ -1,0 +1,15 @@
+<table id="detailed_profile" frame="box" rules="all">
+    <tr>
+        <th>Name</th><th>University</th><th>Hourly-rate</th><th>Average_review</th><th>Introduction</th><th>Availability</th><th>Contact</th>
+    </tr>
+    <tr>
+        <td>{{ selectedTutor.user.username }}</td>
+        <td>{{ selectedTutor.profile.university }}</td>
+        <td>{{ selectedTutor.profile.hourly_rate }}</td>
+        <td>{{ selectedTutor.profile.average_review }}</td>
+        <td>{{ selectedTutor.profile.introduction }}</td>
+        <td>{{ selectedTutor.profile.availability }}</td>
+        <td>{{ selectedTutor.profile.contact }}</td>
+    </tr>
+</table>
+<button id="slotButton" onclick="getAvailableSlots('{{ tutor_id }}', 0, true)">View Timeslots</button>

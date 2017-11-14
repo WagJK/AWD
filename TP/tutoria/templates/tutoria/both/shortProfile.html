@@ -1,0 +1,23 @@
+{% load static %}
+<table id="short_profile_list" 	frame="box" rules="all">
+    <tr>
+        <th>Name</th><th>University</th><th>Hourly-rate</th><th>average_review</th>
+    </tr>
+    {% for tutor in all_tutors %}
+    <tr id="{{ tutor.id }}" class="short">
+        <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.user.username }}</td>
+        <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.university }}</td>
+        <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.hourly_rate }}</td>
+        <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.average_review }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<select id="sortOption" name="sort_method">
+    <option value="" selected disabled hidden>Choose here</option>
+    <option value="1">hourly-rate</option>
+    <option value="2">hourly-rate DESC</option>
+    <option value="3">average_review</option>
+    <option value="4">average_review DESC</option>
+</select><br>
+<button onclick="sortProfile()">Sort</button>
