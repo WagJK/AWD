@@ -28,7 +28,7 @@ def schedule(request):
 
 	for timeslot in booked_timeslots:
 		d = (timeslot.startTime.weekday() + 1) % 7
-		h = timeslot.startTime.hour + 8
+		h = (timeslot.startTime.hour + 8) % 24
 		m = timeslot.startTime.minute
 
 		calendar.timeslots[d][h][m].state = True

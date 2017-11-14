@@ -37,6 +37,7 @@ urlpatterns = [
 
 		# student wallet
 		url(r'^wallet/', include([
+			url(r'^$', student_wallet.wallet, name='wallet'),
 			url(r'^addValue/', student_wallet.addValue, name='addValue'),
 		])),
 
@@ -56,6 +57,7 @@ urlpatterns = [
 		])),
 		# tutor wallet
 		url(r'^wallet/', include([
+			url(r'^$', tutor_wallet.wallet, name='wallet'),
 			url(r'^withdraw/', tutor_wallet.withdraw, name="withdraw"),
 		])),
 		# tutor messages

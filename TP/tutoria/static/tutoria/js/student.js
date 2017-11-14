@@ -55,6 +55,20 @@ function viewConfirmation(){
 	});
 }
 
+function viewWallet() {
+	$(".active").removeClass("active");
+	$("#nav-wallet").parent().addClass("active");
+	$.ajax({
+		url : "/student/wallet/", // the endpoint
+		type : "GET", // http method
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+			$('#profile').css("display", "none");
+		}
+	});
+}
+
 
 function getShortProfiles() {
 	$.ajax({
@@ -168,12 +182,12 @@ function addValue(value) {
 	});
 }
 
-function sortProfile() {
-   $.ajax({
+function sortProfile(option) {
+	$.ajax({
 		url : "/student/search/sort/", // the endpoint
 		type : "POST", // http method
 		data : {
-			'option' : $('#sortOption').val(),
+			'option' : option,
 			'id_list': $('.short').map(function () {
 				return this.id;
 			}).get()
@@ -181,6 +195,7 @@ function sortProfile() {
 		// handle a successful response
 		success : function(response) {
 			$('#searchResult').html(response);
+			$("#sortMenu").text(option);
 		}
 	});
 }

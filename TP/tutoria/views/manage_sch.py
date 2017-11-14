@@ -59,9 +59,19 @@ def manage():
 		is_booked = False,
 		startTime__gte = datetime.now(tz=tz_hkt) + timedelta(days=1)
 	)
-	
 	bookable_timeslots.update(bookable=True)
 	non_bookable_timeslots.update(bookable=False)
+
+
+	### update within_week status
+	within_week_timeslots = Timeslot.objects.filter(
+		startTime__lte = datetime.now(tz=tz_hkt) + timedelta(weeks=1)
+	)
+	not_within_week_timeslots = Timeslot.objects.exclude(
+		startTime__lte = datetime.now(tz=tz_hkt) + timedelta(weeks=1)
+	)
+	within_week_timeslots.update(within_week=True)
+	not_within_week_timeslots.update(within_week=False)
 	
 	if (DEBUG):
 		print("[DEBUG] finished = " + str(len(Timeslot.objects.filter(is_finished=True))))

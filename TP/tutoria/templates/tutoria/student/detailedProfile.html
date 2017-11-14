@@ -1,15 +1,15 @@
-<table id="detailed_profile" frame="box" rules="all">
+<h2> Tutor Detailed Profile </h2> <br>
+<table class="table table-striped" id="detailed_profile">
+    <tbody>
     <tr>
-        <th>Name</th><th>University</th><th>Hourly-rate</th><th>Average_review</th><th>Introduction</th><th>Availability</th><th>Contact</th>
+        <tr> <th>Name</th> <td> {{ selectedTutor.user.username }} </td> </tr>
+        <tr> <th>University</th> <td> {{ selectedTutor.profile.university }} </td> </tr>
+        <tr> <th>Hourly Rate</th> <td>{{ selectedTutor.profile.hourly_rate }}</td> </tr>
+        <tr> <th>Average Review</th> <td>{{ selectedTutor.profile.average_review }}</td> </tr>
+        <tr> <th>Introduction </th> <td> {{ selectedTutor.profile.introduction }} </td> </tr>
+        <tr> <th>Availability</th> <td> {{ selectedTutor.profile.availability }} </td> </tr>
+        <tr> <th>Contact</th> <td>{{ selectedTutor.phone }}</td> </tr>
     </tr>
-    <tr>
-        <td>{{ selectedTutor.user.username }}</td>
-        <td>{{ selectedTutor.profile.university }}</td>
-        <td>{{ selectedTutor.profile.hourly_rate }}</td>
-        <td>{{ selectedTutor.profile.average_review }}</td>
-        <td>{{ selectedTutor.profile.introduction }}</td>
-        <td>{{ selectedTutor.profile.availability }}</td>
-        <td>{{ selectedTutor.profile.contact }}</td>
-    </tr>
+    </tbody>
 </table>
-<button id="slotButton" onclick="getAvailableSlots('{{ tutor_id }}', 0, true)">View Timeslots</button>
+<button class="btn btn-success col-12" id="slotButton" onclick="getAvailableSlots('{{ tutor_id }}', 0, true)">View Timeslots</button>

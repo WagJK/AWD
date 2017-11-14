@@ -69,6 +69,8 @@ class Timeslot(models.Model):
 	fee = models.FloatField(default="0.00")
 	startTime = models.DateTimeField(default=datetime.now())
 	endTime = models.DateTimeField(default=datetime.now())
+	within_week = models.BooleanField(default=False)
+
 	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
 	student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
 
