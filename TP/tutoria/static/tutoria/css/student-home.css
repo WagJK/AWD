@@ -23,6 +23,11 @@ table {
 	text-align: center;
 }
 
+.container {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
 .nav-item:hover {
 	background-color: #444444;
 }
@@ -34,10 +39,6 @@ table {
 	width: auto;
 }
 
-#profile {
-	padding: 20px;
-}
-
 #schedule-button-div {
 	font-size: 20px;
 	padding : 5px;
@@ -47,7 +48,6 @@ table {
 .flex-table{
 	display: flex;
 	flex-direction: row;
-	background-color: #FFFDDF;
 	font-size: 18px;
 	text-align: center;
 	width: auto;
@@ -88,12 +88,12 @@ table {
 }
 
 .booked{
-	background-color: green;
+	background-color: #4CAF50;
 	color: white;
 }
 
 .bookable{
-	background-color: green;
+	background-color: #4CAF50;
 	color: white;
 }
 

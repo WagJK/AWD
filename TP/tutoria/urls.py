@@ -4,95 +4,97 @@ from .views.student_view import homepage_view as student_home, message_view as s
 from .views.student_view import schedule_view as student_schedule, search_view as student_search
 from .views.student_view import wallet_view as student_wallet
 from .views.tutor_view import homepage_view as tutor_home, wallet_view as tutor_wallet, message_view as tutor_message
+from .views.tutor_view import schedule_view as tutor_schedule
 from .views.both_view import homepage_view as both_home, message_view as both_message, schedule_view as both_schedule
 from .views.both_view import wallet_view as both_wallet
 
 urlpatterns = [
-    # shared log urls
-    url(r'^$', log_view.login, name='login'),
-    url(r'^registration/', log_view.registrate, name='registration'),
-    url(r'^logout/', log_view.logout, name='logout'),
+	# shared log urls
+	url(r'^$', log_view.login, name='login'),
+	url(r'^registration/', log_view.registrate, name='registration'),
+	url(r'^logout/', log_view.logout, name='logout'),
 
-    # student urls
-    url(r'^student/', include([
-        # student homepage
-        url(r'^homepage/', student_home.homepage, name='student_homepage'),
+	# student urls
+	url(r'^student/', include([
+		# student homepage
+		url(r'^homepage/', student_home.homepage, name='student_homepage'),
 
-        # student search
-        url(r'^search/', include([
-            url(r'^searchOption/', student_search.searchOption, name='searchOption'),
-            url(r'^shortProfile/', student_search.shortProfile, name='shortProfile'),
-            url(r'^detailedProfile/', student_search.detailedProfile, name='detailedProfile'),
-            url(r'^availableSlot/', student_search.availableTimeSlot, name='availableSlot'),
-            url(r'^bookSlot/', student_search.bookTimeSlot, name='bookSlot'),
-            url(r'^sort/', student_search.sort, name='sort')
-        ])),
+		# student search
+		url(r'^search/', include([
+			url(r'^searchOption/', student_search.searchOption, name='searchOption'),
+			url(r'^shortProfile/', student_search.shortProfile, name='shortProfile'),
+			url(r'^detailedProfile/', student_search.detailedProfile, name='detailedProfile'),
+			url(r'^availableSlot/', student_search.availableTimeSlot, name='availableSlot'),
+			url(r'^bookSlot/', student_search.bookTimeSlot, name='bookSlot'),
+			url(r'^sort/', student_search.sort, name='sort')
+		])),
 
-        # student upcoming tutorials in 7 days
-        url(r'^schedule/', include([
-            url(r'^$', student_schedule.schedule, name='schedule'),
-            url(r'^cancelSlot/', student_schedule.cancelTimeSlot, name='cancelSlot'),
-        ])),
+		# student upcoming tutorials in 7 days
+		url(r'^schedule/', include([
+			url(r'^$', student_schedule.schedule, name='schedule'),
+			url(r'^cancelSlot/', student_schedule.cancelTimeSlot, name='cancelSlot'),
+		])),
 
-        # student wallet
-        url(r'^wallet/', include([
-            url(r'^addValue/', student_wallet.addValue, name='addValue'),
-        ])),
+		# student wallet
+		url(r'^wallet/', include([
+			url(r'^addValue/', student_wallet.addValue, name='addValue'),
+		])),
 
-        # student messages
-        url(r'^message/', include([
-            url(r'^confirmation/', student_message.confirmation, name='studentConfirmation'),
-        ])),
-    ])),
+		# student messages
+		url(r'^message/', include([
+			url(r'^confirmation/', student_message.confirmation, name='studentConfirmation'),
+		])),
+	])),
 
-    # tutor urls
-    url(r'^tutor/', include([
-        # tutor homepage
-        url(r'^homepage/', tutor_home.homepage, name="tutor_homepage"),
-        # To be added .....
+	# tutor urls
+	url(r'^tutor/', include([
+		# tutor homepage
+		url(r'^homepage/', tutor_home.homepage, name="tutor_homepage"),
+		# tutor schedule
+		url(r'^schedule/', include([
+			url(r'^$', tutor_schedule.schedule, name='schedule'),
+		])),
+		# tutor wallet
+		url(r'^wallet/', include([
+			url(r'^withdraw/', tutor_wallet.withdraw, name="withdraw"),
+		])),
+		# tutor messages
+		url(r'^message/', include([
+			url(r'^confirmation/', tutor_message.confirmation, name="tutorConfirmation"),
+		])),
+	])),
 
-        # tutor wallet
-        url(r'^wallet/', include([
-            url(r'^withdraw/', tutor_wallet.withdraw, name="withdraw"),
-        ])),
-        # tutor messages
-        url(r'^messages/', include([
-            url(r'^confirmation/', tutor_message.confirmation, name="tutorConfirmation"),
-        ])),
-    ])),
+	# both urls
+	url(r'^both/', include([
+		# both homepage
+		url(r'^homepage/', student_home.homepage, name='student_homepage'),
 
-    # both urls
-    url(r'^both/', include([
-        # both homepage
-        url(r'^homepage/', both_home.homepage, name='both_homepage'),
+		# both search
+		url(r'^search/', include([
+			url(r'^searchOption/', student_search.searchOption, name='searchOption'),
+			url(r'^shortProfile/', student_search.shortProfile, name='shortProfile'),
+			url(r'^detailedProfile/', student_search.detailedProfile, name='detailedProfile'),
+			url(r'^availableSlot/', student_search.availableTimeSlot, name='availableSlot'),
+			url(r'^bookSlot/', student_search.bookTimeSlot, name='bookSlot'),
+			url(r'^sort/', student_search.sort, name='sort')
+		])),
 
-        # both search
-        url(r'^search/', include([
-            url(r'^searchOption/', student_search.searchOption, name='searchOption'),
-            url(r'^shortProfile/', student_search.shortProfile, name='shortProfile'),
-            url(r'^detailedProfile/', student_search.detailedProfile, name='detailedProfile'),
-            url(r'^availableSlot/', student_search.availableTimeSlot, name='availableSlot'),
-            url(r'^bookSlot/', student_search.bookTimeSlot, name='bookSlot'),
-            url(r'^sort/', student_search.sort, name='sort')
-        ])),
+		# both upcoming tutorials in 7 days
+		url(r'^schedule/', include([
+			url(r'^$', student_schedule.schedule, name='schedule'),
+			url(r'^cancelSlot/', student_schedule.cancelTimeSlot, name='cancelSlot'),
+		])),
 
-        # both upcoming tutorials in 7 days
-        url(r'^schedule/', include([
-            url(r'^$', student_schedule.schedule, name='schedule'),
-            url(r'^cancelSlot/', student_schedule.cancelTimeSlot, name='cancelSlot'),
-        ])),
+		# both wallet
+		url(r'^wallet/', include([
+			url(r'^addValue/', student_wallet.addValue, name='addValue'),
+		])),
 
-        # both wallet
-        url(r'^wallet/', include([
-            url(r'^addValue/', both_wallet.addValue, name='addValue'),
-            url(r'^withdraw/', both_wallet.withdraw, name="withdraw"),
-        ])),
-
-        # both messages
-        url(r'^message/', include([
-            url(r'^confirmation/', both_message.confirmation, name='bothConfirmation'),
-        ])),
-    ])),
+		# both messages
+		url(r'^message/', include([
+			url(r'^confirmation/', student_message.confirmation, name='studentConfirmation'),
+		])),
+	])),
 ]
 
 from pytz import utc

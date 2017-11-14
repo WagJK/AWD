@@ -2,11 +2,14 @@
 <head>
 	{% load static %}
 	<title>Tutoria Platform</title>
-	
-	<link rel="stylesheet" href="{% static 'tutoria/css/home.css' %}"/>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="{% static 'tutoria/img/favicon.png' %}">
+	<link rel="stylesheet" href="{% static 'tutoria/css/student-home.css' %}"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	
-	<script type="text/javascript" src="{% static 'tutoria/js/script.js' %}"></script>
+	<script type="text/javascript" src="{% static 'tutoria/js/student.js' %}"></script>
 	<script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
 
@@ -18,7 +21,7 @@
 			</button>
 			<a class="navbar-brand" href="#">
 				<img src="{% static 'tutoria/img/brand.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-				Tutoria
+				Tutoria - Student
 			</a>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -44,17 +47,19 @@
 		</nav>
 	</div>
 
-	<div id="profile" onload="loadProfile()">
-		<h1> My Profile </h1>
-		<table id="userProfile" class="table table-striped">
-			<tr> <th>Name</th> <td>{{ student.user.username }}</td> </tr>
-			<tr> <th>Email</th> <td>{{ student.user.email }}</td> </tr>
-			<tr> <th>Avatar</th> <td>{{ student.avatar }}</td> </tr>
-			<tr> <th>Phone</th> <td>{{ student.phone}}</td> </tr>
-		</table>
-	</div>
+	<div class="container">
+		<div id="profile" onload="loadProfile()">
+			<h1> My Profile </h1>
+			<table id="userProfile" class="table table-striped">
+				<tr> <th>Name</th> <td>{{ student.user.username }}</td> </tr>
+				<tr> <th>Email</th> <td>{{ student.user.email }}</td> </tr>
+				<tr> <th>Avatar</th> <td>{{ student.avatar }}</td> </tr>
+				<tr> <th>Phone</th> <td>{{ student.phone}}</td> </tr>
+			</table>
+		</div>
 
-	<div id="searchResult"></div>
+		<div id="searchResult"></div>
+	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

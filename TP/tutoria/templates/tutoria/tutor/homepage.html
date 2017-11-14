@@ -2,65 +2,71 @@
 <head>
     {% load static %}
     <title>Tutoria Platform</title>
-    <link rel="stylesheet" href="{% static 'tutoria/css/home.css' %}"/>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'tutoria/img/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'tutoria/css/tutor-home.css' %}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    
+    <script type="text/javascript" src="{% static 'tutoria/js/tutor.js' %}"></script>
     <script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
 
 <body>
-    <h1>Tutor Homepage (Version 1.0)</h1>
-    <p>This page currently implemented the search function.</p>
+    <div id="navigation">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'tutoria/img/brand.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+                Tutoria - Tutor
+            </a>
 
-    <div id="wallet" style="padding-bottom: 10px">
-    Balance: <b id="balance"> {{ tutor.balance }} </b> HKD
-    <button id="withdraw" onclick="withdraw()"> Withdraw </button>
-    <input id="value" type="text"> </input>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a id="nav-home" class="nav-link" href="javascript:home()" onclick="window.location.reload()"> Home </a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="nav-schedule" class="nav-link" href="javascript:viewSchedule(0, true)"> Schedule </a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="nav-wallet" class="nav-link" href="javascript:viewWallet()"> Wallet </a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="nav-conf" class="nav-link" href="javascript:viewConfirmation()"> Confirmations </a>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick=window.location={% url 'logout' %}> Logout </button>
+            </div>
+        </nav>
     </div>
 
-    <div id="profile" onload="loadProfile()">
-        <table id="userProfile" frame="box" rules="all">
-            <tr> <th>Name</th> <td>{{ tutor.user.username }}</td> </tr>
-            <tr> <th>Email</th><td>{{ tutor.user.email }}</td> </tr>
-            <tr> <th>Avatar</th><td>{{ tutor.avatar }}</td> </tr>
-            <tr> <th>Phone</th><td>{{ tutor.phone}}</td> </tr>
-        </table>
+
+    <div class="container">
+
+        <div id="wallet" style="padding-bottom: 10px">
+            Balance: <b id="balance"> {{ tutor.balance }} </b> HKD
+            <button id="withdraw" onclick="withdraw()"> Withdraw </button>
+            <input id="value" type="text"> </input>
+        </div>
+
+        <div id="profile" onload="loadProfile()">
+            <h1> My Profile </h1>
+            <table id="userProfile" class="table table-striped">
+                <tr> <th>Name</th> <td>{{ tutor.user.username }}</td> </tr>
+                <tr> <th>Email</th> <td>{{ tutor.user.email }}</td> </tr>
+                <tr> <th>Avatar</th> <td>{{ tutor.avatar }}</td> </tr>
+                <tr> <th>Phone</th> <td>{{ tutor.phone}}</td> </tr>
+            </table>
+        </div>
+
+        <div id="searchResult"></div>
+
     </div>
-
-    <div id="searchResult"></div>
-
-    <button id="confirmation" onclick="viewConfirmation()">My Confirmations</button>
-    <a href="{% url 'logout' %}">Logout</a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </body>
-
 </html>
-
-<script>
-    function viewConfirmation(){
-        $.ajax({
-            url : "/tutor/message/confirmation/", // the endpoint
-            type : "GET", // http method
-            // handle a successful response
-            success : function(response) {
-                $('#searchResult').html(response);
-                $('#profile').css("display", "none");
-            }
-        });
-    }
-
-    function withdraw() {
-        $.ajax({
-            url : "/tutor/wallet/withdraw/", // the endpoint
-            type : "POST", // http method
-            data : {
-                'value' : $('#value').val()
-            },
-            // handle a successful response
-            success : function(response) {
-                $('#balance').html(response);
-            }
-        });
-    }
-
-    function loadProfile(){
-        $('#profile').css("display", "block");
-    }
-</script>
