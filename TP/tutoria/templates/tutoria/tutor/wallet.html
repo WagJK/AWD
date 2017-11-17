@@ -9,3 +9,18 @@
 		<button class="btn btn-success" id="withdraw" onclick="withdraw()"> Withdraw </button>
 	</div>
 </div>
+
+<div id="history">
+	<table frame="box" rules="all" id="transfer-history">
+		<tr>
+			<th>Transaction History</th>
+		</tr>
+		{% for history in transaction_history %}
+		<tr>
+			<td>
+				<p>{{ history.content }}</p>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>

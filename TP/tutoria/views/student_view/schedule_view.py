@@ -1,9 +1,10 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from django.utils import timezone
-from tutoria.operations import *
-from tutoria.views.calendar import *
-from tutoria.models import Timeslot, Student
+from ...operations import *
+from ...views.calendar import *
+from ...models import Timeslot, Student
+from datetime import timedelta
+from datetime import date
 
 DEBUG = False
 

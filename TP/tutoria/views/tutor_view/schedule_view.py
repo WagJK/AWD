@@ -1,9 +1,8 @@
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
-from django.utils import timezone
-from tutoria.operations import *
-from tutoria.views.calendar import *
-from tutoria.models import Timeslot, Student
+from ...operations import *
+from ...views.calendar import *
+from datetime import timedelta
+from datetime import date
 
 DEBUG = False
 
@@ -24,7 +23,9 @@ def schedule(request):
 		print("[Debug] offset = " + str(offset))
 
 	tutor = Tutor.objects.get(user=request.user)
-	booked_timeslots = get_booked_timeslots_interval(student, start_date, end_date)
+
+	# Modified by qp
+	booked_timeslots = get_booked_timeslots_interval(tutor, start_date, end_date)
 
 	for timeslot in booked_timeslots:
 		d = (timeslot.startTime.weekday() + 1) % 7

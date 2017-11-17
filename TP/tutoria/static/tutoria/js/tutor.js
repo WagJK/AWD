@@ -37,11 +37,11 @@ function viewWallet() {
 	});
 }
 
-function viewConfirmation(){
+function viewNotification(){
 	$(".active").removeClass("active");
 	$("#nav-schedule").parent().addClass("active");
 	$.ajax({
-		url : "/tutor/message/confirmation/", // the endpoint
+		url : "/tutor/message/notification/", // the endpoint
 		type : "GET", // http method
 		// handle a successful response
 		success : function(response) {

@@ -74,10 +74,26 @@ class Timeslot(models.Model):
 	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
 	student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
 
+	def __str__(self):
+		interval = (str)((self.startTime.hour + 8) % 24) + ":" \
+		+ ((str)(self.startTime.minute)).zfill(2) + " " + (str)(self.startTime.month) + "/" \
+		+ ((str)(self.startTime.day)).zfill(2) + "/" + (str)(self.startTime.year) + " - " \
+		+ (str)((self.endTime.hour + 8) % 24) + ":" + ((str)(self.endTime.minute)).zfill(2) + " " \
+		+ (str)(self.endTime.month) + "/" + ((str)(self.endTime.day)).zfill(2) + "/" \
+		+ (str)(self.endTime.year)
 
-class Confirmation(models.Model):
+		return interval
+
+class Notification(models.Model):
 	category = models.CharField(max_length=20, default="booking")
+	content = models.TextField(default="This is a notification!")
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	fee = models.FloatField(default="0.00")
+	createTime = models.DateTimeField(default=datetime.now())
+
+class Review(models.Model):
+	star = models.IntegerField(default="3")
+	comment = models.TextField(default="This is my review!")
 	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
 	student = models.ForeignKey(Student, on_delete=models.CASCADE)
-	timeslot = models.ForeignKey(Timeslot, on_delete=models.CASCADE)
-	fee = models.FloatField(default="0.00")
+	anonymous = models.BooleanField(default=False)

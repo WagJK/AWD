@@ -1,0 +1,12 @@
+<table frame="box" rules="all">
+    <tr>
+        <th>My Notifications</th>
+    </tr>
+    {% for notification in notifications %}
+    <tr>
+        <td>
+            <p>{{ notification.content }}</p>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

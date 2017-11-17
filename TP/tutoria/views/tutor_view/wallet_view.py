@@ -1,11 +1,11 @@
-from ...models import Tutor
+from ...operations import *
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 
 def wallet(request):
-	tutor = Tutor.objects.get(user=request.user)
-
-	return render_to_response('tutoria/tutor/wallet.html', locals())
+    tutor = Tutor.objects.get(user=request.user)
+    transaction_history = all_transaction_history(tutor)
+    return render_to_response('tutoria/tutor/wallet.html', locals())
 
 def withdraw(request):
     requestingTutor = Tutor.objects.get(user=request.user)

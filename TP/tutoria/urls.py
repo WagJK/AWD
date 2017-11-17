@@ -43,7 +43,7 @@ urlpatterns = [
 
 		# student messages
 		url(r'^message/', include([
-			url(r'^confirmation/', student_message.confirmation, name='studentConfirmation'),
+			url(r'^notification/', student_message.notification, name='studentNotification'),
 		])),
 	])),
 
@@ -62,7 +62,7 @@ urlpatterns = [
 		])),
 		# tutor messages
 		url(r'^message/', include([
-			url(r'^confirmation/', tutor_message.confirmation, name="tutorConfirmation"),
+			url(r'^confirmation/', tutor_message.notification, name="tutorNotification"),
 		])),
 	])),
 
@@ -94,7 +94,7 @@ urlpatterns = [
 
 		# both messages
 		url(r'^message/', include([
-			url(r'^confirmation/', student_message.confirmation, name='studentConfirmation'),
+			url(r'^notification/', student_message.notification, name='bothNotification'),
 		])),
 	])),
 ]

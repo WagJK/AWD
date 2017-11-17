@@ -4,8 +4,23 @@
 	</div>
 	<div class="form-group row" id="tutor_name">
 		<div class="col-4">
-			<input class="form-control" id="value" type="text" size="30" name="textbox"> 
+			<input class="form-control" id="value" type="text" size="30" name="textbox">
 		</div>
 		<button class="btn btn-success" id="add-value" onclick="addValue($('#value').val())"> Add Value </button>
 	</div>
+</div>
+
+<div id="history">
+	<table frame="box" rules="all" id="transfer-history">
+		<tr>
+			<th>Transaction History</th>
+		</tr>
+		{% for history in transaction_history %}
+		<tr>
+			<td>
+				<p>{{ history.content }}</p>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
 </div>

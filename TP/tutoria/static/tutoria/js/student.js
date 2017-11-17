@@ -41,11 +41,11 @@ function viewSchedule(delta_offset, reset=false){
 	});
 }
 
-function viewConfirmation(){
+function viewNotification(){
 	$(".active").removeClass("active");
 	$("#nav-conf").parent().addClass("active");
 	$.ajax({
-		url : "/student/message/confirmation/", // the endpoint
+		url : "/student/message/notification/", // the endpoint
 		type : "GET", // http method
 		// handle a successful response
 		success : function(response) {

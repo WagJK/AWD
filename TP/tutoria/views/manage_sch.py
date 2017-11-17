@@ -1,11 +1,7 @@
-import logging
 import pytz
+from ..operations import *
 from datetime import datetime
 from datetime import timedelta
-from django.contrib import auth
-from django.contrib.auth.models import User
-from ..models import Timeslot, Confirmation
-from django.utils import timezone
 
 DEBUG = False
 
@@ -32,9 +28,12 @@ def manage():
 		# session finish tutor get money
 		timeslot.tutor.balance += timeslot.fee
 		# tutor receipt, student review notification
-		Confirmation.clientCreateConfirmation("finished", timeslot, timeslot.fee)
+		createReviewNotification(timeslot)
+		createTransactionNotification(timeslot,timeslot.fee, 'end')
+		createTransactionHistory(timeslot, timeslot.fee, 'end')
 		# Mytutor receive comission fee
-		Mytutor.balance += timeslot.fee * Mytutor.commission_rate
+		for myTutor in MyTutor.objects.all():
+			myTutor.balance += timeslot.fee * myTutor.commission_rate
 	
 	# update cancellable status
 	cancellable_timeslots = Timeslot.objects.filter(
