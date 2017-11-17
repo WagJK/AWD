@@ -24,8 +24,12 @@ table {
 }
 
 .container {
-	padding-top: 20px;
-	padding-bottom: 20px;
+	margin: 20px;
+}
+
+.row {
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 .nav-item:hover {
@@ -40,6 +44,12 @@ table {
 }
 
 #schedule-button-div {
+	font-size: 20px;
+	padding : 5px;
+	text-align: center;
+}
+
+#available-button-div {
 	font-size: 20px;
 	padding : 5px;
 	text-align: center;
@@ -106,5 +116,9 @@ table {
 }
 
 .cancellable:hover{
+	cursor: pointer;
+}
+
+.short:hover {
 	cursor: pointer;
 }

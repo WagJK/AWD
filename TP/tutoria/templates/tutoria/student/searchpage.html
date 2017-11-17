@@ -1,48 +1,105 @@
 {% load static %}
 
-<div id="university_list">
-    <p>University</p>
-    {% for univ in all_university %}
-        <input type="checkbox" class="university" name="checkbox" value="{{ univ }}">{{univ}}<br>
-    {% endfor %}
+<h3>Tutor Name</h3>
+<div>
+	<div class="form-group row">
+		<div> Last Name: </div>
+		<div class="col-3">
+			<input class="form-control" id="last" type="text" size="30" name="textbox"> 
+		</div>
+	</div>
+	<div class="form-group row">
+		<div> First Name: </div>
+		<div class="col-3">
+			<input class="form-control" id="first" type="text" size="30" name="textbox"> 
+		</div>
+	</div>
 </div>
 
-<div id="course_list">
-    <p>Course</p>
-    {% for course in all_course %}
-        <input type="checkbox" class="course" name="checkbox" value="{{course}}">{{course}}<br>
-    {% endfor %}
+<hr>
+
+<h3>University</h3>
+<div class="custom-form-group" id="university_list">
+	{% for univ in all_university %}
+	<div class="checkbox">
+		<label class="custom-control custom-checkbox">
+			<input type="checkbox" name="checkbox" class="custom-control-input university" value="{{univ}}">
+			<span class="custom-control-indicator"></span>
+			<span class="custom-control-description"> {{univ}} </span>
+		</label>
+	</div>
+	{% endfor %}
 </div>
 
-<div id="tag_list">
-    <p>Tag</p>
-    {% for tag in all_tag %}
-        <input type="checkbox" class="tag" name="checkbox" value="{{tag}}">{{tag}}<br>
-    {% endfor %}
+<hr>
+
+<h3>Course</h3>
+<div class="custom-form-group" id="course_list">
+	{% for course in all_course %}
+	<div class="checkbox">
+		<label class="custom-control custom-checkbox">
+			<input type="checkbox" name="checkbox" class="custom-control-input course" value="{{course}}">
+			<span class="custom-control-indicator"></span>
+			<span class="custom-control-description"> {{course}} </span>
+		</label>
+	</div>
+	{% endfor %}
 </div>
 
-<div id="hourly_rate_range">
-    <p>Hourly Rate</p>
-    <input id="min" type="text" size="30" name="textbox"> HKD - <input id="max" type="text" size="30" name="textbox"> HKD <br>
+<hr>
+
+<h3>Tag</h3>
+<div class="custom-form-group" id="tag_list">
+	{% for tag in all_tag %}
+	<div class="checkbox">
+		<label class="custom-control custom-checkbox">
+			<input type="checkbox" name="checkbox" class="custom-control-input tag" value="{{tag}}">
+			<span class="custom-control-indicator"></span>
+			<span class="custom-control-description"> {{tag}} </span>
+		</label>
+	</div>
+	{% endfor %}
 </div>
 
+<hr>
+
+<h3>Hourly Rate</h3>
+<div class="custom-form-group row" id="hourly_rate_range">
+	<div class="col-1">
+		<input class="form-control" id="min" type="text" size="30" name="textbox">
+	</div> HKD - 
+	<div class="col-1">
+		<input class="form-control" id="max" type="text" size="30" name="textbox">
+	</div> HKD 
+</div>
+
+<hr>
+
+<h3>Tutor Type</h3>
 <div id="tutor_type">
-    <p>Tutor Type</p>
-    <input type="checkbox" class="type" name="checkbox" value="Contract">Contract<br>
-    <input type="checkbox" class="type" name="checkbox" value="Private">Private<br>
+	<label class="custom-control custom-checkbox">
+		<input type="checkbox" class="custom-control-input type" name="checkbox" value="Contract">
+		<span class="custom-control-indicator"></span>
+		<span class="custom-control-description"> Contract </span>
+	</label>
+	<label class="custom-control custom-checkbox">
+		<input type="checkbox" class="custom-control-input type" name="checkbox" value="Private">
+		<span class="custom-control-indicator"></span>
+		<span class="custom-control-description"> Private </span>
+	</label>
 </div>
 
+<hr>
+
+<h3>Coverage</h3>
 <div id="seven_day">
-    <p>Coverage</p>
-    <input type="checkbox" class="coverage" name="checkbox" value="limited">Only show tutors available in next 7 days?<br>
+	<label class="custom-control custom-checkbox">
+		<input type="checkbox" class="custom-control-input coverage" name="checkbox" value="limited">Only show tutors available in next 7 days
+		<span class="custom-control-indicator"></span>
+		<span class="custom-control-description"> Contract </span>
+	</label>
 </div>
 
-<div id="tutor_name">
-    <p>Tutor Name</p>
-    Last Name: <input id="last" type="text" size="30" name="textbox">
-    First Name: <input id="first" type="text" size="30" name="textbox"><br>
-</div>
-
-<button onclick="getShortProfiles()">Search Tutor</button>
+<button class="btn btn-outline-success col-6" onclick="getShortProfiles()">Search Tutor</button>
 
 

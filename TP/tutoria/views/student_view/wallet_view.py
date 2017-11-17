@@ -1,10 +1,16 @@
-from ...models import Student
+from ...operations import*
 from django.http import HttpResponse
+from django.shortcuts import render_to_response
+
+def wallet(request):
+    student = Student.objects.get(user=request.user)
+    transaction_history = all_transaction_history(student)
+    return render_to_response('tutoria/student/wallet.html', locals())
 
 
 def addValue(request):
-    requestingStudent = Student.objects.get(user=request.user)
-    requestingStudent.balance = requestingStudent.balance + int(request.POST['value'])
-    requestingStudent.save()
+    student = Student.objects.get(user=request.user)
+    student.balance = student.balance + int(request.POST['value'])
+    student.save()
 
-    return HttpResponse(requestingStudent.balance)
+    return HttpResponse(student.balance)

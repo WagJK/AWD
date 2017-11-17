@@ -1,11 +1,7 @@
-import logging
 import pytz
+from ..operations import *
 from datetime import datetime
 from datetime import timedelta
-from django.contrib import auth
-from django.contrib.auth.models import User
-from ..models import Timeslot, Confirmation
-from django.utils import timezone
 
 DEBUG = False
 
@@ -32,9 +28,12 @@ def manage():
 		# session finish tutor get money
 		timeslot.tutor.balance += timeslot.fee
 		# tutor receipt, student review notification
-		Confirmation.clientCreateConfirmation("finished", timeslot, timeslot.fee)
+		createReviewNotification(timeslot)
+		createTransactionNotification(timeslot,timeslot.fee, 'end')
+		createTransactionHistory(timeslot, timeslot.fee, 'end')
 		# Mytutor receive comission fee
-		Mytutor.balance += timeslot.fee * Mytutor.commission_rate
+		for myTutor in MyTutor.objects.all():
+			myTutor.balance += timeslot.fee * myTutor.commission_rate
 	
 	# update cancellable status
 	cancellable_timeslots = Timeslot.objects.filter(
@@ -59,9 +58,19 @@ def manage():
 		is_booked = False,
 		startTime__gte = datetime.now(tz=tz_hkt) + timedelta(days=1)
 	)
-	
 	bookable_timeslots.update(bookable=True)
 	non_bookable_timeslots.update(bookable=False)
+
+
+	### update within_week status
+	within_week_timeslots = Timeslot.objects.filter(
+		startTime__lte = datetime.now(tz=tz_hkt) + timedelta(weeks=1)
+	)
+	not_within_week_timeslots = Timeslot.objects.exclude(
+		startTime__lte = datetime.now(tz=tz_hkt) + timedelta(weeks=1)
+	)
+	within_week_timeslots.update(within_week=True)
+	not_within_week_timeslots.update(within_week=False)
 	
 	if (DEBUG):
 		print("[DEBUG] finished = " + str(len(Timeslot.objects.filter(is_finished=True))))

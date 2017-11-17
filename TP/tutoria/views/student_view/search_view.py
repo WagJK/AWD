@@ -1,8 +1,9 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from tutoria.operations import *
-from tutoria.views.calendar import *
-from tutoria.models import Tutor, Timeslot, Student
+from ...operations import *
+from ...views.calendar import *
+from ...models import Tutor, Timeslot, Student
+from datetime import timedelta,date
 
 DEBUG = False
 
@@ -105,7 +106,7 @@ def availableTimeSlot(request):
 
 	for timeslot in bookable_timeslots:
 		d = (timeslot.startTime.weekday() + 1) % 7
-		h = timeslot.startTime.hour + 8
+		h = (timeslot.startTime.hour + 8) % 24
 		m = timeslot.startTime.minute
 
 		if (DEBUG):
@@ -139,16 +140,16 @@ def sort(request):
 	id_result = request.POST.getlist('id_list[]', [])
 	if id_result:
 		all_tutors = Tutor.objects.filter(id__in=id_result)
-
+	print("[DEBUG]" + request.POST['option'])
 
 	if all_tutors:
-		if request.POST['option'] == "1":
+		if request.POST['option'] == "Lowest Hourly Rate":
 			all_tutors = all_tutors.order_by('profile__hourly_rate')
-		elif request.POST['option'] == "2":
+		elif request.POST['option'] == "Highest Hourly Rate":
 			all_tutors = all_tutors.order_by('-profile__hourly_rate')
-		elif request.POST['option'] == "3":
+		elif request.POST['option'] == "Lowest Average Review":
 			all_tutors = all_tutors.order_by('profile__average_review')
-		elif request.POST['option'] == "4":
+		elif request.POST['option'] == "Highest Average Review":
 			all_tutors = all_tutors.order_by('-profile__average_review')
 
 		return render_to_response('tutoria/student/shortProfile.html', locals())

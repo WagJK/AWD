@@ -23,12 +23,25 @@ function viewSchedule(delta_offset, reset=false){
 	});
 }
 
+function viewWallet() {
+	$(".active").removeClass("active");
+	$("#nav-wallet").parent().addClass("active");
+	$.ajax({
+		url : "/tutor/wallet/", // the endpoint
+		type : "GET", // http method
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+			$('#profile').css("display", "none");
+		}
+	});
+}
 
-function viewConfirmation(){
+function viewNotification(){
 	$(".active").removeClass("active");
 	$("#nav-schedule").parent().addClass("active");
 	$.ajax({
-		url : "/tutor/message/confirmation/", // the endpoint
+		url : "/tutor/message/notification/", // the endpoint
 		type : "GET", // http method
 		// handle a successful response
 		success : function(response) {
@@ -47,7 +60,7 @@ function withdraw() {
 		},
 		// handle a successful response
 		success : function(response) {
-			$('#balance').html(response);
+			$('#balance').html("Balance: " + response + " HKD");
 		}
 	});
 }

@@ -1,9 +1,10 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from django.utils import timezone
-from tutoria.operations import *
-from tutoria.views.calendar import *
-from tutoria.models import Timeslot, Student
+from ...operations import *
+from ...views.calendar import *
+from ...models import Timeslot, Student
+from datetime import timedelta
+from datetime import date
 
 DEBUG = False
 
@@ -28,7 +29,7 @@ def schedule(request):
 
 	for timeslot in booked_timeslots:
 		d = (timeslot.startTime.weekday() + 1) % 7
-		h = timeslot.startTime.hour + 8
+		h = (timeslot.startTime.hour + 8) % 24
 		m = timeslot.startTime.minute
 
 		calendar.timeslots[d][h][m].state = True
