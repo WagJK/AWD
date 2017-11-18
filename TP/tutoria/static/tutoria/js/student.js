@@ -1,5 +1,6 @@
 var schedule_offset = 0;
 var available_offset = 0;
+var hover_restore_text = "";
 
 function home() {
 	$(".active").removeClass("active");
@@ -149,6 +150,15 @@ function bookSlot(slotID){
 			}
 		});
 	}
+}
+
+function hoverCancel(that){
+	hover_restore_text = $(that).text()
+	$(that).text("Cancel");
+}
+
+function unhoverCancel(that){
+	$(that).text(hover_restore_text);
 }
 
 function cancelSlot(slotID){

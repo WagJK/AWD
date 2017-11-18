@@ -1,10 +1,7 @@
-*{
-	box-sizing: border-box;
-}
-
 body{
-    font-size: 20pt;
-	font-family: Georgia, serif;
+	background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+	background: linear-gradient(to right, #25c481, #25b7c4);
+	min-width: 1200px;
 }
 
 button {
@@ -24,8 +21,15 @@ table {
 }
 
 .container {
-	padding-top: 20px;
-	padding-bottom: 20px;
+	margin: 20px;
+	padding: 40px;
+	background: rgba(255,255,255,0.5);
+	border-radius: 10px;
+}
+
+.row {
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 .nav-item:hover {
@@ -45,66 +49,98 @@ table {
 	text-align: center;
 }
 
+#available-button-div {
+	font-size: 20px;
+	padding : 5px;
+	text-align: center;
+}
+
 .flex-table{
 	display: flex;
 	flex-direction: row;
 	font-size: 18px;
 	text-align: center;
-	width: auto;
-	margin: auto;
+	background: rgba(255,255,255,0.3);
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .flex-column{
-	width: 12.5%;
+	width: 13%;
 	display: flex;
 	flex-direction: column;
 	text-align: center;
-	border: 1px solid black;
-	margin: -1px;
 }
 
 .flex-elem{
-	height: 30px;
-	border: 1px solid black;
 	text-align: center;
-	margin: -1px;
-	padding: 3px;
+	margin-top: 0px;
+	border: 2px solid rgba(255,255,255,0.3);
 }
 
 .flex-head{
-	height: 30px;
-	border: 1px solid black;
-	margin: -1px;
-	padding: 2px;
+	height: 64px;
+	text-align: center;
+	margin-top: 0px;
+	border: 2px solid rgba(255,255,255,0.3);
+	font-weight: bold;
 }
 
 .disable{
 	display: none;
 }
 
-.extend{
-	height: 58px;
-	line-height: 48px;
+.timeslot{
+	height: 30px;
+	border-radius: 10px;
+	font-size: 20px;
 }
 
-.booked{
+.timeslot-extend{
+	height: 64px;
+	line-height: 64px;
+}
+
+.timeslot-finished{
+	background-color: #CCCCCC;
+	color: white;
+}
+
+.timeslot-booked{
+	background-color: red;
+	color: white;
+}
+
+.timeslot-booked-finished{
+	background-color: red;
+	color: black;
+}
+
+.timeslot-available{
 	background-color: #4CAF50;
 	color: white;
 }
 
-.bookable{
-	background-color: #4CAF50;
-	color: white;
-}
-
-.bookable:hover{
+.timeslot-available:hover{
+	background-color: red;
 	cursor: pointer;
 }
 
-.cancellable{
-	background-color: blue;
+.timeslot-not-available{
+	background-color: #CCCCCC;
+	color: white;
 }
 
-.cancellable:hover{
+.timeslot-activate{
+	background-color: #CCCCCC;
+	color: white;
+}
+
+.timeslot-activate:hover{
+	background-color: #7CDF90;
+	cursor: pointer;
+}
+
+.timeslot-short:hover {
 	cursor: pointer;
 }

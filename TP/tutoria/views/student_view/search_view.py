@@ -1,22 +1,23 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from ...operations import *
-from ...views.calendar import *
-from ...models import Tutor, Timeslot, Student
-from datetime import timedelta,date
+from tutoria.operations import *
+from tutoria.views.calendar import *
+from tutoria.models import Tutor, Timeslot, Student
 
 DEBUG = False
+
+def daterange(start_date, end_date):
+    for n in range(int ((end_date - start_date).days)):
+        yield start_date + timedelta(n)
 
 def searchOption(request):
 	all_university = TutorProfile.objects.order_by('university').values_list('university', flat=True).distinct()
 	all_course = Course.objects.order_by('code').values_list('code', flat=True).distinct()
 	all_tag = Tag.objects.order_by('content').values_list('content', flat=True).distinct()
-
 	return render_to_response('tutoria/student/searchpage.html', locals())
 
 def shortProfile(request):
 	all_tutors = Tutor.objects.all()
-
 	univ_list = request.POST.getlist('university_list[]',[])
 	if univ_list:
 		temp = Tutor.objects.none()
@@ -80,23 +81,22 @@ def shortProfile(request):
 		return HttpResponse("No Matching Result!")
 
 def detailedProfile(request):
-
 	tutor_id = request.POST['tutorID']
 	selectedTutor = Tutor.objects.get(id=tutor_id)
 	return render_to_response('tutoria/student/detailedProfile.html', locals())
 
-
 def availableTimeSlot(request):
 	offset = int(request.POST['offset'])
-	calendar = Calendar(range(0, 7), range(8, 20), [0, 30])
-	weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-	
+	tutor_id = request.POST['tutorID']
+	tutor = Tutor.objects.get(id=tutor_id)
+
 	today = date.today()
 	start_date = today - timedelta(days=today.weekday()+1, weeks=-offset)
 	end_date = start_date + timedelta(weeks=1)
+	date_range = list(daterange(start_date, end_date))
+	calendar = Calendar(date_range, range(8, 20))
+	weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-	tutor_id = request.POST['tutorID']
-	tutor = Tutor.objects.get(id=tutor_id)
 	bookable_timeslots = get_bookable_timeslots_interval(tutor, start_date, end_date)
 
 	if (DEBUG):

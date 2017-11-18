@@ -1,40 +1,63 @@
-<div id="schedule">
-    <div id="schedule-calendar" class="flex-table">
-    {% load index %}
-        <div class="flex-column">
-            <div class="flex-head"> Calendar </div>
-            {% for hour, minute_dict in calendar.timeslots.0.items %}
-                {% for minute, timeslot in minute_dict.items %}
-            <div class="flex-elem"> {{ timeslot }} </div>
-                {% endfor %}
-            {% endfor %}
-        </div>
-        {% for day, hour_dict in calendar.timeslots.items %}
-        <div class="flex-column">
-            <div class="flex-head"> {{ weekday|index:day }} </div>
-            {% for hour, minute_dict in hour_dict.items %}
-                {% for minute, timeslot in minute_dict.items %}
-            <div class="flex-elem
-                {% if timeslot.disable %} disable {% endif %}
-                {% if timeslot.extend %} extend {% endif %}
-                {% if timeslot.state %}
-                    {% if timeslot.timeslot.is_booked  %} booked {% else %} not-booked {% endif %}
-                    {% if timeslot.timeslot.cancellable  %} cancellable {% else %} not-cancellable {% endif %}
-                {% endif %}"
-                {% if timeslot.state %}
-                    {% if timeslot.timeslot.cancellable  %} onclick="cancelSlot('{{ timeslot.timeslot.id }}')" {% endif %}
-                {% endif %}
-                >
-                {% if timeslot.state %} {{ timeslot.timeslot.tutor }} {% endif %}
-            </div>
-                {% endfor %}
-            {% endfor %}
-        </div>
-        {% endfor %}
-    </div>
-    <div id="schedule-button-div">
-        <button id="prev" onclick="viewSchedule(-1)"> Previous Week </button>
-        {{ start_date }} - {{ end_date}}
-        <button id="next" onclick="viewSchedule(1)"> Next week </button>
-    </div>
+<div id="tutor-schedule">
+	<h3> My Weekly Calendar </h3>
+	<div id="tutor-schedule-calendar" class="flex-table">
+	{% load index %}
+		<div class="flex-column">
+			<div class="flex-head"> Calendar </div>
+			{% for hour, minute_dict in calendar.timeslots.0.items %}
+				{% for minute, timeslot in minute_dict.items %}
+			<div class="flex-elem">
+				<div class="timeslot"> {{ timeslot }} </div> 
+			</div>
+				{% endfor %}
+			{% endfor %}
+		</div>
+		{% for day, hour_dict in calendar.timeslots.items %}
+		<div class="flex-column">
+			<div class="flex-head"> {{ weekday|index:day }} <br> {{ date_range|index:day }} </div>
+			{% for hour, minute_dict in hour_dict.items %}
+				{% for minute, timeslot in minute_dict.items %}
+					<div class="flex-elem {% if timeslot.disable %} disable {% endif %}">
+						<div class="timeslot 
+						{% if timeslot.extend %} timeslot-extend {% endif %}
+						{% if timeslot.state %}
+							{% if timeslot.timeslot.is_finished %}
+								{% if timeslot.timeslot.is_booked %} timeslot-booked-finished
+								{% else %} timeslot-finished
+								{% endif %}
+							{% elif timeslot.timeslot.is_booked  %} timeslot-booked
+							{% elif timeslot.timeslot.bookable %} timeslot-available
+							{% endif %}
+						{% else %}
+							{% if timeslot.activate %} timeslot-activate {% endif %}
+						{% endif %}"
+						{% if timeslot.state and timeslot.timeslot.bookable %}
+							onclick="deactivate(this, '{{ timeslot.timeslot.id }}')"
+							onmouseover="hoverDeactivate(this)"
+							onmouseout="unhoverDeactivate(this)"
+						{% elif not timeslot.state and timeslot.activate %}
+							onclick="activate(this, '{{ timeslot.time_str }}')"
+							onmouseover="hoverActivate(this)"
+							onmouseout="unhoverActivate(this)"
+						{% endif %}>
+							{% if timeslot.state %}
+								{% if timeslot.timeslot.is_finished %} finished
+								{% elif timeslot.timeslot.is_booked  %} booked
+								{% elif timeslot.timeslot.bookable %} available
+								{% endif %}
+							{% else %}
+								{% if timeslot.activate %} unavailable {% endif %}
+							{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+	<div id="available-button-div">
+		<button id="prev" class="btn btn-outline-success col-2" onclick="viewSchedule(-1)"> Previous Week </button>
+		{{ start_date }} - {{ end_date }}
+		<button id="next" class="btn btn-outline-success col-2" onclick="viewSchedule(1)"> Next week </button>
+	</div>
 </div>

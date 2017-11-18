@@ -1,30 +1,34 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from ...operations import *
-from ...views.calendar import *
-from ...models import Timeslot, Student
-from datetime import timedelta
-from datetime import date
+from django.utils import timezone
+from tutoria.operations import *
+from tutoria.views.calendar import *
+from tutoria.models import Timeslot, Student
 
 DEBUG = False
 
+def daterange(start_date, end_date):
+    for n in range(int ((end_date - start_date).days)):
+        yield start_date + timedelta(n)
+
 def schedule(request):
 	offset = int(request.POST['offset'])
-	calendar = Calendar(range(0, 7), range(8, 20), [0, 30])
-	weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-	
+	student = Student.objects.get(user=request.user)
+
 	today = date.today()
 	start_date = today - timedelta(days=today.weekday()+1, weeks=-offset)
 	end_date = start_date + timedelta(weeks=1)
+	date_range = list(daterange(start_date, end_date))
+	calendar = Calendar(date_range, range(8, 20))
+	weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 	
 	if (DEBUG):
-		print("[Debug] today = " + str(today))
-		print("[Debug] weekday = " + str(today.weekday()))
-		print("[Debug] start = " + str(start_date))
-		print("[Debug] end = " + str(end_date))
-		print("[Debug] offset = " + str(offset))
+		print("[DEBUG] offset = " + offset)
+		print("[DEBUG] today = " + str(today))
+		print("[DEBUG] weekday = " + str(today.weekday()))
+		print("[DEBUG] start = " + str(start_date))
+		print("[DEBUG] end = " + str(end_date))
 
-	student = Student.objects.get(user=request.user)
 	booked_timeslots = get_booked_timeslots_interval(student, start_date, end_date)
 
 	for timeslot in booked_timeslots:

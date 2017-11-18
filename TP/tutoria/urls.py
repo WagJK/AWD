@@ -13,12 +13,10 @@ urlpatterns = [
 	url(r'^$', log_view.login, name='login'),
 	url(r'^registration/', log_view.registrate, name='registration'),
 	url(r'^logout/', log_view.logout, name='logout'),
-
 	# student urls
 	url(r'^student/', include([
 		# student homepage
 		url(r'^homepage/', student_home.homepage, name='student_homepage'),
-
 		# student search
 		url(r'^search/', include([
 			url(r'^searchOption/', student_search.searchOption, name='searchOption'),
@@ -28,19 +26,16 @@ urlpatterns = [
 			url(r'^bookSlot/', student_search.bookTimeSlot, name='bookSlot'),
 			url(r'^sort/', student_search.sort, name='sort')
 		])),
-
 		# student upcoming tutorials in 7 days
 		url(r'^schedule/', include([
 			url(r'^$', student_schedule.schedule, name='schedule'),
 			url(r'^cancelSlot/', student_schedule.cancelTimeSlot, name='cancelSlot'),
 		])),
-
 		# student wallet
 		url(r'^wallet/', include([
 			url(r'^$', student_wallet.wallet, name='wallet'),
 			url(r'^addValue/', student_wallet.addValue, name='addValue'),
 		])),
-
 		# student messages
 		url(r'^message/', include([
 			url(r'^notification/', student_message.notification, name='studentNotification'),
@@ -54,6 +49,8 @@ urlpatterns = [
 		# tutor schedule
 		url(r'^schedule/', include([
 			url(r'^$', tutor_schedule.schedule, name='schedule'),
+			url(r'^activate/', tutor_schedule.activate, name='activate'),
+			url(r'^deactivate/', tutor_schedule.deactivate, name='deactivate'),
 		])),
 		# tutor wallet
 		url(r'^wallet/', include([
@@ -62,7 +59,7 @@ urlpatterns = [
 		])),
 		# tutor messages
 		url(r'^message/', include([
-			url(r'^confirmation/', tutor_message.notification, name="tutorNotification"),
+			url(r'^notification/', tutor_message.notification, name="tutorNotification"),
 		])),
 	])),
 
@@ -70,7 +67,6 @@ urlpatterns = [
 	url(r'^both/', include([
 		# both homepage
 		url(r'^homepage/', student_home.homepage, name='student_homepage'),
-
 		# both search
 		url(r'^search/', include([
 			url(r'^searchOption/', student_search.searchOption, name='searchOption'),
@@ -80,18 +76,15 @@ urlpatterns = [
 			url(r'^bookSlot/', student_search.bookTimeSlot, name='bookSlot'),
 			url(r'^sort/', student_search.sort, name='sort')
 		])),
-
 		# both upcoming tutorials in 7 days
 		url(r'^schedule/', include([
 			url(r'^$', student_schedule.schedule, name='schedule'),
 			url(r'^cancelSlot/', student_schedule.cancelTimeSlot, name='cancelSlot'),
 		])),
-
 		# both wallet
 		url(r'^wallet/', include([
 			url(r'^addValue/', student_wallet.addValue, name='addValue'),
 		])),
-
 		# both messages
 		url(r'^message/', include([
 			url(r'^notification/', student_message.notification, name='bothNotification'),
