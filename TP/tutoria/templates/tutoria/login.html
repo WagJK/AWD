@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" href="{% static 'tutoria/img/favicon.png' %}">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-	<link rel="stylesheet" href="{% static 'tutoria/css/signin.css' %}" >
+	<link rel="stylesheet" href="{% static 'tutoria/css/signin.css' %}">
 	<script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
 
@@ -27,8 +27,8 @@
 		<div class="form-signin">
 			<h2 class="form-signin-heading">Please sign in</h2>
 			<form id='login_form' action='/' method='POST'> 
-				<input name='username' type="text" class="form-control" placeholder="User Name" required autofocus />
-				<input name='password' type="password" class="form-control" placeholder="Password" required />
+				<input id='username' name='username' type="text" class="form-control" placeholder="User Name" required autofocus />
+				<input id='password' name='password' type="password" class="form-control" placeholder="Password" required />
 				<div class="checkbox">
 					<a href="{% url 'registration' %}"> Sign up </a> <br>
 					<a href="{% url 'password_reset'%}"> Forget Password </a>
@@ -42,6 +42,12 @@
 
 {% if wrong_password %}
 <script>
-	confirm("wrong password");
+	alert('wrong password');
+</script>
+{% endif %}
+
+{% if invalid_user %}
+<script>
+	alert("user not exist");
 </script>
 {% endif %}

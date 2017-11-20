@@ -1,36 +1,141 @@
-<html>
+<html lang='en'>
 <head>
     {% load static %}
-    <title>Tutoria Platform</title>
-	<link rel="stylesheet" href="{% static 'tutoria/css/home.css' %}"/>
+    <title>registration</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="{% static 'tutoria/img/favicon.png' %}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'tutoria/css/registration.css' %}"/>
     <script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
 
 <body>
-    <div>
-        <form id='register_form' action='/registration/' method='POST'>
-            Username: <input name='username' type='text'/> <br>
-            Password: <input name='password' type='password'/> <br>
-            Firstname: <input name='firstname' type='text'/> <br>
-            Lastname: <input name='lastname' type='text'/> <br>
-            Email: <input name='email' type='email'/> <br>
-            Your identity:
-            <select name='type' onchange='showTutorReg()'>
-                <option value="student"> Student </option>
-                <option value="tutor"> Tutor </option>
-                <option value="both"> Both student and tutor </option>
-                <option value="admin"> admin </option>
-            </select>
-            <br> <br>
-            <input type='submit' value='Register'></input>
-        </form>
-        <a href="{% url 'login' %}"> Back to login </a>
+    <div id="navigation">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="">
+                <img src="{% static 'tutoria/img/brand.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+                Tutoria
+            </a>
+        </nav>
     </div>
+    {% if flag %}
+    <br>
+        <h4>{{ error_message }}</h4>
+    <br>
+    {% endif %}
+    <div class="container">
+        <form class="form-horizontal" role="form" action="/registration/" method="POST">
+            <h2>Registration</h2>
+            <div class="form-group">
+                <label for="username" class="col-sm-3 control-label">Username</label>
+                <div class="col-sm-9">
+                    <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>
+                    <span class="help-block">Username must be alphanumeric</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="firstname" class="col-sm-3 control-label">First name</label>
+                <div class="col-sm-9">
+                    <input type="text" id="firstname" name="firstname" placeholder="First name" class="form-control" required autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-3 control-label">Last name</label>
+                <div class="col-sm-9">
+                    <input type="text" id="lastname" name="lastname" placeholder="Last name" class="form-control" required autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-3 control-label">Password</label>
+                <div class="col-sm-9">
+                    <input type="password" id="password"  name="password" class="form-control" required autofocus>
+                    <span class="help-block">Password must be at least 8 digits</span> <br>
+                    <span class="help-block">Password must have at least 1 uppercase letter</span> <br>
+                    <span class="help-block">Password must have at least 1 lowercase letter</span> <br>
+                    <span class="help-block">Password cannot have any symbol or space</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirmpassword" class="col-sm-4 control-label">Confirm Password</label>
+                <div class="col-sm-9">
+                    <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" class="form-control" required autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="col-sm-3 control-label">Email</label>
+                <div class="col-sm-9">
+                    <input type="email" id="email" name="email" placeholder="Email" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="type" class="col-sm-3 control-label">Type</label>
+                <div class="col-sm-9">
+                    <select id="type" name="type" class="form-control" onchange="showTutorReg(this)">
+                        <option value="student">Student</option>
+                        <option value="tutor">Tutor</option>
+                        <option value="both">Both Student and Tutor</option>
+                    </select>
+                </div>
+            </div>
+            <div id="tutor" style="display:none">
+                <div class="form-group">
+                    <label for="university" class="col-sm-3 control-label">University</label>
+                    <div class="col-sm-9">
+                        <select id="university" name="university" class="form-control">
+                            {% for university in university_list %}
+                            <option value="{{university}}"> {{university}} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tutortype" class="col-sm-3 control-label">Tutor Type</label>
+                    <div class="col-sm-9">
+                        <select id="tutortype" name="tutortype" class="form-control" onchange="showPrivateTutorReg(this)">
+                            <option value="contract">Contract</option>
+                            <option value="private">Private</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="privateTutor" style="display:none">
+                    <div class="form-group">
+                        <label for="hourlyrate" class="col-sm-3 control-label">Hourly Rate</label>
+                        <div class="col-sm-9">
+                            <input type="number" id="hourlyrate" name="hourlyrate" value="0" step="10" min="0" class="form-control" autofocus>
+                        </div>
+                    </div>
+                </div><!--/.private tutor-->
+            </div><!--/.tutor-->
+            <div class="form-group">
+                <div class="col-sm-9 col-sm-offset-3">
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </div>
+            </div>
+            <a href="{% url 'login' %}"> Back to login </a>
+        </form> <!-- /form -->
+
+    </div> <!-- ./container -->
 </body>
 </html>
 
 <script>
-    function showTutorReg(){
-        $("#tutor").css('display','block')
+    function showTutorReg(elem){
+        if(elem.value == 'tutor' | elem.value == 'both'){
+            $('#tutor').css('display','block')
+        } else {
+            $('#tutor').css('display','none')
+        }
+        
+    }
+    function showPrivateTutorReg(elem){
+        if(elem.value == 'private'){
+            $('#privateTutor').css('display','block')
+        } else {
+            $('#privateTutor').css('display','none')
+        }
     }
 </script>
