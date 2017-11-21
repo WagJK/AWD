@@ -7,7 +7,8 @@ from .views.manage_sch import manage
 from datetime import datetime
 from datetime import date
 from datetime import timedelta
-
+# ==========================================================================
+# ========================== Get ===========================================
 def all_booked_timeslots(client):
 	try:
 		if client.login_type == "Student":
@@ -35,7 +36,6 @@ def all_bookable_timeslots(client):
 				tutor=client)
 	except Timeslot.DoesNotExist:
 		return None
-
 
 def get_bookable_timeslots_interval(client, start_date, end_date):
 	try:
@@ -68,48 +68,62 @@ def all_cancellable_timeslots(client):
 	except Timeslot.DoesNotExist:
 		return None
 
-def all_notification(requestingClient):
+def get_all_transaction_record(client):
 	try:
-		return Notification.objects.filter(user=requestingClient.user).exclude(category="history").order_by('-createTime', '-id')
+		return TransactionRecord.objects.filter(user=client.user).order_by('-createTime', '-id')
+	except TransactionRecord.DoesNotExist:
+		return None
+		
+# ==========================================================================
+# ========================== Messages Related ==============================
 
+def get_inbox_message(user):
+	try:
+		return Message.objects.filter(receiver=user).order_by('-createTime', '-id')
+	except Message.DoesNotExist:
+		return None
+
+def get_sent_message(user):
+	try:
+		return Message.objects.filter(sender=user).order_by('-createTime', '-id')
+	except Message.DoesNotExist:
+		return None
+
+# ===========================================================================
+# ========================== Notifications Related ==========================
+def get_all_notification(user):
+	try:
+		return Notification.objects.filter(user=user).order_by('-createTime', '-id')
 	except Notification.DoesNotExist:
 		return None
 
-
-def all_transaction_history(requestingClient):
-	try:
-		return Notification.objects.filter(category="history", user=requestingClient.user).order_by('-createTime', '-id')
-
-	except Notification.DoesNotExist:
-		return None
-
-def createBookNotification(slot, fee):
+def createBookNotification(slot):
 	studentContent = "You have successfully booked the tutorial session scheduled at "+ str(slot) \
 					 + " given by tutor "+ (str)(slot.tutor) + "."
 	studentBookNotification = Notification(
 		category="book",
 		content=studentContent,
-		user=slot.student.user,
-		fee=fee)
+		user=slot.student.user
+	)
 	studentBookNotification.save()
 	tutorContent = "Your tutorial session scheduled at "+ str(slot) + " has been booked by student " \
 				   + (str)(slot.student) + "."
 	tutorBookNotification = Notification(
 		category="book",
 		content=tutorContent,
-		user=slot.tutor.user,
-		fee=fee)
+		user=slot.tutor.user
+	)
 	tutorBookNotification.save()
 	return
 
-def createCancelNotification(slot, refund):
+def createCancelNotification(slot):
 	studentContent = "You have successfully cancelled the tutorial session scheduled at " + str(slot) \
 					 + " given by tutor " + (str)(slot.tutor) + "."
 	studentCancelNotification = Notification(
 		category="cancel",
 		content=studentContent,
 		user=slot.student.user,
-		fee=refund)
+	)
 	studentCancelNotification.save()
 	tutorContent = "Your tutorial session scheduled at " + str(slot) + " has been cancelled by student " \
 				   + (str)(slot.student) + "."
@@ -117,7 +131,7 @@ def createCancelNotification(slot, refund):
 		category="cancel",
 		content=tutorContent,
 		user=slot.tutor.user,
-		fee=refund)
+	)
 	tutorCancelNotification.save()
 	return
 
@@ -130,7 +144,7 @@ def createTransactionNotification(slot, money, type):
 			category="transaction",
 			content=studentContent,
 			user=slot.student.user,
-			fee=money)
+		)
 		studentNotification.save()
 	elif type == 'cancel':
 		studentContent = (str)(money) + " HKD has been returned to your wallet."
@@ -138,7 +152,7 @@ def createTransactionNotification(slot, money, type):
 			category="transaction",
 			content=studentContent,
 			user=slot.student.user,
-			fee=money)
+		)
 		studentNotification.save()
 	elif type == 'end':
 		tutorContent = (str)(money) + " HKD has been transferred to your wallet."
@@ -146,11 +160,22 @@ def createTransactionNotification(slot, money, type):
 			category="transaction",
 			content=tutorContent,
 			user=slot.student.tutor,
-			fee=money)
+		)
 		tutorNotification.save()
 	return
 
-def createTransactionHistory (slot, money, type):
+def createReviewNotification (slot):
+	requestContent = "You are invited to post your review on the ended tutorial session at " + str(slot) \
+					 + " conducted by tutor " + (str)(slot.tutor)\
+					 + ". Please go to your schedule and find your finished tutorial to make a review."
+	reviewNotification = Notification(
+		category="review",
+		content=requestContent,
+		user=slot.student.user)
+	reviewNotification.save()
+	return
+
+def createTransactionRecord(slot, money, type):
 	if money == 0:
 		return
 	usr = User.objects.none()
@@ -187,25 +212,16 @@ def createTransactionHistory (slot, money, type):
 	elif type == 'end':
 		transferContent += ("Student " + (str)(slot.student) + " (" + str(studentMoney) + " HKD Paid); MyTutors ("
 							+ str(myTutorMoney) + " HKD Received)")
-	transactionHistory = Notification(
-		category="history",
+	transactionHistory = TransactionRecord(
 		content=transferContent,
 		user=usr,
-		fee=money)
+		fee=money
+	)
 	transactionHistory.save()
 	return
 
-def createReviewNotification (slot):
-	requestContent = "You are invited to post your review on the ended tutorial session at " + str(slot) \
-					 + " conducted by tutor " + (str)(slot.tutor)\
-					 + ". Please go to your schedule and find your finished tutorial to make a review."
-	reviewNotification = Notification(
-		category="review",
-		content=requestContent,
-		user=slot.student.user)
-	reviewNotification.save()
-	return
-
+# ==========================================================================
+# ========================== Operations ====================================
 def book(booking_student, timeslot):
 	fee = timeslot.fee * 1.05
 	if booking_student.balance < fee:
@@ -223,9 +239,9 @@ def book(booking_student, timeslot):
 	timeslot.student = booking_student
 	timeslot.save()
 	# sending notification
-	createBookNotification(timeslot, fee)
+	createBookNotification(timeslot)
 	createTransactionNotification(timeslot, fee, "book")
-	createTransactionHistory(timeslot, fee, "book")
+	createTransactionRecord(timeslot, fee, "book")
 	return True
 
 def cancel(cancelling_student, timeslot):
@@ -233,10 +249,6 @@ def cancel(cancelling_student, timeslot):
 	manage()
 	if not timeslot.cancellable:
 		return False
-	# sending notification
-	createCancelNotification(timeslot, refund)
-	createTransactionNotification(timeslot, refund, "cancel")
-	createTransactionHistory(timeslot, refund, "cancel")
 	# modify timeslot status
 	timeslot.is_booked = False
 	timeslot.bookable = True
@@ -246,4 +258,9 @@ def cancel(cancelling_student, timeslot):
 	cancelling_student.balance += refund
 	cancelling_student.timeslot_set.remove(timeslot)
 	cancelling_student.save()
+	# sending notification
+	createCancelNotification(timeslot)
+	createTransactionNotification(timeslot, refund, "cancel")
+	createTransactionRecord(timeslot, refund, "cancel")
 	return True
+# ==========================================================================

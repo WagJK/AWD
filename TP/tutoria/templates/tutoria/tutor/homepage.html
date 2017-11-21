@@ -1,66 +1,74 @@
 <html>
 <head>
-    {% load static %}
-    <title>Tutoria Platform</title>
-    
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="{% static 'tutoria/img/favicon.png' %}">
-    <link rel="stylesheet" href="{% static 'tutoria/css/tutor-home.css' %}"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    
-    <script type="text/javascript" src="{% static 'tutoria/js/tutor.js' %}"></script>
-    <script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
+	{% load static %}
+	<title>Tutoria Platform</title>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="{% static 'tutoria/img/favicon.png' %}">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'tutoria/css/tutor-home.css' %}"/>
+	<script type="text/javascript" src="{% static 'tutoria/js/tutor.js' %}"></script>
+	<script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
 
 <body>
-    <div id="navigation">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="#">
-                <img src="{% static 'tutoria/img/brand.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-                Tutoria - Tutor
-            </a>
+	<div id="navigation">
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<a class="navbar-brand" href="#">
+				<img src="{% static 'tutoria/img/brand.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+				Tutoria - Tutor
+			</a>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a id="nav-home" class="nav-link" href="javascript:home()" onclick="window.location.reload()"> Home </a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="nav-schedule" class="nav-link" href="javascript:viewSchedule(0, true)"> Schedule </a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="nav-wallet" class="nav-link" href="javascript:viewWallet()"> Wallet </a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="nav-conf" class="nav-link" href="javascript:viewNotification()"> Notifications </a>
-                    </li>
-                </ul>
-                <button class="btn btn-outline-success my-2 my-sm-0" onclick=window.location={% url 'logout' %}> Logout </button>
-            </div>
-        </nav>
-    </div>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a id="nav-home" class="nav-link" href="javascript:home()" onclick="window.location.reload()"> Home </a>
+					</li>
+					<li class="nav-item">
+						<a id="nav-schedule" class="nav-link" href="javascript:viewSchedule(0, true)"> Schedule </a>
+					</li>
+					<li class="nav-item">
+						<a id="nav-wallet" class="nav-link" href="javascript:viewWallet()"> Wallet </a>
+					</li>
+					<li class="nav-item">
+						<a id="nav-notf" class="nav-link" href="javascript:viewNotification()">
+							<span class="badge badge-danger {% if num_unread_notf == 0 %} disable {% endif %}" id="num-unread-notf"> {{ num_unread_notf }} </span>
+							Notifications
+						</a>
+					</li>
+					<li class="nav-item">
+						<a id="nav-msg" class="nav-link" href="javascript:viewMessage()"> 
+							<span class="badge badge-danger {% if num_unread_msg == 0 %} disable {% endif %}" id="num-unread-msg"> {{ num_unread_msg }} </span>
+							Messages
+						</a>
+					</li>
+				</ul>
+				<button class="btn btn-outline-success my-2 my-sm-0" onclick=window.location={% url 'logout' %}> Logout </button>
+			</div>
+		</nav>
+	</div>
 
 
-    <div class="container">
+	<div class="container">
+		<div id="profile" onload="loadProfile()">
+			<h1> My Profile </h1>
+			<table id="userProfile" class="table table-striped">
+				<tr> <th>Name</th> <td>{{ tutor.user.username }}</td> </tr>
+				<tr> <th>Email</th> <td>{{ tutor.user.email }}</td> </tr>
+				<tr> <th>Avatar</th> <td>{{ tutor.avatar }}</td> </tr>
+				<tr> <th>Phone</th> <td>{{ tutor.phone}}</td> </tr>
+			</table>
+		</div>
 
-        <div id="profile" onload="loadProfile()">
-            <h1> My Profile </h1>
-            <table id="userProfile" class="table table-striped">
-                <tr> <th>Name</th> <td>{{ tutor.user.username }}</td> </tr>
-                <tr> <th>Email</th> <td>{{ tutor.user.email }}</td> </tr>
-                <tr> <th>Avatar</th> <td>{{ tutor.avatar }}</td> </tr>
-                <tr> <th>Phone</th> <td>{{ tutor.phone}}</td> </tr>
-            </table>
-        </div>
+		<div id="searchResult"></div>
+	</div>
 
-        <div id="searchResult"></div>
-
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </body>
 </html>

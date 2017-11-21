@@ -39,7 +39,16 @@
 						<a id="nav-wallet" class="nav-link" href="javascript:viewWallet()"> Wallet </a>
 					</li>
 					<li class="nav-item">
-						<a id="nav-conf" class="nav-link" href="javascript:viewNotification()"> Notifications </a>
+						<a id="nav-notf" class="nav-link" href="javascript:viewNotification()">
+							<span class="badge badge-danger {% if num_unread_notf == 0 %} disable {% endif %}" id="num-unread-notf"> {{ num_unread_notf }} </span>
+							Notifications
+						</a>
+					</li>
+					<li class="nav-item">
+						<a id="nav-msg" class="nav-link" href="javascript:viewMessage()"> 
+							<span class="badge badge-danger {% if num_unread_msg == 0 %} disable {% endif %}" id="num-unread-msg"> {{ num_unread_msg }} </span>
+							Messages
+						</a>
 					</li>
 				</ul>
 			    <button class="btn btn-outline-success my-2 my-sm-0" onclick=window.location={% url 'logout' %}> Logout </button>

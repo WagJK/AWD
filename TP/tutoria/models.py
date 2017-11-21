@@ -82,15 +82,31 @@ class Timeslot(models.Model):
 		+ (str)((self.endTime.hour + 8) % 24) + ":" + ((str)(self.endTime.minute)).zfill(2) + " " \
 		+ (str)(self.endTime.month) + "/" + ((str)(self.endTime.day)).zfill(2) + "/" \
 		+ (str)(self.endTime.year)
-
 		return interval
 
+
 class Notification(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	unread = models.BooleanField(default=True)
 	category = models.CharField(max_length=20, default="booking")
 	content = models.TextField(default="This is a notification!")
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	fee = models.FloatField(default="0.00")
 	createTime = models.DateTimeField(default=datetime.now())
+
+
+class TransactionRecord(models.Model):
+	fee = models.FloatField(default="0.00")
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	content = models.TextField(default="This is a notification!")
+	createTime = models.DateTimeField(default=datetime.now())
+
+
+class Message(models.Model):
+	unread = models.BooleanField(default=True)
+	sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender")
+	receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="receiver")
+	content = models.TextField(default="None")
+	createTime = models.DateTimeField(default=datetime.now())
+
 
 class Review(models.Model):
 	star = models.IntegerField(default="3")

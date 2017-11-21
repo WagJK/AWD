@@ -19,15 +19,9 @@
 			<div class="flex-elem {% if timeslot.disable %} disable {% endif %}">
 				<div class="timeslot 
 				{% if timeslot.extend %} timeslot-extend {% endif %}
-				{% if timeslot.state %}
-					{% if timeslot.timeslot.bookable  %} timeslot-bookable {% else %} timeslot-not-bookable {% endif %}
-				{% endif %}"
-				{% if timeslot.state %}
-					{% if timeslot.timeslot.bookable  %} onclick="bookSlot('{{ timeslot.timeslot.id }}')" {% endif %}
-				{% endif %}>
-					{% if timeslot.state %}
-						book
-					{% endif %}
+				{% if timeslot.state %} timeslot-bookable {% else %} timeslot-not-bookable {% endif %}"
+				{% if timeslot.state %} onclick="viewTimeslotInfo('{{ timeslot.timeslot.id }}')" {% endif %}>
+				{% if timeslot.state %} available {% endif %}
 				</div>
 			</div>
 				{% endfor %}
@@ -36,8 +30,8 @@
 		{% endfor %}
 	</div>
 	<div id="available-button-div">
-		<button id="prev" class="btn btn-outline-success col-2" onclick="getAvailableSlots({{tutor_id}}, -1)"> Previous Week </button>
+		<button id="prev" class="btn btn-success col-2" onclick="getAvailableSlots({{tutor_id}}, -1)"> Previous Week </button>
 		{{ start_date }} - {{ end_date }}
-		<button id="next" class="btn btn-outline-success col-2" onclick="getAvailableSlots({{tutor_id}}, 1)"> Next week </button>
+		<button id="next" class="btn btn-success col-2" onclick="getAvailableSlots({{tutor_id}}, 1)"> Next week </button>
 	</div>
 </div>

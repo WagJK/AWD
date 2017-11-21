@@ -21,8 +21,7 @@ qp:
 3. search加入tag 结果要显示姓名，头像，大学， hourly rate， average review 和 tags
 
 jk：
-1. detail booking information
-2. restrict all calendar to only 2 weeks && student can only view timeslot of a tutor in 7 days
+1. restrict all calendar to only 2 weeks && student can only view timeslot of a tutor in 7 days
 
 xy：
 1. 个人资料编辑：
@@ -44,6 +43,40 @@ xy：
 7. student 一天内只能定！一个人的一个timeslot！但是可以订多个每个都是不一样的人 qp jk
 8. 没有足够钱来book的时候会被reject并提示 qp
 
-Unassigned functionalities
-1. Messaging between tutor & student
-2. Coupon code
+Ongoing Functionalities:
+XY: Profile Management
+	a. Contract tutor cannot edit hourly rate = 0
+QP: Review System
+
+Finished Functionalities:
+1. Login and Registration
+2. Session Locking
+3. Searching for tutor
+4. Transaction History
+5. Notification System
+6. Messaging System
+
+Unassigned Functionalities:
+1. Coupon code
+2. Administrator
+	• (for Administrators) control access to Tutoria through user authentication based on username and password.
+	• (for Administrators) send mail to the user containing a token for password reset after receiving a lost password request.
+
+Unfinished Functionalities:
+3. Wallet Management
+	• (for Tutors) transfer money from their wallet.
+	• (for Students) add money to their wallet.
+	• (for MyTutors) transfer money from their wallet.
+	Your responsibility is only to provide a system of internal wallets and a simple interface to support demos and testing. Through the interface, students may deposit funds in their wallets and tutors and MyTutors may remove funds from their wallets.
+4. Calendar
+	a. student can only view timeslots in a week (calendar locking).
+5. Booking and Cancelling
+	a. student can only book one timeslot from a tutor per day.
+	b. student cannot book the same timeslot from different tutor.
+	c. No money - booking rejected and student informed
+	d. one cannot book his/her own timeslot
+6. Detailed Profile
+	a. tutor and student could not view each other's phone unless there is a session between them
+
+Modeling:
+1. Contracted tutor can only have 1 university, private tutor should not? have a university.

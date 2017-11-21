@@ -1,0 +1,17 @@
+<div id="booking-info">
+	<h3> Booking Information </h3>
+	<table class="table">
+		<tbody>
+			<tr> <th> Student </th> <td> {{ timeslot.student }} </td> </tr>
+			<tr> <th> Time </th> <td> {{ timeslot.startTime }} - {{ timeslot.endTime }}</td> </tr>
+			<tr> <th> Fee </th> <td> {{ timeslot.fee }} HKD </td> </tr>
+		</tbody>
+	</table>
+	<div class="row">
+		<div style="width:10%"/>
+		<button class="btn btn-success" style="width:80%" onclick="writeMessage('{{ timeslot.student.user.username }}')">
+			Message this student
+		</button>
+		<div style="width:10%"/>
+	</div>
+</div>

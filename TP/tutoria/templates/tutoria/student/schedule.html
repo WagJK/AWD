@@ -21,11 +21,14 @@
                 <div class="timeslot
                     {% if timeslot.extend %} timeslot-extend {% endif %}
                     {% if timeslot.state %}
-                        {% if timeslot.timeslot.is_booked  %} timeslot-booked {% else %} timeslot-not-booked {% endif %}
-                        {% if timeslot.timeslot.cancellable  %} timeslot-cancellable {% else %} timeslot-not-cancellable {% endif %}
+                        {% if timeslot.timeslot.is_finished  %}
+                            timeslot-finished
+                        {% else %}
+                            timeslot-booked
+                        {% endif %}
                     {% endif %}"
                     {% if timeslot.state %}
-                        {% if timeslot.timeslot.cancellable  %} onmouseover="hoverCancel(this);" onmouseout="unhoverCancel(this);" onclick="cancelSlot('{{ timeslot.timeslot.id }}')" {% endif %}
+                        onclick="viewBookingInfo('{{ timeslot.timeslot.id }}')"
                     {% endif %}
                     >
                     {% if timeslot.state %} {{ timeslot.timeslot.tutor }} {% endif %}
@@ -37,8 +40,8 @@
         {% endfor %}
     </div>
     <div id="schedule-button-div">
-        <button id="prev" class="btn btn-outline-success col-2" onclick="viewSchedule(-1)"> Previous Week </button>
+        <button id="prev" class="btn btn-success col-2" onclick="viewSchedule(-1)"> Previous Week </button>
         {{ start_date }} - {{ end_date}}
-        <button id="next" class="btn btn-outline-success col-2" onclick="viewSchedule(1)"> Next week </button>
+        <button id="next" class="btn btn-success col-2" onclick="viewSchedule(1)"> Next week </button>
     </div>
 </div>

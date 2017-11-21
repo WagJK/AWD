@@ -1,0 +1,18 @@
+<div id="write-message">
+	<h3> Write a message </h3>
+	<div class="form-group">
+		<table class="table">
+			<tr> <th> To: </th> <td> {{ target.username }} </td> </tr>
+			<tr> 
+				<th> <label for="content">Content: </label> </th>
+				<td> <textarea class="form-control" rows="10" id="content"></textarea> </td>
+			</tr>
+		</table>
+		<div class="row">
+			<div style="width:20%" />
+			<button class="btn btn-success" style="width:60%" 
+				onclick="sendMessage('{{ target.username }}')"> Send Message </button>
+			<div style="width:20%" />
+		</div>
+	</div>
+</div>

@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 
 def wallet(request):
     tutor = Tutor.objects.get(user=request.user)
-    transaction_history = all_transaction_history(tutor)
+    transaction_history = get_all_transaction_record(tutor)
     return render_to_response('tutoria/tutor/wallet.html', locals())
 
 def withdraw(request):

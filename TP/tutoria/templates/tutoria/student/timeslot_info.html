@@ -1,0 +1,28 @@
+<div id="booking-info">
+	<h3> Timeslot Information </h3>
+	<table class="table">
+		<tbody>
+			<tr> <th> Tutor </th> <td> {{ timeslot.tutor }} </td> </tr>
+			<tr> <th> Time </th> <td> {{ timeslot.startTime }} - {{ timeslot.endTime }}</td> </tr>
+			<tr> <th> Fee </th> <td> {{ timeslot.fee }} HKD </td> </tr>
+		</tbody>
+	</table>
+	<div class="row">
+		<button class="btn btn-success" style="width:46%" onclick="writeMessage('{{ timeslot.tutor.user.username }}')">
+			Message Tutor
+		</button>
+		<div style="width:8%"/>
+		{% if timeslot.bookable %}
+			<button class="btn btn-success" style="width:46%" onclick="bookSlot( {{ timeslot.id }} )">
+				Book This Timeslot
+			</button>
+		{% else %}
+			<button class="btn btn-success disabled" style="width:46%"> Book This Timeslot </button>
+		{% endif %}
+	</div>
+	{% if not timeslot.bookable %}
+	<div class="alert alert-danger" role="alert">
+		You cannot book this timeslot since it starts within 24 hours.
+	</div>
+	{% endif %}
+</div>

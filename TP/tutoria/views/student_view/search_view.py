@@ -58,7 +58,7 @@ def shortProfile(request):
 		all_tutors = all_tutors.intersection(temp)
 
 	# Within seven days, to be added
-	limited = request.POST.getlist('limited[]',[])
+	limited = request.POST.get('limited[]',[])
 	list_of_ids = []
 	if limited:
 		slot_in_week = Timeslot.objects.filter(within_week=True)
@@ -125,6 +125,11 @@ def availableTimeSlot(request):
 
 	return render_to_response('tutoria/student/availableTimeSlot.html', locals())
 
+def timeslotInfo(request):
+	slot_id = request.POST['slotID']
+	timeslot = Timeslot.objects.get(id=slot_id)
+	return render_to_response('tutoria/student/timeslot_info.html', locals())
+
 def bookTimeSlot(request):
 	slot_id = request.POST['slotID']
 	selected_slot = Timeslot.objects.get(id=slot_id)
@@ -133,7 +138,6 @@ def bookTimeSlot(request):
 		return HttpResponse("Timeslot Successfully Booked!")
 	else:
 		return HttpResponse("Booking Rejected Due to Insufficient Balance!")
-
 
 def sort(request):
 	all_tutors = Tutor.objects.none()

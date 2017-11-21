@@ -11,10 +11,10 @@
     <tbody>
         {% for tutor in all_tutors %}
         <tr id="{{ tutor.id }}" class="short">
-            <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.user.username }}</td>
-            <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.university }}</td>
-            <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.hourly_rate }}</td>
-            <td onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.average_review }}</td>
+            <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.user.username }}</td>
+            <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.university }}</td>
+            <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.hourly_rate }}</td>
+            <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.average_review }}</td>
         </tr>
         {% endfor %}
     </tbody>

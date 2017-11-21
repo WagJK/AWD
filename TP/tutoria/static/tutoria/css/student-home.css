@@ -34,6 +34,7 @@ table {
 
 .nav-item:hover {
 	background-color: #444444;
+	text-align: center;
 }
 
 #header {
@@ -69,7 +70,7 @@ table {
 	width: 13%;
 	display: flex;
 	flex-direction: column;
-	text-align: center;s
+	text-align: center;
 }
 
 .flex-elem{
@@ -106,6 +107,11 @@ table {
 	color: white;
 }
 
+.timeslot-booked:hover{
+	background-color: #6CCF70;
+	cursor: pointer;
+}
+
 .timeslot-bookable{
 	background-color: #4CAF50;
 	color: white;
@@ -116,15 +122,10 @@ table {
 	cursor: pointer;
 }
 
-.timeslot-cancellable{
-	background-color: #504CAF;
-}
-
-.timeslot-cancellable:hover{
-	cursor: pointer;
-	background-color: #AF4C50;
-}
-
 .timeslot-short:hover {
 	cursor: pointer;
+}
+
+.table-transparent {
+	background: rgba(255,255,255,0.3);
 }

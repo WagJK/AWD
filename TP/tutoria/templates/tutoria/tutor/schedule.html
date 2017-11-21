@@ -39,6 +39,8 @@
 							onclick="activate(this, '{{ timeslot.time_str }}')"
 							onmouseover="hoverActivate(this)"
 							onmouseout="unhoverActivate(this)"
+						{% elif timeslot.state and timeslot.timeslot.is_booked %}
+							onclick="viewBookingInfo('{{ timeslot.timeslot.id }}')"
 						{% endif %}>
 							{% if timeslot.state %}
 								{% if timeslot.timeslot.is_finished %} finished
@@ -56,8 +58,8 @@
 		{% endfor %}
 	</div>
 	<div id="available-button-div">
-		<button id="prev" class="btn btn-outline-success col-2" onclick="viewSchedule(-1)"> Previous Week </button>
+		<button id="prev" class="btn btn-success col-2" onclick="viewSchedule(-1)"> Previous Week </button>
 		{{ start_date }} - {{ end_date }}
-		<button id="next" class="btn btn-outline-success col-2" onclick="viewSchedule(1)"> Next week </button>
+		<button id="next" class="btn btn-success col-2" onclick="viewSchedule(1)"> Next week </button>
 	</div>
 </div>

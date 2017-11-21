@@ -7,21 +7,12 @@ function home() {
 	$("#nav-home").parent().addClass("active");
 }
 
-function search() {
-	$(".active").removeClass("active");
-	$("#nav-search").parent().addClass("active");
-	$.ajax({
-		url : "/student/search/searchOption/", // the endpoint
-		type : "GET", // http method
-		// handle a successful response
-		success : function(response) {
-			$('#searchResult').html(response);
-			//$('#searchButton').css("display", "none");
-			$('#profile').css("display", "none");
-		}
-	});
+function loadProfile(){
+	$('#profile').css("display", "block");
 }
 
+// ====================================================
+// =================== Calendar =======================
 function viewSchedule(delta_offset, reset=false){
 	$(".active").removeClass("active");
 	$("#nav-schedule").parent().addClass("active");
@@ -41,12 +32,31 @@ function viewSchedule(delta_offset, reset=false){
 		}
 	});
 }
+function getAvailableSlots(tutorID, delta_offset, reset=false){
+	if (reset) available_offset = 0;
+	available_offset += delta_offset;
+	$.ajax({
+		url : "/student/search/availableSlot/", // the endpoint
+		type : "POST", // http method
+		data : {
+			'tutorID' : tutorID,
+			'offset' : available_offset
+		},
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+		}
+	});
+}
 
+// ===================================================
+// ================== Notification ===================
 function viewNotification(){
 	$(".active").removeClass("active");
-	$("#nav-conf").parent().addClass("active");
+	$("#nav-notf").parent().addClass("active");
+	$("#num-unread-notf").addClass("disable");
 	$.ajax({
-		url : "/student/message/notification/", // the endpoint
+		url : "/notification/", // the endpoint
 		type : "GET", // http method
 		// handle a successful response
 		success : function(response) {
@@ -56,6 +66,88 @@ function viewNotification(){
 	});
 }
 
+function updateNumOfMsg() {
+	$.ajax({
+		url : "/student/homepage/getNumOfMsg", // the endpoint
+		type : "POST", // http method
+		// handle a successful response
+		success : function(response) {
+			if (response != "0") {
+				$("#num-unread-msg").text(response);
+				$("#num-unread-msg").removeClass("disable");
+			} else {
+				$("#num-unread-msg").addClass("disable");
+			}
+		}
+	});
+	
+}
+
+function updateNumOfNotf() {
+	$.ajax({
+		url : "/student/homepage/getNumOfUnreadNotf", // the endpoint
+		type : "POST", // http method
+		// handle a successful response
+		success : function(response) {
+			if (response != "0") {
+				$("#num-unread-notf").text(response);
+				$("#num-unread-notf").removeClass("disable");
+			} else {
+				$("#num-unread-notf").addClass("disable");
+			}
+		}
+	});
+}
+
+// ==================================================
+// ================== Messaging =====================
+function viewMessage(){
+	$(".active").removeClass("active");
+	$("#nav-msg").parent().addClass("active");
+	$("#num-unread-msg").addClass("disable");
+	$.ajax({
+		url : "/message/", // the endpoint
+		type : "GET", // http method
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+			$('#profile').css("display", "none");
+		}
+	});
+}
+
+function writeMessage(target) {
+	$.ajax({
+		url : "/message/write/", // the endpoint
+		type : "POST", // http method
+		data : {
+			'target' : target
+		},
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+		}
+	});
+}
+
+function sendMessage(target) {
+	content = $("#content").val();
+	$.ajax({
+		url : "/message/send/", // the endpoint
+		type : "POST", // http method
+		data : {
+			'target' : target,
+			'content' : content
+		},
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+		}
+	});
+}
+
+// ==========================================================
+// ======================== Wallet ==========================
 function viewWallet() {
 	$(".active").removeClass("active");
 	$("#nav-wallet").parent().addClass("active");
@@ -70,6 +162,66 @@ function viewWallet() {
 	});
 }
 
+function addValue(value) {
+	$.ajax({
+		url : "/student/wallet/addValue/", // the endpoint
+		type : "POST", // http method
+		data : {
+			'value' : value
+		},
+		// handle a successful response
+		success : function(response) {
+			$('#balance').html("Balance: " + response + " HKD");
+		}
+	});
+}
+
+// ============================================================
+// ======================== Detail Info =======================
+function viewBookingInfo(slotID){
+	$.ajax({
+		url : "/student/schedule/bookingInfo/", // the endpoint
+		type : "POST", // http method
+		data : {
+			'slotID' : slotID
+		},
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+		}
+	});
+}
+
+function viewTimeslotInfo(slotID){
+	$.ajax({
+		url : "/student/search/timeslotInfo/", // the endpoint
+		type : "POST", // http method
+		data : {
+			'slotID' : slotID
+		},
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+		}
+	});
+}
+
+// ============================================================
+// ======================= Search =============================
+function search() {
+	$(".active").removeClass("active");
+	$("#nav-search").parent().addClass("active");
+	$.ajax({
+		url : "/student/search/searchOption/", // the endpoint
+		type : "GET", // http method
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+			//$('#searchButton').css("display", "none");
+			$('#profile').css("display", "none");
+		}
+	});
+}
 
 function getShortProfiles() {
 	$.ajax({
@@ -117,82 +269,6 @@ function getDetailedProfile(tutorID){
 	});
 }
 
-function getAvailableSlots(tutorID, delta_offset, reset=false){
-	if (reset) available_offset = 0;
-	available_offset += delta_offset;
-	$.ajax({
-		url : "/student/search/availableSlot/", // the endpoint
-		type : "POST", // http method
-		data : {
-			'tutorID' : tutorID,
-			'offset' : available_offset
-		},
-		// handle a successful response
-		success : function(response) {
-			$('#searchResult').html(response);
-		}
-	});
-}
-
-function bookSlot(slotID){
-	var bookOrNot = confirm("Are you sure to book this timeslot?");
-	if (bookOrNot){
-		$.ajax({
-			url : "/student/search/bookSlot/", // the endpoint
-			type : "POST", // http method
-			data : {
-				'slotID' : slotID
-			},
-			// handle a successful response
-			success : function(response) {
-				$('#searchResult').html(response);
-				$('#searchButton').css("display", "block");
-			}
-		});
-	}
-}
-
-function hoverCancel(that){
-	hover_restore_text = $(that).text()
-	$(that).text("Cancel");
-}
-
-function unhoverCancel(that){
-	$(that).text(hover_restore_text);
-}
-
-function cancelSlot(slotID){
-	var cancelOrNot = confirm("Are you sure to cancel this timeslot?");
-	if (cancelOrNot){
-		$.ajax({
-			url : "/student/schedule/cancelSlot/", // the endpoint
-			type : "POST", // http method
-			data : {
-				'slotID' : slotID
-			},
-			// handle a successful response
-			success : function(response) {
-				$('#searchResult').html(response);
-			}
-		});
-	}
-}
-
-
-function addValue(value) {
-	$.ajax({
-		url : "/student/wallet/addValue/", // the endpoint
-		type : "POST", // http method
-		data : {
-			'value' : value
-		},
-		// handle a successful response
-		success : function(response) {
-			$('#balance').html("Balance: " + response + " HKD");
-		}
-	});
-}
-
 function sortProfile(option) {
 	$.ajax({
 		url : "/student/search/sort/", // the endpoint
@@ -211,6 +287,42 @@ function sortProfile(option) {
 	});
 }
 
-function loadProfile(){
-	$('#profile').css("display", "block");
+// ===============================================================
+// ======================== Operations ===========================
+function bookSlot(slotID){
+	var bookOrNot = confirm("Are you sure to book this timeslot?");
+	if (bookOrNot){
+		$.ajax({
+			url : "/student/search/bookSlot/", // the endpoint
+			type : "POST", // http method
+			data : {
+				'slotID' : slotID
+			},
+			// handle a successful response
+			success : function(response) {
+				$('#searchResult').html(response);
+				$('#searchButton').css("display", "block");
+				updateNumOfNotf();
+			}
+		});
+	}
 }
+
+function cancelSlot(slotID){
+	var cancelOrNot = confirm("Are you sure to cancel this timeslot?");
+	if (cancelOrNot){
+		$.ajax({
+			url : "/student/schedule/cancelSlot/", // the endpoint
+			type : "POST", // http method
+			data : {
+				'slotID' : slotID
+			},
+			// handle a successful response
+			success : function(response) {
+				$('#searchResult').html(response);
+				updateNumOfNotf();
+			}
+		});
+	}
+}
+// ===============================================================

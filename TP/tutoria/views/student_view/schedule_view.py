@@ -48,6 +48,10 @@ def schedule(request):
 
 	return render_to_response('tutoria/student/schedule.html', locals())
 
+def bookingInfo(request):
+	slot_id = request.POST['slotID']
+	timeslot = Timeslot.objects.get(id=slot_id)
+	return render_to_response('tutoria/student/booking_info.html', locals())
 
 def cancelTimeSlot(request):
 	slot_id = request.POST['slotID']
