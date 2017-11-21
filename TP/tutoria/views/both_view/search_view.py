@@ -55,8 +55,9 @@ def shortProfile(request):
 
 		all_tutors = all_tutors.intersection(temp)
 
+
 	# Within seven days, to be added
-	limited = request.POST.getlist('limited[]',[])
+	limited = request.POST.get('limited[]',[])
 	list_of_ids = []
 	if limited:
 		slot_in_week = Timeslot.objects.filter(within_week=True)

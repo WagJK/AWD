@@ -4,21 +4,15 @@ Internal DDL 11.19
 qp:
 1. Transaction History: 
 	界面规划， 30天之内的history， 都在wallet下完成
-	history包括，钱数， outgoing还是incoming，name of parties involved
-	eg. student：$105， outgoing，xxx timeslot， $100 to xxx， $ to xxx as commission fee
-		tutor： $100， incoming  
+	
 2. Review:
 	和tutor是一对多 null = true 的关系
 	在timeslot 结束时create
 	界面应该是0到5星的评价形式
 	tutor拥有3个以上review的时候会create自己的average_review
 	detail profile要显示所有的review
-3. notification
-	payment notification
-	book notification
-	cancel notification
-	review notification
-4. search加入tag 结果要显示姓名，头像，大学， hourly rate， average review 和 tags
+
+3. search加入tag 结果要显示姓名，头像，大学， hourly rate， average review 和 tags
 
 jk：
 1. detail booking information

@@ -38,6 +38,7 @@ class TutorProfile(models.Model):
 
 
 class Course(models.Model):
+	university = models.CharField(max_length=50)
 	code = models.CharField(max_length=200)
 	description = models.CharField(max_length=2000)
 

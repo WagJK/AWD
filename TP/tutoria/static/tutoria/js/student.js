@@ -90,9 +90,9 @@ function getShortProfiles() {
 			'type': $('.type:checked').map(function() {
 				return this.value;
 			}).get(),
-			'limited': ($('.coverage:checked').map(function() {
+			'limited': $('.coverage:checked').map(function() {
 				return this.value;
-			}).get()).length,
+			}).get(),
 			'last_name': $('#last').val(),
 			'first_name': $('#first').val()
 		},
@@ -177,6 +177,7 @@ function cancelSlot(slotID){
 		});
 	}
 }
+
 
 function addValue(value) {
 	$.ajax({
