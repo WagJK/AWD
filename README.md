@@ -1,6 +1,12 @@
 Construction Plan Phase 1
 Internal DDL 11.19
 
+IMPORTANT !!!
+Before using the admin funciton, first install 'pip install django-bulk-admin'
+Admin username: 'admin'
+Password: 'Fxy86356428'
+Can only operate on Course model and support bulk oprtations
+
 qp:
 1. Transaction History: 
 	界面规划， 30天之内的history， 都在wallet下完成
