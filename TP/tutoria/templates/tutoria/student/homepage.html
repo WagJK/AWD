@@ -58,8 +58,8 @@
 	</div>
 
 	<div class="container">
-		<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editProfile()">Edit Profile</button>
 		<div id="profile" onload="loadProfile()">
+			<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editProfile()">Edit Profile</button>
 			<h1> My Profile </h1>
 			<table id="userProfile" class="table table-striped">
 				<tr> <th>Name</th> <td>{{ student.user.username }}</td> </tr>
@@ -70,8 +70,6 @@
 				<tr> <th>Phone</th> <td>{{ student.phone}}</td> </tr>
 			</table>
 		</div>
-
-		<div id="editProfileDiv"></div>
 		<div id="searchResult"></div>
 	</div>
 

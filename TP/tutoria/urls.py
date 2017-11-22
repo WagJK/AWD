@@ -13,6 +13,7 @@ from .views.student_view import editProfile_view as student_editProfile
 from .views.tutor_view import homepage_view as tutor_home
 from .views.tutor_view import wallet_view as tutor_wallet
 from .views.tutor_view import schedule_view as tutor_schedule
+from .views.tutor_view import editProfile_view as tutor_editProfile
 
 from .views.both_view import homepage_view as both_home
 from .views.both_view import schedule_view as both_schedule
@@ -72,6 +73,7 @@ urlpatterns = [
 		# tutor homepage
 		url(r'^homepage/', include([
 			url(r'^$', tutor_home.homepage, name="tutor_homepage"),
+			url(r'^editProfile/', tutor_editProfile.editProfile, name='tutor_editProfile'),
 			url(r'^getNumOfUnreadNotf', tutor_home.getNumOfUnreadNotf, name='getNumOfUnreadNotf'),
 			url(r'^getNumOfUnreadMsg', tutor_home.getNumOfUnreadMsg, name='getNumOfUnreadMsg')
 		])),
