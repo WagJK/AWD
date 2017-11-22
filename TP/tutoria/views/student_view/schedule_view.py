@@ -89,6 +89,20 @@ def submitReview(request):
 		anonymous=anonymousOrNot
 	)
 	newReview.save()
-	return HttpResponse('<div class="alert alert-success" role="alert">  Review Successfully submitted! </div>')
 
-	# Still need to consider review nothing
+	# Update the average review for the current tutor
+	starOfReview = 0.0
+	numOfReview = 0
+	for review in Review.objects.filter(tutor=tutor_reviewed):
+		numOfReview += 1
+		starOfReview += review.star
+
+	if numOfReview<3:
+		tutor_reviewed.profile.average_review = -1
+	else:
+		tutor_reviewed.profile.average_review = float(starOfReview/numOfReview)
+
+	tutor_reviewed.profile.save()
+	tutor_reviewed.save()
+
+	return HttpResponse('<div class="alert alert-success" role="alert">  Review Successfully submitted! </div>')

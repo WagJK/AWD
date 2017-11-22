@@ -2,16 +2,9 @@ Construction Plan Phase 1
 Internal DDL 11.19
 
 qp:
-1. Transaction History: 内容回车 history定量定时
-2. Review:
-	handle一下0星的情况
-	tutor拥有3个以上review的时候会create自己的average_review
-	detail profile要显示所有的review
+1. Transaction History: 内容回车
 3. search测试tag 结果要显示头像，average review 和 tags
-4. 发真email
-5. model - Attr: avatar
-6. active profile filtering when searching
-7. model - Coupon Code
+6. active profile filtering when searching  虽然实现了但是矛盾
 8. Concurrency Issue
 
 xy：

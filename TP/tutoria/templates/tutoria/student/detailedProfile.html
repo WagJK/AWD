@@ -5,9 +5,42 @@
         <tr> <th>Name</th> <td> {{ selectedTutor.user.username }} </td> </tr>
         <tr> <th>University</th> <td> {{ selectedTutor.profile.university }} </td> </tr>
         <tr> <th>Hourly Rate</th> <td>{{ selectedTutor.profile.hourly_rate }}</td> </tr>
-        <tr> <th>Average Review</th> <td>{{ selectedTutor.profile.average_review }}</td> </tr>
+        <tr>
+            <th>Average Review</th>
+            <td>
+                {% if selectedTutor.profile.average_review == -1  %}
+                    N/A
+                {% else %}
+                    {{ selectedTutor.profile.average_review }}
+                {% endif %}
+            </td>
+        </tr>
         <tr> <th>Introduction </th> <td> {{ selectedTutor.profile.introduction }} </td> </tr>
         <tr> <th>Availability</th> <td> {{ selectedTutor.profile.availability }} </td> </tr>
+        <tr>
+            <th>Previous Review</th>
+            <td>
+                {% for review in all_reviews %}
+                    <h4>
+                        {% if review.anonymous  %}
+                            Anonymous Student:
+                        {% else %}
+                            {{ review.student }}:
+                        {% endif %}
+                    </h4>
+                    <div>
+                        <p>Star Rate: {{ review.star }}</p>
+                        <p>Student Comment:
+                            {% if review.comment == ""  %}
+                                N/A
+                            {% else %}
+                                {{ review.comment }}
+                            {% endif %}
+                        </p>
+                    </div><br>
+                {% endfor %}
+            </td>
+        </tr>
         <tr>
             <th>Contact</th>
             {% if has_booking_between %}

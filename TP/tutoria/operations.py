@@ -7,6 +7,7 @@ from .views.manage_sch import manage
 from datetime import datetime
 from datetime import date
 from datetime import timedelta
+from django.core.mail import send_mail
 # ==========================================================================
 # ========================== Get ===========================================
 def all_booked_timeslots(client):
@@ -68,9 +69,13 @@ def all_cancellable_timeslots(client):
 	except Timeslot.DoesNotExist:
 		return None
 
+# Added the limit of 30 days before
 def get_all_transaction_record(client):
 	try:
-		return TransactionRecord.objects.filter(user=client.user).order_by('-createTime', '-id')
+		currentTime = datetime.now()
+		earliestTime = currentTime - timedelta(days=30)
+		return TransactionRecord.objects.filter(user=client.user, createTime__gte=earliestTime).order_by('-createTime', '-id')
+
 	except TransactionRecord.DoesNotExist:
 		return None
 		
@@ -278,6 +283,15 @@ def book(booking_student, timeslot):
 	createBookNotification(timeslot)
 	createTransactionNotification(timeslot, fee, "book")
 	createTransactionRecord(timeslot, fee, "book")
+
+	# sending email
+	send_mail(
+		'Tutoria Booking Notification',
+		"Your tutorial session scheduled at " + str(timeslot) + " has been booked by student " + (str)(timeslot.student) + ".",
+		str('tutoria@example.com'),
+		[str(timeslot.tutor.user.email)],
+		fail_silently=False,
+	)
 	return "success"
 
 def cancel(cancelling_student, timeslot):

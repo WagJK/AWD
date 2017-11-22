@@ -1,8 +1,8 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from tutoria.operations import *
-from tutoria.views.calendar import *
-from tutoria.models import Tutor, Timeslot, Student
+from ...operations import *
+from ...views.calendar import *
+from ...models import Tutor, Timeslot, Student, Review
 
 DEBUG = False
 
@@ -17,7 +17,8 @@ def searchOption(request):
 	return render_to_response('tutoria/student/searchpage.html', locals())
 
 def shortProfile(request):
-	all_tutors = Tutor.objects.all()
+	all_tutors = Tutor.objects.filter(profile__availability=True)
+
 	univ_list = request.POST.getlist('university_list[]',[])
 	if univ_list:
 		temp = Tutor.objects.none()
@@ -84,6 +85,8 @@ def detailedProfile(request):
 	tutor_id = request.POST['tutorID']
 	student = Student.objects.get(user=request.user)
 	selectedTutor = Tutor.objects.get(id=tutor_id)
+	all_reviews = Review.objects.filter(tutor=selectedTutor).order_by('-createTime')
+
 	has_booking_between = (len(Timeslot.objects.filter(
 		tutor = selectedTutor,
 		student = student,

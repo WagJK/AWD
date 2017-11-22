@@ -5,7 +5,7 @@
             <th>Name</th>
             <th>University</th>
             <th>Hourly-rate</th>
-            <th>average_review</th>
+            <th>Average_review</th>
         </tr>
     </thead>
     <tbody>
@@ -14,7 +14,13 @@
             <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.user.username }}</td>
             <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.university }}</td>
             <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.hourly_rate }}</td>
-            <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.average_review }}</td>
+            <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">
+                {% if tutor.profile.average_review == -1  %}
+                    N/A
+                {% else %}
+                    {{ tutor.profile.average_review }}
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

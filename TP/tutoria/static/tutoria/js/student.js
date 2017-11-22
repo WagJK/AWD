@@ -376,8 +376,6 @@ function submitReview(slotID){
 		}
 	}
 
-	// $("input[name='rating']:checked").val()
-
 	$.ajax({
 		url : "/student/schedule/submitReview/", // the endpoint
 		type : "POST", // http method
@@ -394,6 +392,13 @@ function submitReview(slotID){
 			$('#searchResult').html(response);
 		}
 	});
+}
+
+function zeroStar(){
+	var rates = document.getElementsByName('rating');
+	for(var i=0; i<rates.length; i++){
+		rates[i].checked = false;
+	}
 }
 // ===============================================================
 // ======================== Edit profile =========================

@@ -6,7 +6,7 @@ class Client(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)  # many-to-one
 	login_type = models.CharField(max_length=20, default="Student")
 	balance = models.FloatField(default="0.00")
-	avatar = models.TextField(default="This is an avatar") # change to image
+	avatar = models.FileField() # need to have default
 	phone = models.CharField(max_length=10, default="None")
 
 	class Meta:
@@ -32,7 +32,7 @@ class MyTutor(models.Model):
 class TutorProfile(models.Model):
 	university = models.CharField(max_length=50)
 	hourly_rate = models.IntegerField(default=10)
-	average_review = models.IntegerField(default=100)
+	average_review = models.IntegerField(default=-1)
 	introduction = models.TextField(default="This is an introduction")
 	availability = models.BooleanField(default=True)
 
@@ -111,7 +111,13 @@ class Message(models.Model):
 
 class Review(models.Model):
 	star = models.IntegerField(default="3")
-	comment = models.TextField(default="This is my review!")
+	comment = models.TextField(default="")
 	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
 	student = models.ForeignKey(Student, on_delete=models.CASCADE)
 	anonymous = models.BooleanField(default=False)
+	createTime = models.DateTimeField(default=datetime.now())
+
+class Coupon(models.Model):
+	code = models.CharField(max_length=20)
+	generation_date = models.DateTimeField(default=datetime.now())
+	expiration_date = models.DateTimeField()
