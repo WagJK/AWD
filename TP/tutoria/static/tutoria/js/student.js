@@ -9,6 +9,8 @@ function home() {
 
 function loadProfile(){
 	$('#profile').css("display", "block");
+	$('#editProfileDiv').css("display","none");
+	$('#editProfileBtn').css("display","block");
 }
 
 // ====================================================
@@ -29,6 +31,7 @@ function viewSchedule(delta_offset, reset=false){
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
+			$('#editProfileDiv').css("display","none");
 		}
 	});
 }
@@ -62,6 +65,7 @@ function viewNotification(){
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
+			$('#editProfileDiv').css("display","none");
 		}
 	});
 }
@@ -112,6 +116,7 @@ function viewMessage(){
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
+			$('#editProfileDiv').css("display","none");
 		}
 	});
 }
@@ -158,6 +163,7 @@ function viewWallet() {
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
+			$('#editProfileDiv').css("display","none");
 		}
 	});
 }
@@ -219,6 +225,7 @@ function search() {
 			$('#searchResult').html(response);
 			//$('#searchButton').css("display", "none");
 			$('#profile').css("display", "none");
+			$('#editProfileDiv').css("display","none");
 		}
 	});
 }
@@ -302,6 +309,7 @@ function bookSlot(slotID){
 			success : function(response) {
 				$('#searchResult').html(response);
 				$('#searchButton').css("display", "block");
+				$('#editProfileDiv').css("display","none");
 				updateNumOfNotf();
 			}
 		});
@@ -324,5 +332,42 @@ function cancelSlot(slotID){
 			}
 		});
 	}
+}
+// ===============================================================
+// ======================== Edit profile =========================
+function editProfile(){
+	$.ajax({
+		url : "/student/homepage/editProfile/",
+		type : "GET",
+		success : function(response) {
+			$('#editProfileDiv').html(response);
+			$('#editProfileDiv').css("display","block");
+			$('#editProfileBtn').css("display","none");
+			$('#profile').css("display","none");
+		}
+	})
+}
+
+function postProfile(){
+	$.ajax({
+		url : "/student/homepage/editProfile/",
+		type : "POST",
+		data : {
+			'firstname' : $("#firstname").val(),
+			'lastname' : $("#lastname").val(),
+			'email' : $("#email").val(),
+			'phone' : $("#phone").val(),
+			'username' : $("#username").val(),
+			'oldpassword' : $("#oldpassword").val(),
+			'password' : $("#password").val(),
+			'confirmpassword' : $("#confirmpassword").val(),
+		},
+		success : function(response) {
+			$('#editProfileDiv').html(response);
+			$('#editProfileDiv').css("display","block");
+			$('#editProfileBtn').css("display","none");
+			$('#profile').css("display","none");
+		}
+	})
 }
 // ===============================================================

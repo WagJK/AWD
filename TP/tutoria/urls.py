@@ -8,6 +8,7 @@ from .views.student_view import homepage_view as student_home
 from .views.student_view import schedule_view as student_schedule
 from .views.student_view import search_view as student_search
 from .views.student_view import wallet_view as student_wallet
+from .views.student_view import editProfile_view as student_editProfile
 
 from .views.tutor_view import homepage_view as tutor_home
 from .views.tutor_view import wallet_view as tutor_wallet
@@ -34,7 +35,8 @@ urlpatterns = [
 	url(r'^student/', include([
 		# student homepage
 		url(r'^homepage/', include([
-			url(r'^$', student_home.homepage, name='homepage'),
+			url(r'^$', student_home.homepage, name='student_homepage'),
+			url(r'^editProfile/', student_editProfile.editProfile, name='student_editProfile'),
 			url(r'^getNumOfUnreadNotf', student_home.getNumOfUnreadNotf, name='getNumOfUnreadNotf'),
 			url(r'^getNumOfUnreadMsg', student_home.getNumOfUnreadMsg, name='getNumOfUnreadMsg')
 		])),
@@ -67,7 +69,7 @@ urlpatterns = [
 	url(r'^tutor/', include([
 		# tutor homepage
 		url(r'^homepage/', include([
-			url(r'^$', tutor_home.homepage, name="homepage"),
+			url(r'^$', tutor_home.homepage, name="tutor_homepage"),
 			url(r'^getNumOfUnreadNotf', tutor_home.getNumOfUnreadNotf, name='getNumOfUnreadNotf'),
 			url(r'^getNumOfUnreadMsg', tutor_home.getNumOfUnreadMsg, name='getNumOfUnreadMsg')
 		])),
@@ -88,7 +90,7 @@ urlpatterns = [
 	# both urls
 	url(r'^both/', include([
 		# both homepage
-		url(r'^homepage/', student_home.homepage, name='homepage'),
+		url(r'^homepage/', student_home.homepage, name='both_homepage'),
 		# both search
 		url(r'^search/', include([
 			url(r'^searchOption/', student_search.searchOption, name='searchOption'),

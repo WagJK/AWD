@@ -42,6 +42,8 @@ def login(request):
                 return tutor_homepage_view.homepage(request)
             elif user_type == 'Both':
                 return both_homepage_view.homepage(request)
+            else:
+                return HttpResponseRedirect('/admin')
         #simply request login page
         else:
             return render_to_response('tutoria/login.html',{'wrong_password':False, 'invalid_user':False})

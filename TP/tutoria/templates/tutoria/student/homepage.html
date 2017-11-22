@@ -57,16 +57,20 @@
 	</div>
 
 	<div class="container">
+		<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editProfile()">Edit Profile</button>
 		<div id="profile" onload="loadProfile()">
 			<h1> My Profile </h1>
 			<table id="userProfile" class="table table-striped">
 				<tr> <th>Name</th> <td>{{ student.user.username }}</td> </tr>
+				<tr> <th>First name</th> <td>{{ student.user.first_name }}</td> </tr>
+				<tr> <th>Last name</th> <td>{{ student.user.last_name }}</td> </tr>
 				<tr> <th>Email</th> <td>{{ student.user.email }}</td> </tr>
 				<tr> <th>Avatar</th> <td>{{ student.avatar }}</td> </tr>
 				<tr> <th>Phone</th> <td>{{ student.phone}}</td> </tr>
 			</table>
 		</div>
 
+		<div id="editProfileDiv"></div>
 		<div id="searchResult"></div>
 	</div>
 
@@ -74,3 +78,4 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </body>
 </html>
+

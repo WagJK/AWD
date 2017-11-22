@@ -23,9 +23,13 @@
         </nav>
     </div>
     {% if flag %}
-    <br>
-        <h4>{{ error_message }}</h4>
-    <br>
+    <div class="alert alert-info alert-dismissable">
+        <a class="panel-close close" data-dismiss="alert">×</a> 
+        <i class="fa fa-coffee"></i>
+        <strong>lol Some inputs seem to be invalid</strong>
+        <br>
+        {{ error_message }}
+    </div>
     {% endif %}
     <div class="container">
         <form class="form-horizontal" role="form" action="/registration/" method="POST">
