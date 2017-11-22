@@ -117,8 +117,8 @@ table {
 }
 
 .timeslot-booked-finished{
-	background-color: red;
-	color: black;
+	background-color: #F08080;
+	color: white;
 }
 
 .timeslot-available{
@@ -127,7 +127,7 @@ table {
 }
 
 .timeslot-available:hover{
-	background-color: red;
+	background-color: orange;
 	cursor: pointer;
 }
 

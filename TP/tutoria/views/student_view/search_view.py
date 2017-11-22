@@ -82,7 +82,13 @@ def shortProfile(request):
 
 def detailedProfile(request):
 	tutor_id = request.POST['tutorID']
+	student = Student.objects.get(user=request.user)
 	selectedTutor = Tutor.objects.get(id=tutor_id)
+	has_booking_between = (len(Timeslot.objects.filter(
+		tutor = selectedTutor,
+		student = student,
+		is_booked = True
+	)) > 0)
 	return render_to_response('tutoria/student/detailedProfile.html', locals())
 
 def availableTimeSlot(request):

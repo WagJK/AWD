@@ -47,7 +47,7 @@ class TimeInterval():
 		self.state = state
 		self.disable = disable
 		self.extend = extend
-		if (datetime.now() + timedelta(days = 1) < self.time):
+		if (datetime.now() + timedelta(days = 1) < self.time and self.time < datetime.now() + timedelta(weeks = 1)):
 			self.activate = True
 		else:
 			self.activate = False

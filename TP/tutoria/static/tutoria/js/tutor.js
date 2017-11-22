@@ -18,6 +18,7 @@ function viewSchedule(delta_offset, reset=false){
 
 	if (reset) schedule_offset = 0;
 	schedule_offset += delta_offset;
+	if (schedule_offset > 1) schedule_offset = 1;
 	$.ajax({
 		url : "/tutor/schedule/", // the endpoint
 		type : "POST", // http method
@@ -43,7 +44,7 @@ function activate(that, time) {
 		success : function(response) {
 			$(that).removeClass("timeslot-activate");
 			$(that).addClass("timeslot-available");
-			$(that).text("available");
+			$(that).text("blackout");
 			$(that).attr("onclick", "deactivate(this, '" + response +"')");
 			$(that).attr("onmouseover", "hoverDeactivate(this)");
 			$(that).attr("onmouseout", "unhoverDeactivate(this)");
@@ -102,29 +103,14 @@ function viewNotification(){
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
-		}
-	});
-}
-
-function updateNumOfMsg() {
-	$.ajax({
-		url : "/tutor/homepage/getNumOfMsg", // the endpoint
-		type : "POST", // http method
-		// handle a successful response
-		success : function(response) {
-			if (response != "0") {
-				$("#num-unread-msg").text(response);
-				$("#num-unread-msg").removeClass("disable");
-			} else {
-				$("#num-unread-msg").addClass("disable");
-			}
+			clearUnreadNotf();
 		}
 	});
 }
 
 function updateNumOfNotf() {
 	$.ajax({
-		url : "/tutor/homepage/getNumOfUnreadNotf", // the endpoint
+		url : "/tutor/homepage/getNumOfUnreadNotf/", // the endpoint
 		type : "POST", // http method
 		// handle a successful response
 		success : function(response) {
@@ -135,6 +121,15 @@ function updateNumOfNotf() {
 				$("#num-unread-notf").addClass("disable");
 			}
 		}
+	});
+}
+
+function clearUnreadNotf(){
+	$.ajax({
+		url : "/notification/clearUnread/", // the endpoint
+		type : "POST", // http method
+		// handle a successful response
+		success : function(response) {}
 	});
 }
 
@@ -151,6 +146,7 @@ function viewMessage(){
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
+			clearUnreadMsg();
 		}
 	});
 }
@@ -182,6 +178,31 @@ function sendMessage(target) {
 		success : function(response) {
 			$('#searchResult').html(response);
 		}
+	});
+}
+
+function updateNumOfMsg() {
+	$.ajax({
+		url : "/tutor/homepage/getNumOfMsg/", // the endpoint
+		type : "POST", // http method
+		// handle a successful response
+		success : function(response) {
+			if (response != "0") {
+				$("#num-unread-msg").text(response);
+				$("#num-unread-msg").removeClass("disable");
+			} else {
+				$("#num-unread-msg").addClass("disable");
+			}
+		}
+	});
+}
+
+function clearUnreadMsg(){
+	$.ajax({
+		url : "/message/clearUnread/", // the endpoint
+		type : "POST", // http method
+		// handle a successful response
+		success : function(response) {}
 	});
 }
 

@@ -19,6 +19,7 @@ function viewSchedule(delta_offset, reset=false){
 	
 	if (reset) schedule_offset = 0;
 	schedule_offset += delta_offset;
+	if (schedule_offset > 1) schedule_offset = 1;
 	$.ajax({
 		url : "/student/schedule/", // the endpoint
 		type : "POST", // http method
@@ -32,9 +33,12 @@ function viewSchedule(delta_offset, reset=false){
 		}
 	});
 }
+
 function getAvailableSlots(tutorID, delta_offset, reset=false){
 	if (reset) available_offset = 0;
 	available_offset += delta_offset;
+	if (available_offset > 1) available_offset = 1;
+	if (available_offset < 0) available_offset = 0;
 	$.ajax({
 		url : "/student/search/availableSlot/", // the endpoint
 		type : "POST", // http method
@@ -62,30 +66,14 @@ function viewNotification(){
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
+			clearUnreadNotf();
 		}
 	});
-}
-
-function updateNumOfMsg() {
-	$.ajax({
-		url : "/student/homepage/getNumOfMsg", // the endpoint
-		type : "POST", // http method
-		// handle a successful response
-		success : function(response) {
-			if (response != "0") {
-				$("#num-unread-msg").text(response);
-				$("#num-unread-msg").removeClass("disable");
-			} else {
-				$("#num-unread-msg").addClass("disable");
-			}
-		}
-	});
-	
 }
 
 function updateNumOfNotf() {
 	$.ajax({
-		url : "/student/homepage/getNumOfUnreadNotf", // the endpoint
+		url : "/student/homepage/getNumOfUnreadNotf/", // the endpoint
 		type : "POST", // http method
 		// handle a successful response
 		success : function(response) {
@@ -96,6 +84,15 @@ function updateNumOfNotf() {
 				$("#num-unread-notf").addClass("disable");
 			}
 		}
+	});
+}
+
+function clearUnreadNotf(){
+	$.ajax({
+		url : "/notification/clearUnread/", // the endpoint
+		type : "POST", // http method
+		// handle a successful response
+		success : function(response) {}
 	});
 }
 
@@ -112,6 +109,7 @@ function viewMessage(){
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
+			clearUnreadMsg();
 		}
 	});
 }
@@ -143,6 +141,31 @@ function sendMessage(target) {
 		success : function(response) {
 			$('#searchResult').html(response);
 		}
+	});
+}
+
+function updateNumOfMsg() {
+	$.ajax({
+		url : "/student/homepage/getNumOfMsg/", // the endpoint
+		type : "POST", // http method
+		// handle a successful response
+		success : function(response) {
+			if (response != "0") {
+				$("#num-unread-msg").text(response);
+				$("#num-unread-msg").removeClass("disable");
+			} else {
+				$("#num-unread-msg").addClass("disable");
+			}
+		}
+	});
+}
+
+function clearUnreadMsg(){
+	$.ajax({
+		url : "/message/clearUnread/", // the endpoint
+		type : "POST", // http method
+		// handle a successful response
+		success : function(response) {}
 	});
 }
 

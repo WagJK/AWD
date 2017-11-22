@@ -84,6 +84,7 @@ def generate_tutor(num_tutor, tutor_type):
 				tutor_type = tutor_type,
 				balance = balance,
 				profile = new_tutor_profile,
+				phone = phone
 			)
 			new_tutor.course.add(courses[rand(len(courses))])
 			# timeslot
@@ -186,6 +187,7 @@ def generate_both(num_tutor, tutor_type):
 				tutor_type = tutor_type,
 				balance = balance,
 				profile = new_tutor_profile,
+				phone = phone
 			)
 			new_tutor.course.add(courses[rand(len(courses))])
 			# timeslot

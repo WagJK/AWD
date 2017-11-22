@@ -8,7 +8,14 @@
         <tr> <th>Average Review</th> <td>{{ selectedTutor.profile.average_review }}</td> </tr>
         <tr> <th>Introduction </th> <td> {{ selectedTutor.profile.introduction }} </td> </tr>
         <tr> <th>Availability</th> <td> {{ selectedTutor.profile.availability }} </td> </tr>
-        <tr> <th>Contact</th> <td>{{ selectedTutor.phone }}</td> </tr>
+        <tr>
+            <th>Contact</th>
+            {% if has_booking_between %}
+                <td> {{ selectedTutor.phone }} </td>
+            {% else %}
+                <td> Hidden (You have to book from this tutor to view) </td>
+            {% endif %}
+        </tr>
     </tr>
     </tbody>
 </table>

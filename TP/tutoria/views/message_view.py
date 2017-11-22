@@ -6,8 +6,12 @@ from tutoria.operations import *
 def message(request):
     inbox_messages = get_inbox_message(request.user)
     sent_messages = get_sent_message(request.user)
-    inbox_messages.update(unread=False)
     return render_to_response('tutoria/message.html', locals())
+
+def clearUnread(request):
+	inbox_messages = get_inbox_message(request.user)
+	inbox_messages.update(unread=False)
+	return HttpResponse("success")
 
 def write(request):
 	target = User.objects.get(username=request.POST['target'])

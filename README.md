@@ -14,10 +14,6 @@ qp:
 7. model - Coupon Code
 8. Concurrency Issue
 
-jk：
-1. tutor student互相不能看到phone 除非他们之间有book关系
-1. restrict all calendar to only 2 weeks && student can only view timeslot of a tutor in 7 days
-
 xy：
 1. 个人资料编辑： Tutor：	编辑tag, hourly rate, active/deactive 自己的profile
 2. 用户头像问题

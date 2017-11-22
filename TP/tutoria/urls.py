@@ -24,12 +24,15 @@ urlpatterns = [
 	url(r'^$', log_view.login, name='login'),
 	url(r'^registration/', log_view.registrate, name='registration'),
 	url(r'^logout/', log_view.logout, name='logout'),
-	url(r'^notification/', notification_view.notification, name='notification'),
-	
+	url(r'^notification/', include([
+		url(r'^$', notification_view.notification, name='notification'),
+		url(r'^clearUnread/', notification_view.clearUnread, name='clearUnread'),
+	])),
 	url(r'^message/', include([
 		url(r'^$', message_view.message, name='message'),
 		url(r'^write/', message_view.write, name='write'),
 		url(r'^send/', message_view.send, name='send'),
+		url(r'^clearUnread/', message_view.clearUnread, name='clearUnread'),
 	])),
 
 	# student urls
@@ -38,8 +41,8 @@ urlpatterns = [
 		url(r'^homepage/', include([
 			url(r'^$', student_home.homepage, name='student_homepage'),
 			url(r'^editProfile/', student_editProfile.editProfile, name='student_editProfile'),
-			url(r'^getNumOfUnreadNotf', student_home.getNumOfUnreadNotf, name='getNumOfUnreadNotf'),
-			url(r'^getNumOfUnreadMsg', student_home.getNumOfUnreadMsg, name='getNumOfUnreadMsg')
+			url(r'^getNumOfUnreadNotf/', student_home.getNumOfUnreadNotf, name='getNumOfUnreadNotf'),
+			url(r'^getNumOfUnreadMsg/', student_home.getNumOfUnreadMsg, name='getNumOfUnreadMsg')
 		])),
 		# student search
 		url(r'^search/', include([
@@ -74,8 +77,8 @@ urlpatterns = [
 		url(r'^homepage/', include([
 			url(r'^$', tutor_home.homepage, name="tutor_homepage"),
 			url(r'^editProfile/', tutor_editProfile.editProfile, name='tutor_editProfile'),
-			url(r'^getNumOfUnreadNotf', tutor_home.getNumOfUnreadNotf, name='getNumOfUnreadNotf'),
-			url(r'^getNumOfUnreadMsg', tutor_home.getNumOfUnreadMsg, name='getNumOfUnreadMsg')
+			url(r'^getNumOfUnreadNotf/', tutor_home.getNumOfUnreadNotf, name='getNumOfUnreadNotf'),
+			url(r'^getNumOfUnreadMsg/', tutor_home.getNumOfUnreadMsg, name='getNumOfUnreadMsg')
 		])),
 		# tutor schedule
 		url(r'^schedule/', include([
