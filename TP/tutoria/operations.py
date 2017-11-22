@@ -199,7 +199,7 @@ def createTransactionRecord(slot, money, type):
 		studentMoney = money * 1.05
 		tutorMoney = money
 		myTutorMoney = money * 0.05
-	transferContent = "Amount: " + str(money) + " HKD\n" \
+	transferContent = "Amount: " + str(money) + " HKD" \
 					  + "Status: " + status + "\n" \
 					  + "Related Timeslot: " + str(slot) + "\n" \
 					  + "Other Parties Involved: "
@@ -223,26 +223,62 @@ def createTransactionRecord(slot, money, type):
 # ==========================================================================
 # ========================== Operations ====================================
 def book(booking_student, timeslot):
+
+	manage()
+	# one cannot book the timeslot if it is not bookable
+	if not timeslot.bookable:
+		return "not bookable"
+
+	# one cannot book his own timeslot
+	if timeslot.tutor.user.username == booking_student.user.username:
+		return "own timeslot"
+
+	# one cannot book two timeslots from one tutor in a day
+	start_date = timeslot.startTime.date()
+	same_tutor_same_day_timeslots = Timeslot.objects.filter(
+		tutor = timeslot.tutor,
+		student = booking_student,
+		is_booked = True,
+		startTime__range = (start_date, start_date + timedelta(days = 1)),
+	)
+	if (len(same_tutor_same_day_timeslots) > 0):
+		return "two timeslots"
+
+	# one cannot book the timeslot if the timeslot is occupied in another booking by the student
+	same_start_time_timeslots = Timeslot.objects.filter(
+		student = booking_student,
+		is_booked = True,
+		startTime = timeslot.startTime,
+	)
+	same_end_time_timeslots = Timeslot.objects.filter(
+		student = booking_student,
+		is_booked = True,
+		endTime = timeslot.endTime,
+	)
+	if (len(same_start_time_timeslots) > 0 or len(same_end_time_timeslots) > 0):
+		return "timeslot occupied"
+
+	# one cannot book if he doesn't have enough money
 	fee = timeslot.fee * 1.05
 	if booking_student.balance < fee:
-		return False
-	manage()
-	if not timeslot.bookable:
-		return False
+		return "insufficient balance"
+
 	# modify student wallet
 	booking_student.balance -= fee
 	booking_student.save()
+
 	# modify timeslot status
 	timeslot.is_booked = True
 	timeslot.bookable = False
 	timeslot.cancellable = True
 	timeslot.student = booking_student
 	timeslot.save()
+
 	# sending notification
 	createBookNotification(timeslot)
 	createTransactionNotification(timeslot, fee, "book")
 	createTransactionRecord(timeslot, fee, "book")
-	return True
+	return "success"
 
 def cancel(cancelling_student, timeslot):
 	refund = timeslot.fee * 1.05

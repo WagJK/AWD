@@ -15,6 +15,7 @@ function loadProfile(){
 function viewSchedule(delta_offset, reset=false){
 	$(".active").removeClass("active");
 	$("#nav-schedule").parent().addClass("active");
+
 	if (reset) schedule_offset = 0;
 	schedule_offset += delta_offset;
 	$.ajax({
@@ -93,6 +94,7 @@ function unhoverDeactivate(that){
 function viewNotification(){
 	$(".active").removeClass("active");
 	$("#nav-notf").parent().addClass("active");
+	$("#num-unread-notf").addClass("disable");
 	$.ajax({
 		url : "/notification/", // the endpoint
 		type : "GET", // http method
@@ -134,7 +136,6 @@ function updateNumOfNotf() {
 			}
 		}
 	});
-	$("#num-unread-notf").removeClass("disable");
 }
 
 // ==================================================

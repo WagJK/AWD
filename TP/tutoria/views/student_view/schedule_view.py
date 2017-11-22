@@ -70,6 +70,9 @@ def submitReview(request):
 	comment_content = request.POST.get('comment','')
 
 	slot_reviewed = Timeslot.objects.get(id=slot_id)
+	slot_reviewed.is_reviewed = True
+	slot_reviewed.save()
+
 	tutor_reviewed = slot_reviewed.tutor
 	student_reviewing = Student.objects.get(user=request.user)
 
@@ -86,6 +89,6 @@ def submitReview(request):
 		anonymous=anonymousOrNot
 	)
 	newReview.save()
-	return HttpResponse("Review Successfully submitted!")
+	return HttpResponse('<div class="alert alert-success" role="alert">  Review Successfully submitted! </div>')
 
 	# Still need to consider review nothing

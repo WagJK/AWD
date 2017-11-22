@@ -326,6 +326,8 @@ function cancelSlot(slotID){
 	}
 }
 
+// ==================================================
+// ================== Review ========================
 function reviewSlot(slotID){
 	$.ajax({
 		url : "/student/schedule/reviewSlot/", // the endpoint

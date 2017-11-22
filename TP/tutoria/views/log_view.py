@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 import re
 #import from self defined packages
 from .student_view import homepage_view as student_homepage_view

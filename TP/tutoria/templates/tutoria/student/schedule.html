@@ -28,7 +28,7 @@
                         {% endif %}
                     {% endif %}"
                     {% if timeslot.state %}
-                        onclick="viewBookingInfo('{{ timeslot.timeslot.id }}')"
+                        onclick="viewBookingInfo({{ timeslot.timeslot.id }})"
                     {% endif %}
                     >
                     {% if timeslot.state %} {{ timeslot.timeslot.tutor }} {% endif %}

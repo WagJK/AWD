@@ -134,10 +134,19 @@ def bookTimeSlot(request):
 	slot_id = request.POST['slotID']
 	selected_slot = Timeslot.objects.get(id=slot_id)
 	student = Student.objects.get(user=request.user)
-	if book(student, selected_slot):
-		return HttpResponse("Timeslot Successfully Booked!")
+	result = book(student, selected_slot)
+	if result == "success":
+		return HttpResponse('<div class="alert alert-success" role="alert"> Booking Successful: Timeslot Successfully Booked! </div>')
+	elif result == "not bookable":
+		return HttpResponse('<div class="alert alert-danger" role="alert"> Booking Rejected: Timeslot is not available for booking now! </div>')
+	elif result == "own timeslot":
+		return HttpResponse('<div class="alert alert-danger" role="alert"> Booking Rejected: You cannot book your own timeslot! </div>')
+	elif result == "two timeslots":
+		return HttpResponse('<div class="alert alert-danger" role="alert"> Booking Rejected: You cannot book two timeslots from the same tutor in a day! </div>')
+	elif result == "timeslot occupied":
+		return HttpResponse('<div class="alert alert-danger" role="alert"> Booking Rejected: You cannot book this timeslot due to time clash with another timeslot you booked! </div>')
 	else:
-		return HttpResponse("Booking Rejected Due to Insufficient Balance!")
+		return HttpResponse('<div class="alert alert-danger" role="alert"> Booking Rejected: Insufficient Balance! </div>')
 
 def sort(request):
 	all_tutors = Tutor.objects.none()

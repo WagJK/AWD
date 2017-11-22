@@ -107,6 +107,10 @@ table {
 	color: white;
 }
 
+.timeslot-finished{
+	background-color: #CCCCCC;
+}
+
 .timeslot-booked:hover{
 	background-color: #6CCF70;
 	cursor: pointer;
