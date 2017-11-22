@@ -1,9 +1,7 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from django.utils import timezone
-from tutoria.operations import *
-from tutoria.views.calendar import *
-from tutoria.models import Timeslot, Student
+from ...operations import *
+from ...views.calendar import *
 
 DEBUG = False
 
@@ -59,3 +57,35 @@ def cancelTimeSlot(request):
 	cancellingStudent = Student.objects.get(user=request.user)
 	cancel(cancellingStudent, cancelledSlot)
 	return HttpResponse("Timeslot Successfully Cancelled!")
+
+def reviewTimeSlot(request):
+	slot_id = request.POST['slotID']
+	reviewedSlot = Timeslot.objects.get(id=slot_id)
+	reviewingStudent = Student.objects.get(user=request.user)
+	return render_to_response('tutoria/student/reviewpage.html', locals())
+
+def submitReview(request):
+	slot_id = request.POST['slotID']
+	star_num = int(request.POST['star'])
+	comment_content = request.POST.get('comment','')
+
+	slot_reviewed = Timeslot.objects.get(id=slot_id)
+	tutor_reviewed = slot_reviewed.tutor
+	student_reviewing = Student.objects.get(user=request.user)
+
+	anonymous = request.POST.getlist('anonymous[]', [])
+	anonymousOrNot =False
+	if anonymous:
+		anonymousOrNot = True
+
+	newReview = Review(
+		star=star_num,
+		comment=comment_content,
+		tutor=tutor_reviewed,
+		student=student_reviewing,
+		anonymous=anonymousOrNot
+	)
+	newReview.save()
+	return HttpResponse("Review Successfully submitted!")
+
+	# Still need to consider review nothing

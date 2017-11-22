@@ -333,6 +333,51 @@ function cancelSlot(slotID){
 		});
 	}
 }
+
+function reviewSlot(slotID){
+	$.ajax({
+		url : "/student/schedule/reviewSlot/", // the endpoint
+		type : "POST", // http method
+		data : {
+			'slotID' : slotID
+		},
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+		}
+	});
+}
+
+function submitReview(slotID){
+	var rates = document.getElementsByName('rating');
+	var rate_value=0;
+
+	for(var i = 0; i < rates.length; i++){
+		if(rates[i].checked){
+			rate_value = rates[i].value;
+			break;
+		}
+	}
+
+	// $("input[name='rating']:checked").val()
+
+	$.ajax({
+		url : "/student/schedule/submitReview/", // the endpoint
+		type : "POST", // http method
+		data : {
+			'slotID' : slotID,
+			'star': rate_value,
+			'comment': $('#comment').val(),
+			'anonymous': $('.anonymous_selection:checked').map(function() {
+				return this.value;
+			}).get()
+		},
+		// handle a successful response
+		success : function(response) {
+			$('#searchResult').html(response);
+		}
+	});
+}
 // ===============================================================
 // ======================== Edit profile =========================
 function editProfile(){

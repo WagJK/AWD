@@ -6,7 +6,7 @@ class Client(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)  # many-to-one
 	login_type = models.CharField(max_length=20, default="Student")
 	balance = models.FloatField(default="0.00")
-	avatar = models.TextField(default="This is an avatar")
+	avatar = models.TextField(default="This is an avatar") # change to image
 	phone = models.CharField(max_length=10, default="None")
 
 	class Meta:

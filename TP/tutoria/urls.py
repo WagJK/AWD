@@ -55,6 +55,8 @@ urlpatterns = [
 			url(r'^$', student_schedule.schedule, name='schedule'),
 			url(r'^bookingInfo/', student_schedule.bookingInfo, name='bookingInfo'),
 			url(r'^cancelSlot/', student_schedule.cancelTimeSlot, name='cancelSlot'),
+			url(r'^reviewSlot/', student_schedule.reviewTimeSlot, name='reviewSlot'),
+			url(r'^submitReview/', student_schedule.submitReview, name='submitReview'),
 		])),
 		# student wallet
 		url(r'^wallet/', include([
