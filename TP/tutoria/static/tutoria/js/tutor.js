@@ -15,10 +15,8 @@ function loadProfile(){
 function viewSchedule(delta_offset, reset=false){
 	$(".active").removeClass("active");
 	$("#nav-schedule").parent().addClass("active");
-
 	if (reset) schedule_offset = 0;
 	schedule_offset += delta_offset;
-	if (schedule_offset > 1) schedule_offset = 1;
 	$.ajax({
 		url : "/tutor/schedule/", // the endpoint
 		type : "POST", // http method
@@ -44,7 +42,7 @@ function activate(that, time) {
 		success : function(response) {
 			$(that).removeClass("timeslot-activate");
 			$(that).addClass("timeslot-available");
-			$(that).text("blackout");
+			$(that).text("available");
 			$(that).attr("onclick", "deactivate(this, '" + response +"')");
 			$(that).attr("onmouseover", "hoverDeactivate(this)");
 			$(that).attr("onmouseout", "unhoverDeactivate(this)");
@@ -95,7 +93,6 @@ function unhoverDeactivate(that){
 function viewNotification(){
 	$(".active").removeClass("active");
 	$("#nav-notf").parent().addClass("active");
-	$("#num-unread-notf").addClass("disable");
 	$.ajax({
 		url : "/notification/", // the endpoint
 		type : "GET", // http method
@@ -103,14 +100,29 @@ function viewNotification(){
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
-			clearUnreadNotf();
+		}
+	});
+}
+
+function updateNumOfMsg() {
+	$.ajax({
+		url : "/tutor/homepage/getNumOfMsg", // the endpoint
+		type : "POST", // http method
+		// handle a successful response
+		success : function(response) {
+			if (response != "0") {
+				$("#num-unread-msg").text(response);
+				$("#num-unread-msg").removeClass("disable");
+			} else {
+				$("#num-unread-msg").addClass("disable");
+			}
 		}
 	});
 }
 
 function updateNumOfNotf() {
 	$.ajax({
-		url : "/tutor/homepage/getNumOfUnreadNotf/", // the endpoint
+		url : "/tutor/homepage/getNumOfUnreadNotf", // the endpoint
 		type : "POST", // http method
 		// handle a successful response
 		success : function(response) {
@@ -122,15 +134,7 @@ function updateNumOfNotf() {
 			}
 		}
 	});
-}
-
-function clearUnreadNotf(){
-	$.ajax({
-		url : "/notification/clearUnread/", // the endpoint
-		type : "POST", // http method
-		// handle a successful response
-		success : function(response) {}
-	});
+	$("#num-unread-notf").removeClass("disable");
 }
 
 // ==================================================
@@ -146,7 +150,6 @@ function viewMessage(){
 		success : function(response) {
 			$('#searchResult').html(response);
 			$('#profile').css("display", "none");
-			clearUnreadMsg();
 		}
 	});
 }
@@ -178,31 +181,6 @@ function sendMessage(target) {
 		success : function(response) {
 			$('#searchResult').html(response);
 		}
-	});
-}
-
-function updateNumOfMsg() {
-	$.ajax({
-		url : "/tutor/homepage/getNumOfMsg/", // the endpoint
-		type : "POST", // http method
-		// handle a successful response
-		success : function(response) {
-			if (response != "0") {
-				$("#num-unread-msg").text(response);
-				$("#num-unread-msg").removeClass("disable");
-			} else {
-				$("#num-unread-msg").addClass("disable");
-			}
-		}
-	});
-}
-
-function clearUnreadMsg(){
-	$.ajax({
-		url : "/message/clearUnread/", // the endpoint
-		type : "POST", // http method
-		// handle a successful response
-		success : function(response) {}
 	});
 }
 
@@ -252,3 +230,73 @@ function viewBookingInfo(slotID){
 		}
 	});
 }
+// ==============================================================
+// ======================== Edit profile =========================
+function editProfile(){
+	$.ajax({
+		url : "/tutor/homepage/editProfile/",
+		type : "GET",
+		success : function(response) {
+			$('#searchResult').html(response);
+			$('#searchResult').css("display","block");
+			$('#profile').css("display","none");
+		}
+	});
+}
+
+function postProfile(){
+	$.ajax({
+		url : "/tutor/homepage/editProfile/",
+		type : "POST",
+		data : {
+			'firstname' : $("#firstname").val(),
+			'lastname' : $("#lastname").val(),
+			'email' : $("#email").val(),
+			'phone' : $("#phone").val(),
+			'tutortype' : $("#tutortype").val(),
+			'hourlyrate' : $("#hourlyrate").val(),
+			'university' : $("#university").val(),
+			'course_list': $('.course:checked').map(function() {
+				return this.value;
+			}).get(),
+			'tag_list': $('.tag:checked').map(function() {
+				return this.value;
+			}).get(),
+			'username' : $("#username").val(),
+			'oldpassword' : $("#oldpassword").val(),
+			'password' : $("#password").val(),
+			'confirmpassword' : $("#confirmpassword").val(),
+			'biography' : $("#biography").val()
+		},
+		success : function(response) {
+			$('#searchResult').html(response);
+			$('#searchResult').css("display","block");
+			$('#profile').css("display","none");
+		}
+	});
+}
+
+function flushCourse(){
+	var university = $("#university").val()
+	$.ajax({
+		url : "/tutor/homepage/editProfile/flushCourse/",
+		type : "POST",
+		data : {
+			'university' : university
+		},
+		success : function(response) {
+			$('#CourseDiv').html(response);
+		}
+	});
+}
+
+function flushHourlyrate(){
+	var tutor_type = $("#tutortype").val()
+	if (tutor_type == "Private"){
+		$("#HourlyrateDiv").css("display","block")
+	} else {
+		$("#HourlyrateDiv").css("display","none")
+		$("#hourlyrate").val(0)
+	}
+}
+// ===============================================================

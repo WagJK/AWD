@@ -76,7 +76,10 @@ urlpatterns = [
 		# tutor homepage
 		url(r'^homepage/', include([
 			url(r'^$', tutor_home.homepage, name="tutor_homepage"),
-			url(r'^editProfile/', tutor_editProfile.editProfile, name='tutor_editProfile'),
+			url(r'^editProfile/', include([
+				url(r'^$',tutor_editProfile.editProfile, name='tutor_editProfile'),
+				url(r'^flushCourse/', tutor_editProfile.flushCourse, name='tutor_flushCourse')
+			])),
 			url(r'^getNumOfUnreadNotf/', tutor_home.getNumOfUnreadNotf, name='getNumOfUnreadNotf'),
 			url(r'^getNumOfUnreadMsg/', tutor_home.getNumOfUnreadMsg, name='getNumOfUnreadMsg')
 		])),

@@ -1,0 +1,20 @@
+<div id="CourseDiv" class="form-group">
+<label class="col-lg-3 control-label">Courses:</label>
+<div class="col-lg-8">
+    {% for course in university_course_list %}
+    <div class="checkbox">
+        <label class="custom-control custom-checkbox">
+            {% if course in tutor_course_list %}
+            <input type="checkbox" name="checkbox" class="custom-control-input course" checked="checked" value="{{course}}">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description"> {{course}} </span>
+            {% else %}
+            <input type="checkbox" name="checkbox" class="custom-control-input course" value="{{course}}">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description"> {{course}} </span>
+            {% endif %}
+        </label>
+    </div>
+    {% endfor %}
+</div>
+</div>

@@ -27,7 +27,7 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a id="nav-home" class="nav-link" href="javascript:home()" onclick="window.location.reload()"> Home </a>
+						<a id="nav-home" class="nav-link" href="/tutor/homepage" onclick="window.location.reload()"> Home </a>
 					</li>
 					<li class="nav-item">
 						<a id="nav-schedule" class="nav-link" href="javascript:viewSchedule(0, true)"> Schedule </a>
@@ -56,12 +56,32 @@
 
 	<div class="container">
 		<div id="profile" onload="loadProfile()">
+			<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editProfile()">Edit Profile</button>
 			<h1> My Profile </h1>
 			<table id="userProfile" class="table table-striped">
 				<tr> <th>Name</th> <td>{{ tutor.user.username }}</td> </tr>
+				<tr> <th>First name</th> <td>{{ tutor.user.first_name }}</td> </tr>
+				<tr> <th>Last name</th> <td>{{ tutor.user.last_name }}</td> </tr>
 				<tr> <th>Email</th> <td>{{ tutor.user.email }}</td> </tr>
 				<tr> <th>Avatar</th> <td>{{ tutor.avatar }}</td> </tr>
-				<tr> <th>Phone</th> <td>{{ tutor.phone}}</td> </tr>
+				<tr> <th>Phone</th> <td>{{ tutor.phone }}</td> </tr>
+				<tr> <th>University</th> <td>{{ tutor.profile.university }}</td> </tr>
+				<tr> <th>Tutor type</th> <td>{{ tutor.tutor_type }}</td> </tr>
+				<tr> <th>Average review</th> <td>{{ tutor.profile.average_review }}</td> </tr>
+				{% ifnotequal tutor.tutor_type 'Contract' %}
+				<tr> <th>Hourly rate</th> <td>{{ tutor.profile.hourly_rate }}</td> </tr>
+				{% endifnotequal %}
+				<tr> <th>Course</th> <td>
+					{% for course in courses %}
+					{{ course }} &nbsp
+					{% endfor %}
+				</td> </tr>
+				<tr> <th>Tag</th> <td>
+					{% for tag in tags %}
+					{{ tag }} &nbsp
+					{% endfor %}
+				</td> </tr>
+				<tr> <th>Biography</th> <td>{{ tutor.profile.introduction }}</td> </tr>
 			</table>
 		</div>
 

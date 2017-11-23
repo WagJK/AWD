@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from tutoria.models import Tutor, Message, Notification
+from tutoria.models import Tutor, Message, Notification, Course, Tag
 
 def homepage(request):
 	tutor = Tutor.objects.get(user=request.user)
@@ -12,6 +12,8 @@ def homepage(request):
 		receiver = request.user,
 		unread = True,
 	))
+	courses = Course.objects.filter(tutor=tutor)
+	tags = Tag.objects.filter(tutor=tutor)
 	return render_to_response('tutoria/tutor/homepage.html',locals())
 
 def getNumOfUnreadNotf(request):
