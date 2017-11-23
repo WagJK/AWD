@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 class Client(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)  # many-to-one
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	login_type = models.CharField(max_length=20, default="Student")
 	balance = models.FloatField(default="0.00")
-	avatar = models.FileField() # need to have default
+	avatar = models.FileField(upload_to='media/avatars/%Y/%m/%d/', null=True)
 	phone = models.CharField(max_length=10, default="None")
 
 	class Meta:

@@ -61,12 +61,19 @@
 		<div id="profile" onload="loadProfile()">
 			<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editProfile()">Edit Profile</button>
 			<h1> My Profile </h1>
+			<img src=
+					{% if student.avatar %}
+						"{{ student.avatar.url }}"
+					{% else %}
+						"{% static 'tutoria/img/default.png' %}"
+					{% endif %}
+			width="120" height="120">
+
 			<table id="userProfile" class="table table-striped">
 				<tr> <th>Name</th> <td>{{ student.user.username }}</td> </tr>
 				<tr> <th>First name</th> <td>{{ student.user.first_name }}</td> </tr>
 				<tr> <th>Last name</th> <td>{{ student.user.last_name }}</td> </tr>
 				<tr> <th>Email</th> <td>{{ student.user.email }}</td> </tr>
-				<tr> <th>Avatar</th> <td>{{ student.avatar }}</td> </tr>
 				<tr> <th>Phone</th> <td>{{ student.phone}}</td> </tr>
 			</table>
 		</div>

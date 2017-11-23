@@ -51,7 +51,7 @@ def generate_tutor(num_tutor, tutor_type):
 		surname = list_surname[rand(len(list_surname))]
 		email = given_name.lower() + surname.lower() + "123@example.com"
 		login_type = "Tutor"
-		avatar = "This field will be replaced by the avatar of the user!"
+		# avatar = "This field will be replaced by the avatar of the user!"
 		phone = str(rand(49494949) + 31231231)
 		balance = rand(100) * 100
 		if (tutor_type == "Contract"):
@@ -113,7 +113,7 @@ def generate_student(num_student):
 		surname = list_surname[rand(len(list_surname))]
 		email = given_name.lower() + surname.lower() + "123@example.com"
 		login_type = "Student"
-		avatar = "This field will be replaced by image"
+		# avatar = "This field will be replaced by image"
 		phone = str(rand(49494949) + 31231231)
 		balance = 1000.0
 		try:
@@ -132,7 +132,7 @@ def generate_student(num_student):
 				user = new_user,
 				login_type = login_type,
 				balance = balance,
-				avatar = avatar,
+				# avatar = avatar,
 				phone = phone
 			)
 			cnt = cnt + 1
@@ -146,7 +146,7 @@ def generate_both(num_tutor, tutor_type):
 		given_name = list_given_name[rand(len(list_given_name))]
 		surname = list_surname[rand(len(list_surname))]
 		email = given_name.lower() + surname.lower() + "123@example.com"
-		avatar = "This field will be replaced by the avatar of the user!"
+		# avatar = "This field will be replaced by the avatar of the user!"
 		phone = str(rand(49494949) + 31231231)
 		balance = rand(100) * 100
 		if (tutor_type == "Contract"):
@@ -169,7 +169,7 @@ def generate_both(num_tutor, tutor_type):
 				user = new_user,
 				login_type = "Student",
 				balance = balance,
-				avatar = avatar,
+				# avatar = avatar,
 				phone = phone
 			)
 			# tutor profile

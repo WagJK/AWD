@@ -1,4 +1,13 @@
+{% load static %}
 <h2> Tutor Detailed Profile </h2> <br>
+<img src=
+    {% if selectedTutor.avatar %}
+        "{{ selectedTutor.avatar.url }}"
+    {% else %}
+        "{% static 'tutoria/img/default.png' %}"
+    {% endif %}
+width="120" height="120">
+
 <table class="table table-striped" id="detailed_profile">
     <tbody>
     <tr>

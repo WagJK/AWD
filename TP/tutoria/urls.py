@@ -67,8 +67,6 @@ urlpatterns = [
 			url(r'^$', student_wallet.wallet, name='wallet'),
 			url(r'^addValue/', student_wallet.addValue, name='addValue'),
 		])),
-		# student messages
-
 	])),
 
 	# tutor urls
