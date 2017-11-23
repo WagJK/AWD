@@ -204,7 +204,8 @@ def createTransactionRecord(slot, money, type):
 		studentMoney = money * 1.05
 		tutorMoney = money
 		myTutorMoney = money * 0.05
-	transferContent = "Amount: " + str(money) + " HKD" \
+
+	transferContent = "Amount: " + str(money) + " HKD\n" \
 					  + "Status: " + status + "\n" \
 					  + "Related Timeslot: " + str(slot) + "\n" \
 					  + "Other Parties Involved: "

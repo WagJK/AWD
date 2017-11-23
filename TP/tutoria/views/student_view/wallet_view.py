@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 def wallet(request):
     student = Student.objects.get(user=request.user)
     transaction_history = get_all_transaction_record(student)
+
     return render_to_response('tutoria/student/wallet.html', locals())
 
 

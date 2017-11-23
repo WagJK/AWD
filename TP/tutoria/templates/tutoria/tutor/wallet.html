@@ -25,7 +25,7 @@
 			{% for history in transaction_history %}
 			<tr>
 				<td> {{ history.createTime }} </td>
-				<td> {{ history.content }} </td>
+				<td style="text-align: left"> {{ history.content|linebreaks }} </td>
 			</tr>
 			{% endfor %}
 		</tbody>

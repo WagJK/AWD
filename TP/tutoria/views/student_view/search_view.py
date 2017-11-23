@@ -85,7 +85,7 @@ def detailedProfile(request):
 	tutor_id = request.POST['tutorID']
 	student = Student.objects.get(user=request.user)
 	selectedTutor = Tutor.objects.get(id=tutor_id)
-	all_reviews = Review.objects.filter(tutor=selectedTutor).order_by('-createTime')
+	all_reviews = Review.objects.filter(tutor=selectedTutor).order_by('-createTime', '-id')
 
 	has_booking_between = (len(Timeslot.objects.filter(
 		tutor = selectedTutor,

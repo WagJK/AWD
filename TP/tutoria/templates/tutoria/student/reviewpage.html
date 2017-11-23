@@ -5,13 +5,13 @@
         <tbody>
             <tr>
                 <th> Tutor </th>
-                <td> {{ reviewedSlot.tutor }} </td>
+                <td style="text-align: left"> {{ reviewedSlot.tutor }} </td>
             </tr>
             <tr>
                 <th> Rating </th>
                 <td>
                     <div id="star_rating" style="margin-left: 30px">
-                        <fieldset class="rating">
+                        <fieldset class="rating" style="margin-right: 30px">
                             <input type="radio" id="star5" name="rating" value="5" />
                             <label class = "full" for="star5" title="Awesome - 5 stars"></label>
                             <input type="radio" id="star4" name="rating" value="4" />
@@ -24,13 +24,13 @@
                             <label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         </fieldset>
                     </div>
-                    <button class="btn btn-success col-8" onclick="zeroStar()"> Reset </button>
+                    <button class="btn btn-success col-2" onclick="zeroStar()" style="float: left"> Reset </button>
                 </td>
             </tr>
             <tr>
                 <th> Comment </th>
                 <td>
-                    <div id="text_comment"> <textarea id="comment" rows="10" cols="60"></textarea><br> </div>
+                    <div id="text_comment"> <textarea id="comment" rows="10" cols="60" style="float: left"></textarea><br> </div>
                 </td>
             </tr>
         </tbody>
