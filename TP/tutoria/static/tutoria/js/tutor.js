@@ -124,6 +124,7 @@ function postTutorProfile(){
 			'course_list': $('.course:checked').map(function() {
 				return this.value;
 			}).get(),
+			'newcourses' : $("#newcourses").val(),
 			'tag_list': $('.tag:checked').map(function() {
 				return this.value;
 			}).get(),

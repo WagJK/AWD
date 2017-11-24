@@ -29,7 +29,20 @@
 <div class="alert alert-info alert-dismissable">
     <a class="panel-close close" data-dismiss="alert">×</a> 
     <i class="fa fa-coffee"></i>
-    <strong>Congratulations!! Changes have been saved!!</strong>
+    <strong>Congratulations!! Changes have been saved!! {{success}}</strong>
+</div>
+{% endif %}
+{% if failedCourses %}
+<div class="alert alert-info alert-dismissable">
+    <a class="panel-close close" data-dismiss="alert">×</a> 
+    <i class="fa fa-coffee"></i>
+    <strong>Courses below are not in the university course list. Contact admin to add these courses.</strong>
+    <br>
+    <strong>
+        {% for course in failedCourses %}
+        {{ course }} &nbsp
+        {% endfor %}
+    </strong>
 </div>
 {% endif %}
 <div class="col-md-9 personal-info">
@@ -124,39 +137,34 @@
         <div id="CourseDiv" class="form-group">
         <label class="col-lg-3 control-label">Courses:</label>
         <div class="col-lg-8">
-            {% for course in university_course_list %}
+            {% for course in tutor_course_list %}
             <div class="checkbox">
                 <label class="custom-control custom-checkbox">
-                    {% if course in tutor_course_list %}
                     <input type="checkbox" name="checkbox" class="custom-control-input course" checked="checked" value="{{course}}">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description"> {{course}} </span>
-                    {% else %}
-                    <input type="checkbox" name="checkbox" class="custom-control-input course" value="{{course}}">
-                    <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description"> {{course}} </span>
-                    {% endif %}
                 </label>
             </div>
             {% endfor %}
+        </div>
+        </div>
+        <!--create own course for check-->
+        <div class="form-group">
+        <label class="col-lg-8 control-label">Add courses, saperate with ;</span></label>
+        <div class="col-lg-8">
+            <input id="newcourses" name="newcourses" class="form-control" type="text">
         </div>
         </div>
         <!--Tags-->
         <div class="form-group">
         <label class="col-lg-3 control-label">Tags:</label>
         <div class="col-lg-8">
-            {% for tag in all_tags %}
+            {% for tag in tag_list %}
             <div class="checkbox">
                 <label class="custom-control custom-checkbox">
-                    {% if tag in tag_list %}
                     <input type="checkbox" name="checkbox" class="custom-control-input tag" checked="checked" value="{{tag}}">
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description"> {{tag}} </span>
-                    {% else %}
-                    <input type="checkbox" name="checkbox" class="custom-control-input tag" value="{{tag}}">
-                    <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description"> {{tag}} </span>
-                    {% endif %}
                 </label>
             </div>
             {% endfor %}
