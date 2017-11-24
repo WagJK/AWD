@@ -26,7 +26,6 @@ def editProfile(request):
         if phone:
             student.phone = phone
         username = request.POST['username']
-        print(username)
         if username:
             request.user.username = username
         request.user.save()
@@ -50,34 +49,4 @@ def editProfile(request):
             else:
                 return render_to_response('tutoria/student/editProfile.html', {'success':False,'editError':True,'confirmError':False,'student':student})
         
-        return render_to_response('tutoria/student/editProfile.html',{'success':True,'student':student})
-
-        if DEBUG:
-            if not first_name:
-                print("first name none")
-            else:
-                print(first_name)
-            if not last_name:
-                print("last name none")
-            else:
-                print(last_name)
-            if not email:
-                print("email none")
-            else:
-                print(email)
-            if not username:
-                print("username none")
-            else:
-                print(username)
-            if not old_password:
-                print("old password none")
-            else:
-                print(old_password)
-            if not password:
-                print("password none")
-            else:
-                print(password)
-            if not confirm_password:
-                print("confirm password none")
-            else:
-                print(confirm_password)
+        return render_to_response('tutoria/student/editProfile.html',{'success':True,'editError':False,'confirmError':False,'student':student})

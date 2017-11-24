@@ -69,11 +69,9 @@
 				<tr> <th>First name</th> <td>{{ tutor.user.first_name }}</td> </tr>
 				<tr> <th>Last name</th> <td>{{ tutor.user.last_name }}</td> </tr>
 				<tr> <th>Email</th> <td>{{ tutor.user.email }}</td> </tr>
-				<tr> <th>Avatar</th> <td>{{ tutor.avatar }}</td> </tr>
 				<tr> <th>Phone</th> <td>{{ tutor.phone }}</td> </tr>
 				<tr> <th>University</th> <td>{{ tutor.profile.university }}</td> </tr>
 				<tr> <th>Tutor type</th> <td>{{ tutor.tutor_type }}</td> </tr>
-				<tr> <th>Average review</th> <td>{{ tutor.profile.average_review }}</td> </tr>
 				{% ifnotequal tutor.tutor_type 'Contract' %}
 				<tr> <th>Hourly rate</th> <td>{{ tutor.profile.hourly_rate }}</td> </tr>
 				{% endifnotequal %}

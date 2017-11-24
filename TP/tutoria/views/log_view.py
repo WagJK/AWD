@@ -47,7 +47,7 @@ def login(request):
                 return HttpResponseRedirect('/admin')
         #simply request login page
         else:
-            return render_to_response('tutoria/login.html',{'wrong_password':False, 'invalid_user':False})
+            return render_to_response('tutoria/login.html',{'wrong_password':False, 'invalid_user':False,'reg_success':False})
     #if POST method
     else:
         username = request.POST['username']
@@ -64,11 +64,13 @@ def login(request):
                 elif user_type == 'Both':
                     return both_homepage_view.homepage(request)
             else:
-                return render_to_response('tutoria/login.html',{'wrong_password':True, 'invalid_user':False})
+                return render_to_response('tutoria/login.html',{'wrong_password':True, 'invalid_user':False, 'reg_success':False})
         else:
-            return render_to_response('tutoria/login.html', {'wrong_password':False, 'invalid_user':True})
+            return render_to_response('tutoria/login.html', {'wrong_password':False, 'invalid_user':True, 'reg_success':False})
 
 def registrate(request):
+    global validReg
+    validReg = True
     global error_message
     error_message = ""
     if request.method == 'POST':
@@ -83,6 +85,7 @@ def registrate(request):
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
         email = request.POST['email']
+        phone = request.POST['phone']
         if validReg:
             user = User.objects.create_user(
                 username=username, password=password, email=email, first_name=firstname, last_name=lastname
@@ -93,7 +96,7 @@ def registrate(request):
         #create a corresponding type object
         usr_type = request.POST['type']
         if usr_type == 'student':       
-            Student.objects.create(user=user, login_type='Student')
+            Student.objects.create(user=user, login_type='Student',phone=phone)
         elif usr_type == 'tutor':
             university = request.POST['university']
             tutortype = request.POST['tutortype']
@@ -102,9 +105,9 @@ def registrate(request):
                 tempProfile = TutorProfile.objects.create(university=university, hourly_rate=hourly_rate)
             else:
                 tempProfile = TutorProfile.objects.create(university=university, hourly_rate=0)
-            Tutor.objects.create(user=user, login_type='Tutor', tutor_type=tutortype, profile=tempProfile)
+            Tutor.objects.create(user=user, login_type='Tutor', tutor_type=tutortype, profile=tempProfile, phone=phone)
         elif usr_type == 'both':
-            Student.objects.create(user=user, login_type='Student')
+            Student.objects.create(user=user, login_type='Student',phone=phone)
             university = request.POST['university']
             tutortype = request.POST['tutortype']
             if tutortype == 'private':
@@ -112,9 +115,9 @@ def registrate(request):
                 tempProfile = TutorProfile.objects.create(university=university, hourly_rate=hourly_rate)
             else:
                 tempProfile = TutorProfile.objects.create(university=university, hourly_rate=0)
-            Tutor.objects.create(user=user, login_type='Tutor', tutor_type=tutortype, profile=tempProfile)
+            Tutor.objects.create(user=user, login_type='Tutor', tutor_type=tutortype, profile=tempProfile, phone=phone)
 
-        return render_to_response('tutoria/login.html',{'wrong_password':False, 'invalid_user':False})
+        return render_to_response('tutoria/login.html',{'wrong_password':False, 'invalid_user':False, 'reg_success':True})
     # if request registration
     else:
         university = TutorProfile.objects.values_list('university',flat=True).distinct()
@@ -123,22 +126,20 @@ def registrate(request):
 @login_required
 def logout(request):
     auth.logout(request)
-    return render_to_response('tutoria/login.html')
+    return render_to_response('tutoria/login.html',{'wrong_password':False, 'invalid_user':False, 'reg_success':False})
 
 def usernameCheck(username):
     global error_message
     global validReg
-    if re.match("^[a-zA-Z0-9_-]+$", username) is None:
-        error_message += "invalid username, "
-        validReg = False
 
     if User.objects.filter(username=username).exists():
-        error_message += "duplicate username, "
+        error_message += "duplicate username "
         validReg = False
 
 def passwordCheck(password,confirmpassword):
     global error_message
     global validReg
+    '''
     if len(password) < 8:
         error_message += "password length less than 8, "
         validReg = False
@@ -158,7 +159,8 @@ def passwordCheck(password,confirmpassword):
     if re.search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~"+r'"]', password) is not None:
         error_message += "password has invalid symbol, "
         validReg = False
+        '''
     
     if not password == confirmpassword:
-        error_message += "password doesnot match with confirmpassword."
+        error_message += "password doesnot match with confirmpassword "
         validReg = False

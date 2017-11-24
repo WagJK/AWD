@@ -64,27 +64,42 @@
             <input id="phone" name="phone" class="form-control" type="text" value="{{tutor.phone}}">
         </div>
         </div>
+        <!--availability-->
+        <div class="form-group">
+        <label class="col-lg-3 control-label">Profile Availability:</label>
+        <div class="col-lg-8">
+            <select id="availability" name="availability" class="form-control">
+                {% if tutor.profile.availability %}
+                <option value="active" selected="selected"> Active </option>
+                <option value="deactive"> Deactive </option>
+                {% else %}
+                <option value="active"> Active </option>
+                <option value="deactive" selected="selected"> Deactive </option>
+                {% endif %}
+            </select>
+        </div>
+        </div>
         <!--Tutor type-->
         <div class="form-group">
         <label class="col-lg-3 control-label">Tutor type:</label>
         <div class="col-lg-8">
             <select id="tutortype" name="tutortype" class="form-control" onchange="flushHourlyrate()">
-                {% if tutor.tutor_type == "Private" %}
+                {% ifnotequal tutor.tutor_type "Contract" %}
                 <option value="Contract"> Contract </option>
                 <option value="Private" selected="selected"> Private </option>
                 {% else %}
                 <option value="Contract" selected="selected"> Contract </option>
                 <option value="Private"> Private </option>
-                {% endif %}
+                {% endifnotequal %}
             </select>
         </div>
         </div>
         <!--Hourly rate-->
-        {% if tutor.tutor_type == 'Private' %}
+        {% ifnotequal tutor.tutor_type 'Contract' %}
         <div id="HourlyrateDiv" class="form-group">
         {% else %}
         <div id="HourlyrateDiv" style="display:none" class="form-group">
-        {% endif%}
+        {% endifnotequal %}
         <label class="col-lg-3 control-label">Hourly rate:</label>
         <div class="col-lg-8">
             <input id="hourlyrate" type="number" name="hourlyrate" value="{{tutor.profile.hourly_rate}}" step="10" min="0" class="form-control" autofocus>
@@ -147,6 +162,13 @@
             {% endfor %}
         </div>
         </div>
+        <!--create own tags-->
+        <div class="form-group">
+        <label class="col-lg-8 control-label">I want to create my own tags<br><span>Saperate your tags with ;</span></label>
+        <div class="col-lg-8">
+            <input id="newtags" name="newtags" class="form-control" type="text">
+        </div>
+        </div>
         <!--User Name-->
         <div class="form-group">
         <label class="col-lg-3 control-label">Username:</label>
@@ -179,7 +201,7 @@
         <div class="form-group">
         <label class="col-lg-3 control-label">Biography:</label>
         <div class="col-lg-8">
-            <textarea id="biography" class="form-control" name="biography" placeholder="{{tutor.profile.introduction}}" cols="30" rows="10"></textarea>
+            <textarea id="biography" class="form-control" name="biography" cols="30" rows="10">{{tutor.profile.introduction}}</textarea>
         </div>
         </div>
 

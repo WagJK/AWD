@@ -22,7 +22,27 @@
 			</a>
 		</nav>
 	</div>
-
+	{% if wrong_password %}
+    <div class="alert alert-info alert-dismissable">
+        <a class="panel-close close" data-dismiss="alert">×</a> 
+        <i class="fa fa-coffee"></i>
+        <strong>Wrong password!!</strong>
+    </div>
+	{% endif %}
+	{% if invalid_user %}
+    <div class="alert alert-info alert-dismissable">
+        <a class="panel-close close" data-dismiss="alert">×</a> 
+        <i class="fa fa-coffee"></i>
+        <strong>User not existsaa!!</strong>
+    </div>
+	{% endif %}
+	{% if reg_success %}
+    <div class="alert alert-info alert-dismissable">
+        <a class="panel-close close" data-dismiss="alert">×</a> 
+        <i class="fa fa-coffee"></i>
+        <strong>Registration succeed!!You may login now</strong>
+    </div>
+    {% endif %}
 	<div class="container">
 		<div class="form-signin">
 			<h2 class="form-signin-heading">Please sign in</h2>
@@ -40,14 +60,3 @@
 </body>
 </html>
 
-{% if wrong_password %}
-<script>
-	alert('wrong password');
-</script>
-{% endif %}
-
-{% if invalid_user %}
-<script>
-	alert("user not exist");
-</script>
-{% endif %}

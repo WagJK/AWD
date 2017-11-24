@@ -39,6 +39,12 @@ def editProfile(request):
         if phone:
             tutor.phone = phone
         
+        availability = request.POST['availability']
+        if availability == 'active':
+            tutor.profile.availability = True
+        else:
+            tutor.profile.availability = False
+               
         tutor_type = request.POST['tutortype']
         if tutor_type:
             tutor.tutor_type = tutor_type
@@ -85,6 +91,11 @@ def editProfile(request):
                 pass
             else:
                 tutor.tag.add(tag) 
+        
+        newtags = request.POST['newtags'].split(';')
+        for tag in newtags:
+            tmpTag = Tag.objects.create(content=tag)
+            tutor.tag.add(tmpTag)
         
         username = request.POST['username']
         if username:

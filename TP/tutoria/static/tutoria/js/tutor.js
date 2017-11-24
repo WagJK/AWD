@@ -117,6 +117,7 @@ function postTutorProfile(){
 			'lastname' : $("#lastname").val(),
 			'email' : $("#email").val(),
 			'phone' : $("#phone").val(),
+			'availability' : $("#availability").val(),
 			'tutortype' : $("#tutortype").val(),
 			'hourlyrate' : $("#hourlyrate").val(),
 			'university' : $("#university").val(),
@@ -126,6 +127,7 @@ function postTutorProfile(){
 			'tag_list': $('.tag:checked').map(function() {
 				return this.value;
 			}).get(),
+			'newtags' : $("#newtags").val(),
 			'username' : $("#username").val(),
 			'oldpassword' : $("#oldpassword").val(),
 			'password' : $("#password").val(),
