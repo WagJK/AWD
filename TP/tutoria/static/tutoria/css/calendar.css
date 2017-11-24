@@ -49,8 +49,9 @@
 	color: white;
 }
 
-.timeslot-tutor-booked:hover{
+.timeslot-student-booked:hover{
 	background-color: #6CCF70;
+	cursor: pointer;
 	cursor: pointer;
 }
 

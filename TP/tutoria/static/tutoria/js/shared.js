@@ -1,4 +1,5 @@
 function home() {
+	$("#alert").text('');
 	$(".active").removeClass("active");
 	$("#nav-home").parent().addClass("active");
 }
@@ -11,6 +12,7 @@ function loadProfile(){
 // ================== Notification ==================
 
 function viewNotification(){
+	$("#alert").text('');
 	$(".active").removeClass("active");
 	$("#nav-notf").parent().addClass("active");
 	$("#num-unread-notf").addClass("disable");
@@ -54,6 +56,7 @@ function updateNumOfNotf() {
 // ==================================================
 // ================== Messaging =====================
 function viewMessage(){
+	$("#alert").text('');
 	$(".active").removeClass("active");
 	$("#nav-msg").parent().addClass("active");
 	$("#num-unread-msg").addClass("disable");
@@ -95,6 +98,7 @@ function updateNumOfMsg() {
 }
 
 function writeMessage(target) {
+	$("#alert").text('');
 	$.ajax({
 		url : "/message/write/", // the endpoint
 		type : "POST", // http method
@@ -127,6 +131,7 @@ function sendMessage(target) {
 // ==========================================================
 // ======================== Wallet ==========================
 function viewWallet() {
+	$("#alert").text('');
 	$(".active").removeClass("active");
 	$("#nav-wallet").parent().addClass("active");
 	$.ajax({
@@ -145,7 +150,7 @@ function addValue(value) {
 		url : "/wallet/addValue/", // the endpoint
 		type : "POST", // http method
 		data : {
-			'value' : value
+			'value' : $('#value').val()
 		},
 		// handle a successful response
 		success : function(response) {

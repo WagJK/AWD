@@ -46,6 +46,7 @@ function getAvailableSlots(tutorID, delta_offset, reset=false){
 // ============================================================
 // ======================== Detail Info =======================
 function viewStudentBookingInfo(slotID){
+	$("#alert").text('');
 	$.ajax({
 		url : "/student/schedule/bookingInfo/", // the endpoint
 		type : "POST", // http method
@@ -60,6 +61,7 @@ function viewStudentBookingInfo(slotID){
 }
 
 function viewStudentTimeslotInfo(slotID){
+	$("#alert").text('');
 	$.ajax({
 		url : "/student/search/timeslotInfo/", // the endpoint
 		type : "POST", // http method
@@ -76,6 +78,7 @@ function viewStudentTimeslotInfo(slotID){
 // ============================================================
 // ======================= Search =============================
 function search() {
+	$("#alert").text('');
 	$(".active").removeClass("active");
 	$("#nav-search").parent().addClass("active");
 	$.ajax({
@@ -167,9 +170,9 @@ function bookSlot(slotID){
 			},
 			// handle a successful response
 			success : function(response) {
-				$('#searchResult').html(response);
-				$('#searchButton').css("display", "block");
+				$('#alert').html(response);
 				updateNumOfNotf();
+				viewStudentSchedule(0);
 			}
 		});
 	}
@@ -186,8 +189,9 @@ function cancelSlot(slotID){
 			},
 			// handle a successful response
 			success : function(response) {
-				$('#searchResult').html(response);
+				$('#alert').html(response);
 				updateNumOfNotf();
+				viewStudentSchedule(0);
 			}
 		});
 	}
@@ -210,14 +214,12 @@ function reviewSlot(slotID){
 function submitReview(slotID){
 	var rates = document.getElementsByName('rating');
 	var rate_value=0;
-
 	for(var i = 0; i < rates.length; i++){
 		if(rates[i].checked){
 			rate_value = rates[i].value;
 			break;
 		}
 	}
-
 	$.ajax({
 		url : "/student/schedule/submitReview/", // the endpoint
 		type : "POST", // http method
@@ -231,7 +233,8 @@ function submitReview(slotID){
 		},
 		// handle a successful response
 		success : function(response) {
-			$('#searchResult').html(response);
+			$('#alert').html(response);
+			viewStudentSchedule(0);
 		}
 	});
 }

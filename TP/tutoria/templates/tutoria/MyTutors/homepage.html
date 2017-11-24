@@ -11,10 +11,7 @@
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 
 	<link rel="stylesheet" href="{% static 'tutoria/css/home.css' %}"/>
-	<link rel="stylesheet" href="{% static 'tutoria/css/calendar.css' %}"/>
-
-	<script type="text/javascript" src="{% static 'tutoria/js/shared.js' %}"></script>
-	<script type="text/javascript" src="{% static 'tutoria/js/student.js' %}"></script>
+	<script type="text/javascript" src="{% static 'tutoria/js/mytutors.js' %}"></script>
 	<script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
 
@@ -26,34 +23,13 @@
 			</button>
 			<a class="navbar-brand" href="#">
 				<img src="{% static 'tutoria/img/brand.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-				Tutoria - Student
+				Tutoria - MyTutor
 			</a>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
 						<a id="nav-home" class="nav-link" href="javascript:home()" onclick="window.location.reload()"> Home </a>
-					</li>
-					<li class="nav-item">
-						<a id="nav-search" class="nav-link" href="javascript:search()"> Search </a>
-					</li>
-					<li class="nav-item">
-						<a id="nav-student-schedule" class="nav-link" href="javascript:viewStudentSchedule(0, true)"> Schedule </a>
-					</li>
-					<li class="nav-item">
-						<a id="nav-wallet" class="nav-link" href="javascript:viewWallet()"> Wallet </a>
-					</li>
-					<li class="nav-item">
-						<a id="nav-notf" class="nav-link" href="javascript:viewNotification()">
-							<span class="badge badge-danger {% if num_unread_notf == 0 %} disable {% endif %}" id="num-unread-notf"> {{ num_unread_notf }} </span>
-							Notifications
-						</a>
-					</li>
-					<li class="nav-item">
-						<a id="nav-msg" class="nav-link" href="javascript:viewMessage()"> 
-							<span class="badge badge-danger {% if num_unread_msg == 0 %} disable {% endif %}" id="num-unread-msg"> {{ num_unread_msg }} </span>
-							Messages
-						</a>
 					</li>
 				</ul>
 			    <button class="btn btn-outline-success my-2 my-sm-0" onclick=window.location={% url 'logout' %}> Logout </button>
@@ -62,25 +38,20 @@
 	</div>
 
 	<div class="container">
-		<div id="alert"> </div>
-		<div id="profile" onload="loadProfile()">
-			<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editStudentProfile()">Edit Profile</button>
-			<h1> My Profile </h1>
-			<img src="{% static 'tutoria/img/default.png' %}" width="120" height="120">
-
-			<table id="userProfile" class="table table-striped">
-				<tr> <th>Name</th> <td>{{ student.user.username }}</td> </tr>
-				<tr> <th>First name</th> <td>{{ student.user.first_name }}</td> </tr>
-				<tr> <th>Last name</th> <td>{{ student.user.last_name }}</td> </tr>
-				<tr> <th>Email</th> <td>{{ student.user.email }}</td> </tr>
-				<tr> <th>Phone</th> <td>{{ student.phone}}</td> </tr>
-			</table>
+		<h2> MyTutors </h2> <hr>
+		<div id="wallet">
+			<div class="form-group row" id="tutor_name">
+				<h3 id="balance"> Balance: {{ mytutors.balance }} HKD </h3>
+				<div class="col-1"> </div>
+				<div class="col-2">
+					<input class="form-control" id="value" type="text" size="30" name="textbox">
+				</div>
+				<button class="btn btn-success" id="withdraw" onclick="withdraw()"> Withdraw </button>
+			</div>
 		</div>
-		<div id="searchResult"></div>
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </body>
 </html>
-

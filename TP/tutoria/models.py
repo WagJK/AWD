@@ -5,7 +5,6 @@ from datetime import datetime
 class Client(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	login_type = models.CharField(max_length=20, default="Student")
-	balance = models.FloatField(default="0.00")
 	avatar = models.FileField(upload_to='media/avatars/%Y/%m/%d/', null=True)
 	phone = models.CharField(max_length=10, default="None")
 
@@ -24,7 +23,7 @@ class Admin (Client):
 	pass
 
 
-class MyTutor(models.Model):
+class MyTutors(models.Model):
 	balance = models.FloatField(default="0.00")
 	commission_rate = models.FloatField(default="0.05")
 
@@ -116,6 +115,12 @@ class Review(models.Model):
 	student = models.ForeignKey(Student, on_delete=models.CASCADE)
 	anonymous = models.BooleanField(default=False)
 	createTime = models.DateTimeField(default=datetime.now())
+
+
+class Wallet(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	balance = models.FloatField(default="0.00")
+
 
 class Coupon(models.Model):
 	code = models.CharField(max_length=20)

@@ -26,14 +26,18 @@ def manage():
 	)
 	for timeslot in finished_timeslots:
 		# session finish tutor get money
-		timeslot.tutor.balance += timeslot.fee
+		wallet = Wallet.object.get(user=timeslot.tutor.user)
+		wallet.balance += timeslot.fee
+
 		# tutor receipt, student review notification
 		createReviewNotification(timeslot)
 		createTransactionNotification(timeslot,timeslot.fee, 'end')
 		createTransactionHistory(timeslot, timeslot.fee, 'end')
+
 		# Mytutor receive comission fee
-		for myTutor in MyTutor.objects.all():
-			myTutor.balance += timeslot.fee * myTutor.commission_rate
+		mytutors = MyTutors.objects.all()[0]
+		mytutors.balance += timeslot.fee * 0.05
+		mytutors.save()
 	
 	# update cancellable status
 	cancellable_timeslots = Timeslot.objects.filter(
@@ -62,7 +66,7 @@ def manage():
 	non_bookable_timeslots.update(bookable=False)
 
 
-	### update within_week status
+	# update within_week status
 	within_week_timeslots = Timeslot.objects.filter(
 		bookable = True,
 		startTime__lte = datetime.now(tz=tz_hkt) + timedelta(weeks=1),

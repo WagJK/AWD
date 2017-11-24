@@ -55,8 +55,10 @@ def cancelTimeSlot(request):
 	slot_id = request.POST['slotID']
 	cancelledSlot = Timeslot.objects.get(id=slot_id)
 	cancellingStudent = Student.objects.get(user=request.user)
-	cancel(cancellingStudent, cancelledSlot)
-	return HttpResponse("Timeslot Successfully Cancelled!")
+	if cancel(cancellingStudent, cancelledSlot):
+		return HttpResponse('<div class="alert alert-success" role="alert"> Cancelling Successful: Timeslot Successfully Cancelled! </div>')
+	else:
+		return HttpResponse('<div class="alert alert-danger" role="alert"> Cancelling Rejected: Timeslot is not available for cancelling now! </div>')
 
 def reviewTimeSlot(request):
 	slot_id = request.POST['slotID']

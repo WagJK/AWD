@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tutoria.models import Client, Student, TutorProfile, Course, Tutor, Timeslot
+from tutoria.models import *
 from django.utils import timezone
 
 import random
@@ -69,6 +69,10 @@ def generate_tutor(num_tutor, tutor_type):
 				first_name = given_name,
 				last_name = surname
 			)
+			new_wallet = Wallet.objects.create(
+				user = new_user,
+				balance = 0.0,
+			)
 			# tutor profile
 			new_tutor_profile = TutorProfile.objects.create(
 				university = list_university[rand(len(list_university))],
@@ -82,14 +86,13 @@ def generate_tutor(num_tutor, tutor_type):
 				user = new_user,
 				login_type = login_type,
 				tutor_type = tutor_type,
-				balance = balance,
 				profile = new_tutor_profile,
 				phone = phone
 			)
 			new_tutor.course.add(courses[rand(len(courses))])
 			# timeslot
 			time_id = rand(len(list_time) - 1)
-			for date in ["19", "21", "23", "24", "25"]:
+			for date in ["23", "24", "25", "27", "29"]:
 				for timeslot in generate_timeslot_list("2017", "11", date, tutor_type):
 					new_timeslot = Timeslot.objects.create(
 						fee = hourly_rate,
@@ -127,11 +130,14 @@ def generate_student(num_student):
 				first_name = given_name,
 				last_name = surname
 			)
+			new_wallet = Wallet.objects.create(
+				user = new_user,
+				balance = 0.0,
+			)
 			# student
 			new_student = Student.objects.create(
 				user = new_user,
 				login_type = login_type,
-				balance = balance,
 				# avatar = avatar,
 				phone = phone
 			)
@@ -164,11 +170,14 @@ def generate_both(num_tutor, tutor_type):
 				first_name = given_name,
 				last_name = surname
 			)
+			new_wallet = Wallet.objects.create(
+				user = new_user,
+				balance = 0.0,
+			)
 			# student
 			new_student = Student.objects.create(
 				user = new_user,
 				login_type = "Student",
-				balance = balance,
 				# avatar = avatar,
 				phone = phone
 			)
@@ -185,14 +194,13 @@ def generate_both(num_tutor, tutor_type):
 				user = new_user,
 				login_type = "Tutor",
 				tutor_type = tutor_type,
-				balance = balance,
 				profile = new_tutor_profile,
 				phone = phone
 			)
 			new_tutor.course.add(courses[rand(len(courses))])
 			# timeslot
 			time_id = rand(len(list_time) - 1)
-			for date in ["19", "21", "23", "24", "25"]:
+			for date in ["23", "24", "25", "27", "29"]:
 				for timeslot in generate_timeslot_list("2017", "11", date, tutor_type):
 					new_timeslot = Timeslot.objects.create(
 						fee = hourly_rate,
@@ -210,8 +218,8 @@ def generate_both(num_tutor, tutor_type):
 				break
 
 # ------------------ Main --------------------
-generate_course(4)
-generate_tutor(2, "Contract")
+generate_course(10)
+generate_tutor(4, "Contract")
 generate_tutor(2, "Private")
-generate_student(3)
-generate_both(2, "Private")
+generate_student(4)
+generate_both(4, "Private")

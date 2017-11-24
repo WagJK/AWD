@@ -19,6 +19,7 @@ from .views.tutor_view import schedule_view as tutor_schedule
 from .views.tutor_view import editProfile_view as tutor_editProfile
 
 from .views.both_view import homepage_view as both_home
+from .views.mytutors_view import mytutors_view
 
 urlpatterns = [
 	url(r'^$', log_view.login, name='login'),
@@ -40,6 +41,11 @@ urlpatterns = [
 		url(r'^send/', message_view.send, name='send'),
 		url(r'^clearUnread/', message_view.clearUnread, name='clearUnread'),
 		url(r'^getNumOfUnreadMsg/', message_view.getNumOfUnreadMsg, name='getNumOfUnreadMsg')
+	])),
+
+	url(r'^MyTutors/', include([
+		url(r'^$', mytutors_view.homepage, name='mytutors_homepage'),
+		url(r'^withdraw/', mytutors_view.withdraw, name="mytutors_withdraw"),
 	])),
 
 	url(r'^student/', include([

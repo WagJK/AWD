@@ -264,13 +264,14 @@ def book(booking_student, timeslot):
 		return "timeslot occupied"
 
 	# one cannot book if he doesn't have enough money
+	wallet = Wallet.objects.get(user = booking_student.user)
 	fee = timeslot.fee * 1.05
-	if booking_student.balance < fee:
+	if wallet.balance < fee:
 		return "insufficient balance"
 
 	# modify student wallet
-	booking_student.balance -= fee
-	booking_student.save()
+	wallet.balance -= fee
+	wallet.save()
 
 	# modify timeslot status
 	timeslot.is_booked = True
@@ -295,19 +296,24 @@ def book(booking_student, timeslot):
 	return "success"
 
 def cancel(cancelling_student, timeslot):
+	print("[DEBUG] Operation Cancel")
 	refund = timeslot.fee * 1.05
 	manage()
 	if not timeslot.cancellable:
 		return False
+
 	# modify timeslot status
 	timeslot.is_booked = False
 	timeslot.bookable = True
 	timeslot.cancellable = False
 	timeslot.save()
+
 	# modify student wallet
-	cancelling_student.balance += refund
+	wallet = Wallet.objects.get(user = cancelling_student.user)
+	wallet.balance += refund
+	wallet.save()
 	cancelling_student.timeslot_set.remove(timeslot)
-	cancelling_student.save()
+
 	# sending notification
 	createCancelNotification(timeslot)
 	createTransactionNotification(timeslot, refund, "cancel")
