@@ -142,7 +142,7 @@ function postTutorProfile(){
 		}
 	});
 }
-
+/*
 function flushCourse(){
 	var university = $("#university").val()
 	$.ajax({
@@ -155,6 +155,9 @@ function flushCourse(){
 			$('#CourseDiv').html(response);
 		}
 	});
+}*/
+function flushCourse(){
+	$('#CourseDiv').html("<div id=\"CourseDiv\" class=\"form-group\"><label class=\"col-lg-3 control-label\">Courses:</label><div class=\"col-lg-8\"></div></div>");
 }
 
 function flushHourlyrate(){

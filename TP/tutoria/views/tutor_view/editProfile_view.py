@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import auth
-from ...models import Tutor,Tag,Course,TutorProfile
+from ...models import Tutor,Tag,Course,TutorProfile,Timeslot
 
 def editProfile(request):
     if request.method == 'GET':
@@ -45,6 +45,10 @@ def editProfile(request):
                
         tutor_type = request.POST['tutortype']
         if tutor_type:
+            if not tutor.tutor_type == tutor_type:
+                unbookedTimeslots = Timeslot.objects.filter(tutor=tutor).filter(is_booked=False)
+                for t in unbookedTimeslots:
+                    t.delete()
             tutor.tutor_type = tutor_type
             if tutor_type == 'Contract':
                 tutor.profile.hourly_rate = 0
@@ -75,11 +79,13 @@ def editProfile(request):
         newCourses = request.POST['newcourses'].split(';')
         failedCourses = []
         for course in newCourses:
-            if course and Course.objects.filter(university=university).filter(code=course).exists():
-                tmpCourse = Course.objects.filter(university=university).filter(code=course)[0]
-                tutor.course.add(tmpCourse)
-            else:
-                failedCourses.append(course)
+            print(course)
+            if course:
+                if Course.objects.filter(university=university).filter(code=course).exists():
+                    tmpCourse = Course.objects.filter(university=university).filter(code=course)[0]
+                    tutor.course.add(tmpCourse)
+                else:
+                    failedCourses.append(course)
 
         tmp = request.POST.getlist('tag_list[]',[])
         tag_list = Tag.objects.filter(content__in=tmp)
