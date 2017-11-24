@@ -1,7 +1,7 @@
 import pytz
-from ..operations import *
 from datetime import datetime
 from datetime import timedelta
+from tutoria.models import *
 
 DEBUG = False
 

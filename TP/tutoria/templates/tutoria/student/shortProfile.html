@@ -13,13 +13,7 @@
         {% for tutor in all_tutors %}
         <tr id="{{ tutor.id }}" class="short">
             <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">
-                <img src=
-					{% if tutor.avatar %}
-						"{{ tutor.avatar.url }}"
-					{% else %}
-						"{% static 'tutoria/img/default.png' %}"
-					{% endif %}
-			    width="120" height="120">
+                <img src="{% static 'tutoria/img/default.png' %}" width="120" height="120">
             </td>
             <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.user.username }}</td>
             <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">{{ tutor.profile.university }}</td>

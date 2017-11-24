@@ -5,10 +5,14 @@
 	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
 	<link rel="icon" href="{% static 'tutoria/img/favicon.png' %}">
-
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-	<link rel="stylesheet" href="{% static 'tutoria/css/tutor-home.css' %}"/>
+
+	<link rel="stylesheet" href="{% static 'tutoria/css/home.css' %}"/>
+	<link rel="stylesheet" href="{% static 'tutoria/css/calendar.css' %}"/>
+	
+	<script type="text/javascript" src="{% static 'tutoria/js/shared.js' %}"></script>
 	<script type="text/javascript" src="{% static 'tutoria/js/tutor.js' %}"></script>
 	<script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
@@ -30,7 +34,7 @@
 						<a id="nav-home" class="nav-link" href="/tutor/homepage" onclick="window.location.reload()"> Home </a>
 					</li>
 					<li class="nav-item">
-						<a id="nav-schedule" class="nav-link" href="javascript:viewSchedule(0, true)"> Schedule </a>
+						<a id="nav-tutor-schedule" class="nav-link" href="javascript:viewTutorSchedule(0, true)"> Schedule </a>
 					</li>
 					<li class="nav-item">
 						<a id="nav-wallet" class="nav-link" href="javascript:viewWallet()"> Wallet </a>
@@ -56,15 +60,9 @@
 
 	<div class="container">
 		<div id="profile" onload="loadProfile()">
-			<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editProfile()">Edit Profile</button>
+			<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editTutorProfile()">Edit Profile</button>
 			<h1> My Profile </h1>
-			<img src=
-					{% if tutor.avatar %}
-						"{{ tutor.avatar.url }}"
-					{% else %}
-						"{% static 'tutoria/img/default.png' %}"
-					{% endif %}
-			width="120" height="120">
+			<img src="{% static 'tutoria/img/default.png' %}" width="120" height="120">
 
 			<table id="userProfile" class="table table-striped">
 				<tr> <th>Name</th> <td>{{ tutor.user.username }}</td> </tr>

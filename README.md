@@ -10,3 +10,6 @@ xy：
 1. 个人资料编辑： Tutor：	编辑tag, hourly rate, active/deactive 自己的profile
 2. 用户头像问题
 3. 测试数据文档
+
+jk:
+both

@@ -70,12 +70,11 @@ def all_cancellable_timeslots(client):
 		return None
 
 # Added the limit of 30 days before
-def get_all_transaction_record(client):
+def get_all_transaction_record(user):
 	try:
 		currentTime = datetime.now()
 		earliestTime = currentTime - timedelta(days=30)
-		return TransactionRecord.objects.filter(user=client.user, createTime__gte=earliestTime).order_by('-createTime', '-id')
-
+		return TransactionRecord.objects.filter(user=user, createTime__gte=earliestTime).order_by('-createTime', '-id')
 	except TransactionRecord.DoesNotExist:
 		return None
 		

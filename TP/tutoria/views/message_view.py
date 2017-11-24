@@ -13,6 +13,13 @@ def clearUnread(request):
 	inbox_messages.update(unread=False)
 	return HttpResponse("success")
 
+def getNumOfUnreadMsg(request):
+	num_unread_msg = len(Message.objects.filter(
+		receiver = request.user,
+		unread = True,
+	))
+	return HttpResponse(str(num_unread_msg))
+
 def write(request):
 	target = User.objects.get(username=request.POST['target'])
 	return render_to_response('tutoria/write_message.html', locals())

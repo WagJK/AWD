@@ -1,20 +1,11 @@
 var schedule_offset = 0;
 var hover_restore_text = "";
 
-function home() {
-	$(".active").removeClass("active");
-	$("#nav-home").parent().addClass("active");
-}
-
-function loadProfile(){
-	$('#profile').css("display", "block");
-}
-
 // ====================================================
 // =================== Calendar =======================
-function viewSchedule(delta_offset, reset=false){
+function viewTutorSchedule(delta_offset, reset=false){
 	$(".active").removeClass("active");
-	$("#nav-schedule").parent().addClass("active");
+	$("#nav-tutor-schedule").parent().addClass("active");
 	if (reset) schedule_offset = 0;
 	schedule_offset += delta_offset;
 	$.ajax({
@@ -42,7 +33,7 @@ function activate(that, time) {
 		success : function(response) {
 			$(that).removeClass("timeslot-activate");
 			$(that).addClass("timeslot-available");
-			$(that).text("available");
+			$(that).text("blackout");
 			$(that).attr("onclick", "deactivate(this, '" + response +"')");
 			$(that).attr("onmouseover", "hoverDeactivate(this)");
 			$(that).attr("onmouseout", "unhoverDeactivate(this)");
@@ -87,137 +78,9 @@ function unhoverDeactivate(that){
 	$(that).text("available");
 }
 
-
-// ===================================================
-// ================== Notification ===================
-function viewNotification(){
-	$(".active").removeClass("active");
-	$("#nav-notf").parent().addClass("active");
-	$.ajax({
-		url : "/notification/", // the endpoint
-		type : "GET", // http method
-		// handle a successful response
-		success : function(response) {
-			$('#searchResult').html(response);
-			$('#profile').css("display", "none");
-		}
-	});
-}
-
-function updateNumOfMsg() {
-	$.ajax({
-		url : "/tutor/homepage/getNumOfMsg", // the endpoint
-		type : "POST", // http method
-		// handle a successful response
-		success : function(response) {
-			if (response != "0") {
-				$("#num-unread-msg").text(response);
-				$("#num-unread-msg").removeClass("disable");
-			} else {
-				$("#num-unread-msg").addClass("disable");
-			}
-		}
-	});
-}
-
-function updateNumOfNotf() {
-	$.ajax({
-		url : "/tutor/homepage/getNumOfUnreadNotf", // the endpoint
-		type : "POST", // http method
-		// handle a successful response
-		success : function(response) {
-			if (response != "0") {
-				$("#num-unread-notf").text(response);
-				$("#num-unread-notf").removeClass("disable");
-			} else {
-				$("#num-unread-notf").addClass("disable");
-			}
-		}
-	});
-	$("#num-unread-notf").removeClass("disable");
-}
-
-// ==================================================
-// ================== Messaging =====================
-function viewMessage(){
-	$(".active").removeClass("active");
-	$("#nav-msg").parent().addClass("active");
-	$("#num-unread-msg").addClass("disable");
-	$.ajax({
-		url : "/message/", // the endpoint
-		type : "GET", // http method
-		// handle a successful response
-		success : function(response) {
-			$('#searchResult').html(response);
-			$('#profile').css("display", "none");
-		}
-	});
-}
-
-function writeMessage(target) {
-	$.ajax({
-		url : "/message/write/", // the endpoint
-		type : "POST", // http method
-		data : {
-			'target' : target
-		},
-		// handle a successful response
-		success : function(response) {
-			$('#searchResult').html(response);
-		}
-	});
-}
-
-function sendMessage(target) {
-	content = $("#content").val();
-	$.ajax({
-		url : "/message/send/", // the endpoint
-		type : "POST", // http method
-		data : {
-			'target' : target,
-			'content' : content
-		},
-		// handle a successful response
-		success : function(response) {
-			$('#searchResult').html(response);
-		}
-	});
-}
-
-// ==========================================================
-// ======================== Wallet ==========================
-function viewWallet() {
-	$(".active").removeClass("active");
-	$("#nav-wallet").parent().addClass("active");
-	$.ajax({
-		url : "/tutor/wallet/", // the endpoint
-		type : "GET", // http method
-		// handle a successful response
-		success : function(response) {
-			$('#searchResult').html(response);
-			$('#profile').css("display", "none");
-		}
-	});
-}
-
-function withdraw() {
-	$.ajax({
-		url : "/tutor/wallet/withdraw/", // the endpoint
-		type : "POST", // http method
-		data : {
-			'value' : $('#value').val()
-		},
-		// handle a successful response
-		success : function(response) {
-			$('#balance').html("Balance: " + response + " HKD");
-		}
-	});
-}
-
-
 // ============================================================
 // ======================== Detail Info =======================
-function viewBookingInfo(slotID){
+function viewTutorBookingInfo(slotID){
 	$.ajax({
 		url : "/tutor/schedule/bookingInfo/", // the endpoint
 		type : "POST", // http method
@@ -230,9 +93,10 @@ function viewBookingInfo(slotID){
 		}
 	});
 }
+
 // ==============================================================
 // ======================== Edit profile =========================
-function editProfile(){
+function editTutorProfile(){
 	$.ajax({
 		url : "/tutor/homepage/editProfile/",
 		type : "GET",
@@ -244,7 +108,7 @@ function editProfile(){
 	});
 }
 
-function postProfile(){
+function postTutorProfile(){
 	$.ajax({
 		url : "/tutor/homepage/editProfile/",
 		type : "POST",

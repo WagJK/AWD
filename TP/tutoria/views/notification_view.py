@@ -11,3 +11,10 @@ def clearUnread(request):
 	notifications = get_all_notification(request.user)
 	notifications.update(unread=False)
 	return HttpResponse("success")
+
+def getNumOfUnreadNotf(request):
+	num_unread_notf = len(Notification.objects.filter(
+		user = request.user,
+		unread = True,
+	))
+	return HttpResponse(str(num_unread_notf))

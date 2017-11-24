@@ -5,11 +5,17 @@
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 	<link rel="icon" href="{% static 'tutoria/img/favicon.png' %}">
-	<link rel="stylesheet" href="{% static 'tutoria/css/student-home.css' %}"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-	
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+
+	<link rel="stylesheet" href="{% static 'tutoria/css/home.css' %}"/>
+	<link rel="stylesheet" href="{% static 'tutoria/css/calendar.css' %}"/>
+
+	<script type="text/javascript" src="{% static 'tutoria/js/shared.js' %}"></script>
 	<script type="text/javascript" src="{% static 'tutoria/js/student.js' %}"></script>
+	<script type="text/javascript" src="{% static 'tutoria/js/tutor.js' %}"></script>
 	<script type="text/javascript" src="{% static 'tutoria/js/jquery.js' %}"></script>
 </head>
 
@@ -21,7 +27,7 @@
 			</button>
 			<a class="navbar-brand" href="#">
 				<img src="{% static 'tutoria/img/brand.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-				Tutoria - Student
+				Tutoria
 			</a>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -33,13 +39,23 @@
 						<a id="nav-search" class="nav-link" href="javascript:search()"> Search </a>
 					</li>
 					<li class="nav-item">
-						<a id="nav-schedule" class="nav-link" href="javascript:viewSchedule(0, true)"> Schedule </a>
+						<a id="nav-schedule" class="nav-link" href="javascript:viewStudentSchedule(0, true)"> Student Schedule </a>
+					</li>
+					<li class="nav-item">
+						<a id="nav-schedule" class="nav-link" href="javascript:viewTutorSchedule(0, true)"> Tutor Schedule </a>
 					</li>
 					<li class="nav-item">
 						<a id="nav-wallet" class="nav-link" href="javascript:viewWallet()"> Wallet </a>
 					</li>
 					<li class="nav-item">
-						<a id="nav-conf" class="nav-link" href="javascript:viewConfirmation()"> Confirmations </a>
+						<a id="nav-notf" class="nav-link" href="javascript:viewNotification()">
+							<span class="badge badge-danger {% if num_unread_notf == 0 %} disable {% endif %}" id="num-unread-notf"> {{ num_unread_notf }} </span> Notifications
+						</a>
+					</li>
+					<li class="nav-item">
+						<a id="nav-msg" class="nav-link" href="javascript:viewMessage()"> 
+							<span class="badge badge-danger {% if num_unread_msg == 0 %} disable {% endif %}" id="num-unread-msg"> {{ num_unread_msg }} </span> Messages
+						</a>
 					</li>
 				</ul>
 			    <button class="btn btn-outline-success my-2 my-sm-0" onclick=window.location={% url 'logout' %}> Logout </button>
@@ -49,15 +65,18 @@
 
 	<div class="container">
 		<div id="profile" onload="loadProfile()">
+			<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editTutorProfile()">Edit Profile</button>
 			<h1> My Profile </h1>
+			<img src="{% static 'tutoria/img/default.png' %}" width="120" height="120">
+
 			<table id="userProfile" class="table table-striped">
-				<tr> <th>Name</th> <td>{{ student.user.username }}</td> </tr>
-				<tr> <th>Email</th> <td>{{ student.user.email }}</td> </tr>
-				<tr> <th>Avatar</th> <td>{{ student.avatar }}</td> </tr>
-				<tr> <th>Phone</th> <td>{{ student.phone}}</td> </tr>
+				<tr> <th>Name</th> 			<td>{{ tutor.user.username }}</td> 		</tr>
+				<tr> <th>First name</th> 	<td>{{ tutor.user.first_name }}</td> 	</tr>
+				<tr> <th>Last name</th> 	<td>{{ tutor.user.last_name }}</td> 	</tr>
+				<tr> <th>Email</th> 		<td>{{ tutor.user.email }}</td> 		</tr>
+				<tr> <th>Phone</th> 		<td>{{ tutor.phone}}</td> 				</tr>
 			</table>
 		</div>
-
 		<div id="searchResult"></div>
 	</div>
 

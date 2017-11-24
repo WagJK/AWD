@@ -20,7 +20,7 @@
 				<div class="timeslot 
 				{% if timeslot.extend %} timeslot-extend {% endif %}
 				{% if timeslot.state %} timeslot-bookable {% else %} timeslot-not-bookable {% endif %}"
-				{% if timeslot.state %} onclick="viewTimeslotInfo('{{ timeslot.timeslot.id }}')" {% endif %}>
+				{% if timeslot.state %} onclick="viewStudentTimeslotInfo('{{ timeslot.timeslot.id }}')" {% endif %}>
 				{% if timeslot.state %} available {% endif %}
 				</div>
 			</div>

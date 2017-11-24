@@ -14,7 +14,7 @@
         </div>
         {% for day, hour_dict in calendar.timeslots.items %}
         <div class="flex-column">
-            <div class="flex-head"> {{ weekday|index:day }} </div>
+            <div class="flex-head"> {{ weekday|index:day }} <br> {{ date_range|index:day }} </div>
             {% for hour, minute_dict in hour_dict.items %}
                 {% for minute, timeslot in minute_dict.items %}
             <div class="flex-elem {% if timeslot.disable %} disable {% endif %}">
@@ -24,11 +24,11 @@
                         {% if timeslot.timeslot.is_finished  %}
                             timeslot-finished
                         {% else %}
-                            timeslot-booked
+                            timeslot-student-booked
                         {% endif %}
                     {% endif %}"
                     {% if timeslot.state %}
-                        onclick="viewBookingInfo({{ timeslot.timeslot.id }})"
+                        onclick="viewStudentBookingInfo({{ timeslot.timeslot.id }})"
                     {% endif %}
                     >
                     {% if timeslot.state %} {{ timeslot.timeslot.tutor }} {% endif %}
@@ -40,8 +40,8 @@
         {% endfor %}
     </div>
     <div id="schedule-button-div">
-        <button id="prev" class="btn btn-success col-2" onclick="viewSchedule(-1)"> Previous Week </button>
+        <button id="prev" class="btn btn-success col-2" onclick="viewStudentSchedule(-1)"> Previous Week </button>
         {{ start_date }} - {{ end_date}}
-        <button id="next" class="btn btn-success col-2" onclick="viewSchedule(1)"> Next week </button>
+        <button id="next" class="btn btn-success col-2" onclick="viewStudentSchedule(1)"> Next week </button>
     </div>
 </div>
