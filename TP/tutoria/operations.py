@@ -179,7 +179,7 @@ def createReviewNotification (slot):
 	reviewNotification.save()
 	return
 
-def createTransactionRecord(slot, money, type):
+def createTransactionRecord(slot, money, type, user):
 	if money == 0:
 		return
 	usr = User.objects.none()
@@ -203,20 +203,28 @@ def createTransactionRecord(slot, money, type):
 		studentMoney = money * 1.05
 		tutorMoney = money
 		myTutorMoney = money * 0.05
+	elif type == 'add':
+		usr = user
+		status = "Incoming"
+	elif type == 'withdraw':
+		usr = user
+		status = "Outgoing"
 
-	transferContent = "Amount: " + str(money) + " HKD\n" \
-					  + "Status: " + status + "\n" \
-					  + "Related Timeslot: " + str(slot) + "\n" \
-					  + "Other Parties Involved: "
+	transferContent = "Amount: " + str(money) + " HKD\n" + "Status: " + status + "\n"
+
 	if type == 'book':
+		transferContent += "Related Timeslot: " + str(slot) + "\n"  + "Other Parties Involved: "
 		transferContent += ("Tutor "+ (str)(slot.tutor) + " (" + str(tutorMoney) + " HKD Pending Income); MyTutors ("
 						   + str(myTutorMoney) + " HKD Pending Income)")
 	elif type == 'cancel':
+		transferContent += "Related Timeslot: " + str(slot) + "\n" + "Other Parties Involved: "
 		transferContent += ("Tutor " + (str)(slot.tutor) + " (" + str(tutorMoney) + " HKD Pending Refunded); MyTutors ("
 							+ str(myTutorMoney) + " HKD Pending Refunded)")
 	elif type == 'end':
+		transferContent += "Related Timeslot: " + str(slot) + "\n" + "Other Parties Involved: "
 		transferContent += ("Student " + (str)(slot.student) + " (" + str(studentMoney) + " HKD Paid); MyTutors ("
 							+ str(myTutorMoney) + " HKD Received)")
+
 	transactionHistory = TransactionRecord(
 		content=transferContent,
 		user=usr,
@@ -283,7 +291,7 @@ def book(booking_student, timeslot):
 	# sending notification
 	createBookNotification(timeslot)
 	createTransactionNotification(timeslot, fee, "book")
-	createTransactionRecord(timeslot, fee, "book")
+	createTransactionRecord(timeslot, fee, "book", None)
 
 	# sending email
 	send_mail(
@@ -317,6 +325,6 @@ def cancel(cancelling_student, timeslot):
 	# sending notification
 	createCancelNotification(timeslot)
 	createTransactionNotification(timeslot, refund, "cancel")
-	createTransactionRecord(timeslot, refund, "cancel")
+	createTransactionRecord(timeslot, refund, "cancel", None)
 	return True
 # ==========================================================================

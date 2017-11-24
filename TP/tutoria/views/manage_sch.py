@@ -32,7 +32,7 @@ def manage():
 		# tutor receipt, student review notification
 		createReviewNotification(timeslot)
 		createTransactionNotification(timeslot,timeslot.fee, 'end')
-		createTransactionHistory(timeslot, timeslot.fee, 'end')
+		createTransactionRecord(timeslot, timeslot.fee, 'end', None)
 
 		# Mytutor receive comission fee
 		mytutors = MyTutors.objects.all()[0]

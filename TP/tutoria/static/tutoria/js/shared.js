@@ -145,30 +145,37 @@ function viewWallet() {
 	});
 }
 
-function addValue(value) {
-	$.ajax({
-		url : "/wallet/addValue/", // the endpoint
-		type : "POST", // http method
-		data : {
-			'value' : $('#value').val()
-		},
-		// handle a successful response
-		success : function(response) {
-			$('#balance').html("Balance: " + response + " HKD");
-		}
-	});
+function addValue() {
+	var addOrNot = confirm("Are you sure to cancel this timeslot?");
+	if (addOrNot){
+		$.ajax({
+			url : "/wallet/addValue/", // the endpoint
+			type : "POST", // http method
+			data : {
+				'value' : $('#value').val()
+			},
+			// handle a successful response
+			success : function(response) {
+				viewWallet();
+			}
+		});
+	}
+
 }
 
 function withdraw() {
-	$.ajax({
-		url : "/wallet/withdraw/", // the endpoint
-		type : "POST", // http method
-		data : {
-			'value' : $('#value').val()
-		},
-		// handle a successful response
-		success : function(response) {
-			$('#balance').html("Balance: " + response + " HKD");
-		}
-	});
+	var withdrawOrNot = confirm("Are you sure to cancel this timeslot?");
+	if (withdrawOrNot){
+		$.ajax({
+			url : "/wallet/withdraw/", // the endpoint
+			type : "POST", // http method
+			data : {
+				'value' : $('#value').val()
+			},
+			// handle a successful response
+			success : function(response) {
+				viewWallet();
+			}
+		});
+	}
 }
