@@ -1,6 +1,6 @@
 <h1>Edit Profile</h1>
 <hr>
-<div class="row">
+<div>
 <!-- left column -->
 <!--div class="col-md-3">
 <div class="text-center">
@@ -11,6 +11,13 @@
 </div>
 </div--> 
 <!-- edit form column -->
+{% if duplicateUsername %}
+<div class="alert alert-info alert-dismissable">
+    <a class="panel-close close" data-dismiss="alert">×</a> 
+    <i class="fa fa-coffee"></i>
+    <strong>Username has already been taken!!</strong>
+</div>
+{% endif %}
 {% if editError %}
 <div class="alert alert-info alert-dismissable">
     <a class="panel-close close" data-dismiss="alert">×</a> 
@@ -113,7 +120,7 @@
         {% else %}
         <div id="HourlyrateDiv" style="display:none" class="form-group">
         {% endifnotequal %}
-        <label class="col-lg-3 control-label">Hourly rate:</label>
+        <label for="hourlyrate" class="col-lg-3 control-label">Hourly rate:</label>
         <div class="col-lg-8">
             <input id="hourlyrate" type="number" name="hourlyrate" value="{{tutor.profile.hourly_rate}}" step="10" min="0" class="form-control" autofocus>
         </div>
@@ -181,7 +188,7 @@
         <div class="form-group">
         <label class="col-lg-3 control-label">Username:</label>
         <div class="col-lg-8">
-            <input id="username" name="username" class="form-control" type="text" value="{{tutor.user.username}}">
+            <input id="username" name="username" class="form-control" type="text" value="">
         </div>
         </div>
         <!--Old password-->

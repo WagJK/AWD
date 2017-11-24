@@ -89,7 +89,8 @@ def submitReview(request):
 		comment=comment_content,
 		tutor=tutor_reviewed,
 		student=student_reviewing,
-		anonymous=anonymousOrNot
+		anonymous=anonymousOrNot,
+		createTime=datetime.now(),
 	)
 	newReview.save()
 

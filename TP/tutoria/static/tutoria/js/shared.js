@@ -147,7 +147,7 @@ function viewWallet() {
 
 function addValue() {
 	var value = $('#value').val();
-	var addOrNot = confirm("Are you sure to add " + value + " HKD to your wallet?");
+	var addOrNot = confirm("Are you sure to add money to your wallet?");
 	if (addOrNot){
 		$.ajax({
 			url : "/wallet/addValue/", // the endpoint
@@ -166,7 +166,7 @@ function addValue() {
 
 function withdraw() {
 	var value = $('#value').val();
-	var withdrawOrNot = confirm("Are you sure to withdraw " + value + " HKD to your wallet?");
+	var withdrawOrNot = confirm("Are you sure to withdraw money to your wallet?");
 	if (withdrawOrNot){
 		$.ajax({
 			url : "/wallet/withdraw/", // the endpoint

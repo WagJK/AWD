@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import auth
+from django.contrib.auth.models import User
 from ...models import Tutor,Tag,Course,TutorProfile,Timeslot
 
 def editProfile(request):
@@ -79,7 +80,6 @@ def editProfile(request):
         newCourses = request.POST['newcourses'].split(';')
         failedCourses = []
         for course in newCourses:
-            print(course)
             if course:
                 if Course.objects.filter(university=university).filter(code=course).exists():
                     tmpCourse = Course.objects.filter(university=university).filter(code=course)[0]
@@ -102,11 +102,17 @@ def editProfile(request):
                     tmpTag = Tag.objects.create(content=tag)
                 else:
                     tmpTag = Tag.objects.filter(content=tag)[0]
-                tutor.tag.add(tmpTag)
+                if not Tag.objects.filter(tutor=tutor).filter(content=tag).exists():
+                    tutor.tag.add(tmpTag)
+                
         
         username = request.POST['username']
+        duplicateUsername = False
         if username:
-            request.user.username = username
+            if not User.objects.filter(username=username).exists():
+                request.user.username = username
+            else:
+                duplicateUsername = True
         
         request.user.save()
         tutor.profile.save()
@@ -141,6 +147,11 @@ def editProfile(request):
                 confirmError = False
                 return render_to_response('tutoria/tutor/editProfile.html', locals())
         if not len(failedCourses) == 0:
+            success = False
+            editError = False
+            confirmError = False
+            return render_to_response('tutoria/tutor/editProfile.html',locals())
+        elif duplicateUsername:
             success = False
             editError = False
             confirmError = False

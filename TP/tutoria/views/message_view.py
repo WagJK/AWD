@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from ..operations import *
-
+from datetime import datetime
 
 def message(request):
     inbox_messages = get_inbox_message(request.user)
@@ -32,5 +32,6 @@ def send(request):
 		sender = request.user,
 		receiver = target,
 		content = content,
+		createTime=datetime.now(),
 	)
 	return HttpResponse("Message is successfully sent!")

@@ -8,6 +8,7 @@ function viewTutorSchedule(delta_offset, reset=false){
 	$("#nav-tutor-schedule").parent().addClass("active");
 	if (reset) schedule_offset = 0;
 	schedule_offset += delta_offset;
+	if (schedule_offset > 1) schedule_offset = 1;
 	$.ajax({
 		url : "/tutor/schedule/", // the endpoint
 		type : "POST", // http method
@@ -109,38 +110,42 @@ function editTutorProfile(){
 }
 
 function postTutorProfile(){
-	$.ajax({
-		url : "/tutor/homepage/editProfile/",
-		type : "POST",
-		data : {
-			'firstname' : $("#firstname").val(),
-			'lastname' : $("#lastname").val(),
-			'email' : $("#email").val(),
-			'phone' : $("#phone").val(),
-			'availability' : $("#availability").val(),
-			'tutortype' : $("#tutortype").val(),
-			'hourlyrate' : $("#hourlyrate").val(),
-			'university' : $("#university").val(),
-			'course_list': $('.course:checked').map(function() {
-				return this.value;
-			}).get(),
-			'newcourses' : $("#newcourses").val(),
-			'tag_list': $('.tag:checked').map(function() {
-				return this.value;
-			}).get(),
-			'newtags' : $("#newtags").val(),
-			'username' : $("#username").val(),
-			'oldpassword' : $("#oldpassword").val(),
-			'password' : $("#password").val(),
-			'confirmpassword' : $("#confirmpassword").val(),
-			'biography' : $("#biography").val()
-		},
-		success : function(response) {
-			$('#searchResult').html(response);
-			$('#searchResult').css("display","block");
-			$('#profile').css("display","none");
-		}
-	});
+	if ($("#hourlyrate").val() %10 != 0){
+		alert("Hourly rate not a multiple of 10")
+	} else {
+		$.ajax({
+			url : "/tutor/homepage/editProfile/",
+			type : "POST",
+			data : {
+				'firstname' : $("#firstname").val(),
+				'lastname' : $("#lastname").val(),
+				'email' : $("#email").val(),
+				'phone' : $("#phone").val(),
+				'availability' : $("#availability").val(),
+				'tutortype' : $("#tutortype").val(),
+				'hourlyrate' : $("#hourlyrate").val(),
+				'university' : $("#university").val(),
+				'course_list': $('.course:checked').map(function() {
+					return this.value;
+				}).get(),
+				'newcourses' : $("#newcourses").val(),
+				'tag_list': $('.tag:checked').map(function() {
+					return this.value;
+				}).get(),
+				'newtags' : $("#newtags").val(),
+				'username' : $("#username").val(),
+				'oldpassword' : $("#oldpassword").val(),
+				'password' : $("#password").val(),
+				'confirmpassword' : $("#confirmpassword").val(),
+				'biography' : $("#biography").val()
+			},
+			success : function(response) {
+				$('#searchResult').html(response);
+				$('#searchResult').css("display","block");
+				$('#profile').css("display","none");
+			}
+		});
+	}
 }
 /*
 function flushCourse(){

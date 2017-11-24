@@ -184,5 +184,12 @@ def cancel(cancelling_student, timeslot):
 	createCancelNotification(timeslot)
 	createTransactionNotification(timeslot, refund, "cancel")
 	createTransactionRecord(timeslot, refund, "cancel", None)
+	send_mail(
+		'Tutoria Cancelling Notification',
+		"Your tutorial session scheduled at " + str(timeslot) + " has been cancelled by student " + (str)(timeslot.student) + ".",
+		str('tutoria@example.com'),
+		[str(timeslot.tutor.user.email)],
+		fail_silently=False,
+	)
 	return True
 # ==========================================================================

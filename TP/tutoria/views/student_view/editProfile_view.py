@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import auth
+from django.contrib.auth.models import User
 from ...models import Student
 
 DEBUG = True
@@ -25,8 +26,12 @@ def editProfile(request):
         if phone:
             student.phone = phone
         username = request.POST['username']
+        duplicateUsername = False
         if username:
-            request.user.username = username
+            if not User.objects.filter(username=username).exists():
+                request.user.username = username
+            else:
+                duplicateUsername = True
         request.user.save()
         student.save()
         
@@ -44,8 +49,10 @@ def editProfile(request):
                     request.user.save()
                     update_session_auth_hash(request, request.user)
                 else:
-                    return render_to_response('tutoria/student/editProfile.html',{'success':False,'editError':False,'confirmError':True,'student':student})
+                    return render_to_response('tutoria/student/editProfile.html',{'duplicateUsername':False,'success':False,'editError':False,'confirmError':True,'student':student})
             else:
-                return render_to_response('tutoria/student/editProfile.html', {'success':False,'editError':True,'confirmError':False,'student':student})
-        
-        return render_to_response('tutoria/student/editProfile.html',{'success':True,'editError':False,'confirmError':False,'student':student})
+                return render_to_response('tutoria/student/editProfile.html', {'duplicateUsername':False,'success':False,'editError':True,'confirmError':False,'student':student})
+        if duplicateUsername:
+            return render_to_response('tutoria/student/editProfile.html', {'duplicateUsername':True,'success':False,'editError':False,'confirmError':False,'student':student})
+        else:
+            return render_to_response('tutoria/student/editProfile.html',{'duplicateUsername':False,'success':True,'editError':False,'confirmError':False,'student':student})

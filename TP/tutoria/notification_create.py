@@ -1,4 +1,5 @@
 from .models import*
+from datetime import datetime
 
 def get_all_notification(user):
 	try:
@@ -12,7 +13,8 @@ def createBookNotification(slot):
 	studentBookNotification = Notification(
 		category="book",
 		content=studentContent,
-		user=slot.student.user
+		user=slot.student.user,
+		createTime=datetime.now(),
 	)
 	studentBookNotification.save()
 	tutorContent = "Your tutorial session scheduled at "+ str(slot) + " has been booked by student " \
@@ -20,7 +22,8 @@ def createBookNotification(slot):
 	tutorBookNotification = Notification(
 		category="book",
 		content=tutorContent,
-		user=slot.tutor.user
+		user=slot.tutor.user,
+		createTime=datetime.now(),
 	)
 	tutorBookNotification.save()
 	return
@@ -32,6 +35,7 @@ def createCancelNotification(slot):
 		category="cancel",
 		content=studentContent,
 		user=slot.student.user,
+		createTime=datetime.now(),
 	)
 	studentCancelNotification.save()
 	tutorContent = "Your tutorial session scheduled at " + str(slot) + " has been cancelled by student " \
@@ -40,6 +44,7 @@ def createCancelNotification(slot):
 		category="cancel",
 		content=tutorContent,
 		user=slot.tutor.user,
+		createTime=datetime.now(),
 	)
 	tutorCancelNotification.save()
 	return
@@ -53,6 +58,7 @@ def createTransactionNotification(slot, money, type):
 			category="transaction",
 			content=studentContent,
 			user=slot.student.user,
+			createTime=datetime.now(),
 		)
 		studentNotification.save()
 	elif type == 'cancel':
@@ -61,6 +67,7 @@ def createTransactionNotification(slot, money, type):
 			category="transaction",
 			content=studentContent,
 			user=slot.student.user,
+			createTime=datetime.now(),
 		)
 		studentNotification.save()
 	elif type == 'end':
@@ -69,6 +76,7 @@ def createTransactionNotification(slot, money, type):
 			category="transaction",
 			content=tutorContent,
 			user=slot.student.tutor,
+			createTime=datetime.now(),
 		)
 		tutorNotification.save()
 	return
@@ -80,7 +88,9 @@ def createReviewNotification (slot):
 	reviewNotification = Notification(
 		category="review",
 		content=requestContent,
-		user=slot.student.user)
+		user=slot.student.user,
+		createTime=datetime.now(),
+	)
 	reviewNotification.save()
 	return
 
@@ -133,7 +143,8 @@ def createTransactionRecord(slot, money, type, user):
 	transactionHistory = TransactionRecord(
 		content=transferContent,
 		user=usr,
-		fee=money
+		fee=money,
+		createTime=datetime.now(),
 	)
 	transactionHistory.save()
 	return

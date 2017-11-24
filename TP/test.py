@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from tutoria.models import *
 
+MyTutors.objects.create()
+
 #dummy profile user for university display
 TutorProfile.objects.create(university="HKU")
 TutorProfile.objects.create(university="PKU")
 TutorProfile.objects.create(university="THU")
 TutorProfile.objects.create(university="HKUST")
 TutorProfile.objects.create(university="HKUCH")
-
 
 #Course in system
 Course.objects.create(university="HKU",code="HKUCOMP1111")

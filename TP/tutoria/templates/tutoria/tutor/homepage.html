@@ -77,12 +77,12 @@
 				{% endifnotequal %}
 				<tr> <th>Course</th> <td>
 					{% for course in courses %}
-					{{ course }} &nbsp
+					<span class="badge badge-primary"> {{ course }} </span> &nbsp
 					{% endfor %}
 				</td> </tr>
 				<tr> <th>Tag</th> <td>
 					{% for tag in tags %}
-					{{ tag }} &nbsp
+					<span class="badge badge-primary"> {{ tag }} </span> &nbsp
 					{% endfor %}
 				</td> </tr>
 				<tr> <th>Biography</th> <td>{{ tutor.profile.introduction }}</td> </tr>

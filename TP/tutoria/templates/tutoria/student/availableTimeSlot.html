@@ -13,7 +13,7 @@
 		</div>
 		{% for day, hour_dict in calendar.timeslots.items %}
 		<div class="flex-column">
-			<div class="flex-head"> {{ weekday|index:day }} </div>
+			<div class="flex-head"> {{ weekday|index:day }} <br> {{ date_range|index:day }} </div>
 			{% for hour, minute_dict in hour_dict.items %}
 				{% for minute, timeslot in minute_dict.items %}
 			<div class="flex-elem {% if timeslot.disable %} disable {% endif %}">
