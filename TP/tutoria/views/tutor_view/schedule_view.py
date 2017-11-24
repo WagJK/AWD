@@ -70,13 +70,13 @@ def activate(request):
 		endTime = startTime + timedelta(minutes = 30)
 	else:
 		endTime = startTime + timedelta(hours = 1)
+	within_week = (datetime.now() + timedelta(weeks = 1) > startTime)
 	new_timeslot = Timeslot.objects.create(
 		bookable = True,
 		cancellable = False,
 		is_booked = False,
 		is_finished = False,
-		within_week = True,
-		fee = tutor.profile.hourly_rate,
+		within_week = within_week,
 		startTime = startTime,
 		endTime = endTime,
 		tutor = tutor,

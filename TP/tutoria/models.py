@@ -66,8 +66,6 @@ class Timeslot(models.Model):
 	is_booked = models.BooleanField(default=False)
 	is_finished = models.BooleanField(default=False)
 	is_reviewed = models.BooleanField(default=False)
-
-	fee = models.FloatField(default="0.00")
 	startTime = models.DateTimeField(default=datetime.now())
 	endTime = models.DateTimeField(default=datetime.now())
 	within_week = models.BooleanField(default=False)

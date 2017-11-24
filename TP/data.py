@@ -32,8 +32,8 @@ def generate_timeslot_list(year, month, date, tutor_type):
 			result.append([prefix + str(hour + 1) + ":" + "00",
 				prefix + str(hour + 1) + ":" + "30"])
 		else:
-			result.append([prefix + str_hour + ":" + "30",
-				prefix + str(hour + 1) + ":" + "30"])
+			result.append([prefix + str_hour + ":" + "00",
+				prefix + str(hour + 1) + ":" + "00"])
 	return result
 
 def generate_course(num_course):

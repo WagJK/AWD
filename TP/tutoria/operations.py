@@ -8,6 +8,7 @@ from datetime import datetime
 from datetime import date
 from datetime import timedelta
 from django.core.mail import send_mail
+
 # ==========================================================================
 # ========================== Get ===========================================
 def all_booked_timeslots(client):
@@ -46,7 +47,8 @@ def get_bookable_timeslots_interval(client, start_date, end_date):
 				is_booked=False, 
 				is_finished=False, 
 				tutor=client, 
-				startTime__range=(start_date, end_date))
+				startTime__range=(start_date, end_date),
+				within_week=True)
 	except Timeslot.DoesNotExist:
 		return None
 
@@ -264,8 +266,12 @@ def book(booking_student, timeslot):
 		return "timeslot occupied"
 
 	# one cannot book if he doesn't have enough money
+	if (timeslot.tutor.tutor_type == "Private"):
+		fee = timeslot.tutor.profile.hourly_rate * 1.05
+	else:
+		fee = 0
 	wallet = Wallet.objects.get(user = booking_student.user)
-	fee = timeslot.fee * 1.05
+	
 	if wallet.balance < fee:
 		return "insufficient balance"
 
@@ -296,8 +302,7 @@ def book(booking_student, timeslot):
 	return "success"
 
 def cancel(cancelling_student, timeslot):
-	print("[DEBUG] Operation Cancel")
-	refund = timeslot.fee * 1.05
+
 	manage()
 	if not timeslot.cancellable:
 		return False
@@ -309,6 +314,10 @@ def cancel(cancelling_student, timeslot):
 	timeslot.save()
 
 	# modify student wallet
+	if (timeslot.tutor.tutor_type == "Private"):
+		refund = timeslot.tutor.profile.hourly_rate * 1.05
+	else:
+		refund = 0
 	wallet = Wallet.objects.get(user = cancelling_student.user)
 	wallet.balance += refund
 	wallet.save()

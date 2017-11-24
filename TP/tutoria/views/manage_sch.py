@@ -25,18 +25,24 @@ def manage():
 		endTime__lte = datetime.now(tz=tz_hkt)
 	)
 	for timeslot in finished_timeslots:
+		# calculate the fee to go to the tutor
+		if (timeslot.tutor.tutor_type == "Private"):
+			fee = timeslot.tutor.profile.hourly_rate
+		else:
+			fee = 0
+
 		# session finish tutor get money
 		wallet = Wallet.object.get(user=timeslot.tutor.user)
-		wallet.balance += timeslot.fee
+		wallet.balance += fee
 
 		# tutor receipt, student review notification
 		createReviewNotification(timeslot)
-		createTransactionNotification(timeslot,timeslot.fee, 'end')
-		createTransactionHistory(timeslot, timeslot.fee, 'end')
+		createTransactionNotification(timeslot, fee, 'end')
+		createTransactionHistory(timeslot, fee, 'end')
 
 		# Mytutor receive comission fee
 		mytutors = MyTutors.objects.all()[0]
-		mytutors.balance += timeslot.fee * 0.05
+		mytutors.balance += fee * 0.05
 		mytutors.save()
 	
 	# update cancellable status
@@ -55,12 +61,12 @@ def manage():
 	# update bookable status
 	bookable_timeslots = Timeslot.objects.filter(
 		is_booked = False,
-		startTime__gte = datetime.now(tz=tz_hkt) + timedelta(days=1)
+		startTime__gte = datetime.now(tz=tz_hkt) + timedelta(days=1),
 	)
 	
 	non_bookable_timeslots = Timeslot.objects.exclude(
 		is_booked = False,
-		startTime__gte = datetime.now(tz=tz_hkt) + timedelta(days=1)
+		startTime__gte = datetime.now(tz=tz_hkt) + timedelta(days=1),
 	)
 	bookable_timeslots.update(bookable=True)
 	non_bookable_timeslots.update(bookable=False)

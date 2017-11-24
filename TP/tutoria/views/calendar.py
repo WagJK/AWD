@@ -10,14 +10,12 @@ class Calendar():
 			self.timeslots[day] = {}
 			for hour in range_hour:
 				self.timeslots[day][hour] = {}
-			self.timeslots[day][hour+1] = {}
-			for hour in range_hour:
 				if private_tutor:
-					self.timeslots[day][hour][30] = TimeInterval(day, range_date[day], hour, 30, extend=True)
-					self.timeslots[day][hour+1][0] = TimeInterval(day, range_date[day], hour+1, 0, disable=True)
+					self.timeslots[day][hour][0] = TimeInterval(day, range_date[day], hour, 0, extend=True)
+					self.timeslots[day][hour][30] = TimeInterval(day, range_date[day], hour, 30, disable=True)
 				else:
+					self.timeslots[day][hour][0] = TimeInterval(day, range_date[day], hour, 0)
 					self.timeslots[day][hour][30] = TimeInterval(day, range_date[day], hour, 30)
-					self.timeslots[day][hour+1][0] = TimeInterval(day, range_date[day], hour+1, 0)
 					
 
 	def next(self, ts):
@@ -47,7 +45,7 @@ class TimeInterval():
 		self.state = state
 		self.disable = disable
 		self.extend = extend
-		if (datetime.now() + timedelta(days = 1) < self.time and self.time < datetime.now() + timedelta(weeks = 1)):
+		if datetime.now() + timedelta(days = 1) < self.time:
 			self.activate = True
 		else:
 			self.activate = False
