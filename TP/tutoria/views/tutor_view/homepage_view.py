@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
-from tutoria.models import Tutor, Message, Notification, Course, Tag
+from ...models import Tutor, Message, Notification, Course, Tag
 
 def homepage(request):
 	tutor = Tutor.objects.get(user=request.user)

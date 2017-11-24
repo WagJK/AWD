@@ -1,7 +1,6 @@
 import pytz
-from datetime import datetime
 from datetime import timedelta
-from tutoria.models import *
+from ..notification_create import *
 
 DEBUG = False
 
@@ -38,7 +37,7 @@ def manage():
 		# tutor receipt, student review notification
 		createReviewNotification(timeslot)
 		createTransactionNotification(timeslot, fee, 'end')
-		createTransactionHistory(timeslot, fee, 'end', None)
+		createTransactionRecord(timeslot, fee, 'end', None)
 
 		# Mytutor receive comission fee
 		mytutors = MyTutors.objects.all()[0]

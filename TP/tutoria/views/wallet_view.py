@@ -1,5 +1,4 @@
-from tutoria.operations import *
-from tutoria.models import *
+from ..operations import *
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 

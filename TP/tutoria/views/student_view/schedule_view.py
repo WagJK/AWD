@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from ...operations import *
 from ...views.calendar import *
+from datetime import date
 
 DEBUG = False
 

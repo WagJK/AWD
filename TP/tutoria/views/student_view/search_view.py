@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from ...operations import *
 from ...views.calendar import *
 from ...models import Tutor, Timeslot, Student, Review
+from datetime import date
 
 DEBUG = False
 
@@ -77,6 +78,11 @@ def shortProfile(request):
 		all_tutors = all_tutors.filter(user__first_name=first)
 
 	if (all_tutors):
+		tutor_tags = []
+		for tut in all_tutors:
+			tags = Tag.objects.filter(tutor=tut)
+			tutor_tags.append((tut, tags))
+
 		return render_to_response('tutoria/student/shortProfile.html', locals())
 	else:
 		return HttpResponse("No Matching Result!")
@@ -86,6 +92,7 @@ def detailedProfile(request):
 	student = Student.objects.get(user=request.user)
 	selectedTutor = Tutor.objects.get(id=tutor_id)
 	all_reviews = Review.objects.filter(tutor=selectedTutor).order_by('-createTime', '-id')
+	tags = Tag.objects.filter(tutor=selectedTutor)
 
 	has_booking_between = (len(Timeslot.objects.filter(
 		tutor = selectedTutor,
@@ -173,6 +180,11 @@ def sort(request):
 			all_tutors = all_tutors.order_by('profile__average_review')
 		elif request.POST['option'] == "Highest Average Review":
 			all_tutors = all_tutors.order_by('-profile__average_review')
+
+		tutor_tags = []
+		for tut in all_tutors:
+			tags = Tag.objects.filter(tutor=tut)
+			tutor_tags.append((tut, tags))
 
 		return render_to_response('tutoria/student/shortProfile.html', locals())
 	else:
