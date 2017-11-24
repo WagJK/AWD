@@ -86,6 +86,7 @@ def registrate(request):
         lastname = request.POST['lastname']
         email = request.POST['email']
         phone = request.POST['phone']
+
         if validReg:
             user = User.objects.create_user(
                 username=username, password=password, email=email, first_name=firstname, last_name=lastname

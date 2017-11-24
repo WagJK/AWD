@@ -7,10 +7,9 @@ from ...models import Tutor,Tag,Course,TutorProfile
 def editProfile(request):
     if request.method == 'GET':
         tutor = Tutor.objects.get(user=request.user)
-        tag = Tag.objects.all()
-        university_course_list = Course.objects.filter(university=tutor.profile.university)
+        #university_course_list = Course.objects.filter(university=tutor.profile.university)
         tutor_course_list = Course.objects.filter(tutor=tutor)
-        all_tags = Tag.objects.all()
+        #all_tags = Tag.objects.all()
         tag_list = Tag.objects.filter(tutor=tutor)
         university_list = TutorProfile.objects.values_list('university',flat=True).distinct()
         return render_to_response('tutoria/tutor/editProfile.html',locals())
@@ -73,11 +72,15 @@ def editProfile(request):
                 pass
             else:
                 tutor.course.remove(course)
-        for course in course_list:
-            if course in tutor_course:
-                pass
+        
+        newCourses = request.POST['newcourses'].split(';')
+        failedCourses = []
+        for course in newCourses:
+            if course and Course.objects.filter(university=university).filter(code=course).exists():
+                tmpCourse = Course.objects.filter(university=university).filter(code=course)[0]
+                tutor.course.add(tmpCourse)
             else:
-                tutor.course.add(course)
+                failedCourses.append(course)
 
         tmp = request.POST.getlist('tag_list[]',[])
         tag_list = Tag.objects.filter(content__in=tmp)
@@ -86,16 +89,15 @@ def editProfile(request):
                 pass
             else:
                 tutor.tag.remove(tag)
-        for tag in tag_list:
-            if tag in tutor_tag:
-                pass
-            else:
-                tutor.tag.add(tag) 
         
         newtags = request.POST['newtags'].split(';')
         for tag in newtags:
-            tmpTag = Tag.objects.create(content=tag)
-            tutor.tag.add(tmpTag)
+            if tag:
+                if not Tag.objects.filter(content=tag).exists():
+                    tmpTag = Tag.objects.create(content=tag)
+                else:
+                    tmpTag = Tag.objects.filter(content=tag)[0]
+                tutor.tag.add(tmpTag)
         
         username = request.POST['username']
         if username:
@@ -111,10 +113,8 @@ def editProfile(request):
         confirm_password = request.POST['confirmpassword']
 
         #need for re-render the editProfile.html
-        tag = Tag.objects.all()
         university_course_list = Course.objects.filter(university=tutor.profile.university)
         tutor_course_list = Course.objects.filter(tutor=tutor)
-        all_tags = Tag.objects.all()
         tag_list = Tag.objects.filter(tutor=tutor)
         university_list = TutorProfile.objects.values_list('university',flat=True).distinct()
         #only perform a reset when user enter 3 passwords
@@ -135,8 +135,14 @@ def editProfile(request):
                 editError = True
                 confirmError = False
                 return render_to_response('tutoria/tutor/editProfile.html', locals())
-        success = True
-        return render_to_response('tutoria/tutor/editProfile.html', locals())
+        if not len(failedCourses) == 0:
+            success = False
+            editError = False
+            confirmError = False
+            return render_to_response('tutoria/tutor/editProfile.html',locals())
+        else:
+            success = True
+            return render_to_response('tutoria/tutor/editProfile.html', locals())
         
         #render_to_response('tutoria/tutor/editProfile.html',{'success':True,'tutor':tutor})
 
