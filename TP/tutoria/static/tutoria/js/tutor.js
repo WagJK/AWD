@@ -109,7 +109,6 @@ function editTutorProfile(){
 }
 
 function postTutorProfile(){
-	alert($("#newcourses").val());
 	$.ajax({
 		url : "/tutor/homepage/editProfile/",
 		type : "POST",
@@ -137,7 +136,6 @@ function postTutorProfile(){
 			'biography' : $("#biography").val()
 		},
 		success : function(response) {
-			alert("!!!");
 			$('#searchResult').html(response);
 			$('#searchResult').css("display","block");
 			$('#profile').css("display","none");

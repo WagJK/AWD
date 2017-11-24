@@ -72,6 +72,7 @@ class Timeslot(models.Model):
 
 	tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
 	student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+	fee = models.FloatField(default="0.00")
 
 	def __str__(self):
 		interval = (str)((self.startTime.hour + 8) % 24) + ":" \

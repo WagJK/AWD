@@ -274,12 +274,8 @@ def book(booking_student, timeslot):
 		return "timeslot occupied"
 
 	# one cannot book if he doesn't have enough money
-	if (timeslot.tutor.tutor_type == "Private"):
-		fee = timeslot.tutor.profile.hourly_rate * 1.05
-	else:
-		fee = 0
+	fee = timeslot.fee * 1.05
 	wallet = Wallet.objects.get(user = booking_student.user)
-	
 	if wallet.balance < fee:
 		return "insufficient balance"
 
@@ -322,10 +318,7 @@ def cancel(cancelling_student, timeslot):
 	timeslot.save()
 
 	# modify student wallet
-	if (timeslot.tutor.tutor_type == "Private"):
-		refund = timeslot.tutor.profile.hourly_rate * 1.05
-	else:
-		refund = 0
+	refund = timeslot.fee * 1.05
 	wallet = Wallet.objects.get(user = cancelling_student.user)
 	wallet.balance += refund
 	wallet.save()

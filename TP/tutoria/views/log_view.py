@@ -102,7 +102,7 @@ def registrate(request):
         elif usr_type == 'tutor':
             university = request.POST['university']
             tutortype = request.POST['tutortype']
-            if tutortype == 'private':
+            if tutortype == 'Private':
                 hourly_rate = request.POST['hourlyrate']
                 tempProfile = TutorProfile.objects.create(university=university, hourly_rate=hourly_rate)
             else:
@@ -112,7 +112,7 @@ def registrate(request):
             Student.objects.create(user=user, login_type='Student',phone=phone)
             university = request.POST['university']
             tutortype = request.POST['tutortype']
-            if tutortype == 'private':
+            if tutortype == 'Private':
                 hourly_rate = request.POST['hourlyrate']
                 tempProfile = TutorProfile.objects.create(university=university, hourly_rate=hourly_rate)
             else:

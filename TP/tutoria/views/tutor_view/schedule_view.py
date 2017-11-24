@@ -81,5 +81,6 @@ def activate(request):
 		endTime = endTime,
 		tutor = tutor,
 		student = None,
+		fee = tutor.profile.hourly_rate
 	)
 	return HttpResponse(new_timeslot.id)

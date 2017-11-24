@@ -26,10 +26,7 @@ def manage():
 	)
 	for timeslot in finished_timeslots:
 		# calculate the fee to go to the tutor
-		if (timeslot.tutor.tutor_type == "Private"):
-			fee = timeslot.tutor.profile.hourly_rate
-		else:
-			fee = 0
+		fee = timeslot.fee
 
 		# session finish tutor get money
 		wallet = Wallet.object.get(user=timeslot.tutor.user)
