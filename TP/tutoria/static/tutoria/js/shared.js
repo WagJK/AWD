@@ -146,13 +146,14 @@ function viewWallet() {
 }
 
 function addValue() {
-	var addOrNot = confirm("Are you sure to cancel this timeslot?");
+	var value = $('#value').val();
+	var addOrNot = confirm("Are you sure to add " + value + " HKD to your wallet?");
 	if (addOrNot){
 		$.ajax({
 			url : "/wallet/addValue/", // the endpoint
 			type : "POST", // http method
 			data : {
-				'value' : $('#value').val()
+				'value' : value
 			},
 			// handle a successful response
 			success : function(response) {
@@ -164,13 +165,14 @@ function addValue() {
 }
 
 function withdraw() {
-	var withdrawOrNot = confirm("Are you sure to cancel this timeslot?");
+	var value = $('#value').val();
+	var withdrawOrNot = confirm("Are you sure to withdraw " + value + " HKD to your wallet?");
 	if (withdrawOrNot){
 		$.ajax({
 			url : "/wallet/withdraw/", // the endpoint
 			type : "POST", // http method
 			data : {
-				'value' : $('#value').val()
+				'value' : value
 			},
 			// handle a successful response
 			success : function(response) {

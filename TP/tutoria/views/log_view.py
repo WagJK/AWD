@@ -8,7 +8,7 @@ import re
 from .student_view import homepage_view as student_homepage_view
 from .tutor_view import homepage_view as tutor_homepage_view
 from .both_view import homepage_view as both_homepage_view
-from ..models import Tutor, Student, TutorProfile
+from ..models import Tutor, Student, TutorProfile, Wallet
 
 validReg = True
 error_message = ""
@@ -91,6 +91,7 @@ def registrate(request):
             user = User.objects.create_user(
                 username=username, password=password, email=email, first_name=firstname, last_name=lastname
             )
+            wallet = Wallet.objects.create(user = user)
         else:
             university = TutorProfile.objects.values_list('university',flat=True).distinct()
             return render_to_response('tutoria/registration.html', {'error_message': error_message, 'flag':True, 'university_list':university})

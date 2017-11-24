@@ -37,11 +37,13 @@ def generate_timeslot_list(year, month, date, tutor_type):
 	return result
 
 def generate_course(num_course):
-	for i in range(num_course):
-		new_course = Course()
-		new_course.code = "COMP" + str(rand(9000) + 1000)
-		new_course.description = "This is a example description for a random course"
-		new_course.save()
+	for university in list_university:
+		for i in range(num_course):
+			new_course = Course()
+			new_course.university = university
+			new_course.code = "COMP" + str(rand(9000) + 1000)
+			new_course.description = "This is a example description for a random course"
+			new_course.save()
 
 def generate_tutor(num_tutor, tutor_type):
 	cnt = 0
@@ -95,7 +97,6 @@ def generate_tutor(num_tutor, tutor_type):
 			for date in ["23", "24", "25", "27", "29"]:
 				for timeslot in generate_timeslot_list("2017", "11", date, tutor_type):
 					new_timeslot = Timeslot.objects.create(
-						fee = hourly_rate,
 						is_booked = False,
 						is_finished = False,
 						bookable = False,
@@ -203,7 +204,6 @@ def generate_both(num_tutor, tutor_type):
 			for date in ["23", "24", "25", "27", "29"]:
 				for timeslot in generate_timeslot_list("2017", "11", date, tutor_type):
 					new_timeslot = Timeslot.objects.create(
-						fee = hourly_rate,
 						is_booked = False,
 						is_finished = False,
 						bookable = False,

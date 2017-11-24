@@ -70,13 +70,30 @@
 			<img src="{% static 'tutoria/img/default.png' %}" width="120" height="120">
 
 			<table id="userProfile" class="table table-striped">
-				<tr> <th>Name</th> 			<td>{{ tutor.user.username }}</td> 		</tr>
-				<tr> <th>First name</th> 	<td>{{ tutor.user.first_name }}</td> 	</tr>
-				<tr> <th>Last name</th> 	<td>{{ tutor.user.last_name }}</td> 	</tr>
-				<tr> <th>Email</th> 		<td>{{ tutor.user.email }}</td> 		</tr>
-				<tr> <th>Phone</th> 		<td>{{ tutor.phone}}</td> 				</tr>
+				<tr> <th>Name</th> <td>{{ tutor.user.username }}</td> </tr>
+				<tr> <th>First name</th> <td>{{ tutor.user.first_name }}</td> </tr>
+				<tr> <th>Last name</th> <td>{{ tutor.user.last_name }}</td> </tr>
+				<tr> <th>Email</th> <td>{{ tutor.user.email }}</td> </tr>
+				<tr> <th>Phone</th> <td>{{ tutor.phone }}</td> </tr>
+				<tr> <th>University</th> <td>{{ tutor.profile.university }}</td> </tr>
+				<tr> <th>Tutor type</th> <td>{{ tutor.tutor_type }}</td> </tr>
+				{% ifnotequal tutor.tutor_type 'Contract' %}
+				<tr> <th>Hourly rate</th> <td>{{ tutor.profile.hourly_rate }}</td> </tr>
+				{% endifnotequal %}
+				<tr> <th>Course</th> <td>
+					{% for course in courses %}
+					{{ course }} &nbsp
+					{% endfor %}
+				</td> </tr>
+				<tr> <th>Tag</th> <td>
+					{% for tag in tags %}
+					{{ tag }} &nbsp
+					{% endfor %}
+				</td> </tr>
+				<tr> <th>Biography</th> <td>{{ tutor.profile.introduction }}</td> </tr>
 			</table>
 		</div>
+
 		<div id="searchResult"></div>
 	</div>
 
