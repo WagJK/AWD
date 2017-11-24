@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for tutor in all_tutors %}
+        {% for tutor,tags in tutor_tags %}
         <tr id="{{ tutor.id }}" class="short">
             <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">
                 <img src="{% static 'tutoria/img/default.png' %}" width="120" height="120">
@@ -24,6 +24,11 @@
                 {% else %}
                     {{ tutor.profile.average_review }}
                 {% endif %}
+            </td>
+            <td onmouseover="" style="cursor: pointer;" onclick="getDetailedProfile( '{{ tutor.id }}' )">
+                {% for tag in tags %}
+                {{ tag }} &nbsp
+                {% endfor %}
             </td>
         </tr>
         {% endfor %}

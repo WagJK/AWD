@@ -18,6 +18,14 @@
                 {% endif %}
             </td>
         </tr>
+        <tr>
+            <th>Subject Tags</th>
+            <td>
+                {% for tag in tags %}
+                {{ tag }} &nbsp
+                {% endfor %}
+            </td>
+        </tr>
         <tr> <th>Introduction </th> <td> {{ selectedTutor.profile.introduction }} </td> </tr>
         <tr> <th>Availability</th> <td> {{ selectedTutor.profile.availability }} </td> </tr>
         <tr>

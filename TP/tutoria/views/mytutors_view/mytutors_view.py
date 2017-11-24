@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from tutoria.models import MyTutors
+from ...models import MyTutors
 
 def homepage(request):
 	mytutors = MyTutors.objects.all()[0]

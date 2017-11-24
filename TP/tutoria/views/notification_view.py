@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from tutoria.operations import *
+from ..operations import *
 
 
 def notification(request):
