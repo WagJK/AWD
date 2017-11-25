@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from tutoria.models import *
 from django.utils import timezone
-from tutoria.views import manage_sch
 
 import random
 
@@ -23,7 +22,7 @@ def rand(mod):
 def generate_timeslot_list(year, month, date, tutor_type):
 	result = []
 	prefix = year + "-" + month + "-" + date + " "
-	for hour in range(9, 17):
+	for hour in range(12, 13):
 		str_hour = str(hour)
 		if (hour == 9):
 			str_hour = "0" + str(hour)
@@ -80,14 +79,15 @@ def generate_tutor(username, tutor_type, hourly_rate):
 		)
 		# timeslot
 		time_id = rand(len(list_time) - 1)
-		for date in range(24, 30):
+		for date in range(23, 30):
 			for timeslot in generate_timeslot_list("2017", "11", str(date), tutor_type):
 				new_timeslot = Timeslot.objects.create(
-					is_booked = False,
+					is_booked = True,
 					is_finished = False,
 					bookable = False,
 					cancellable = False,
 					tutor = new_tutor,
+					student = Student.objects.filter(user__username="Kevin")[0],
 					fee = new_tutor.profile.hourly_rate,
 					startTime = timeslot[0] + "+08:00",
 					endTime = timeslot[1] + "+08:00",
@@ -170,11 +170,6 @@ def generate_both(username, tutor_type, hourly_rate):
 
 # ------------------ Main --------------------
 generate_course(10)
-generate_student("hpguo")
 generate_student("Kevin")
-generate_tutor("George", "Contract", 0)
-generate_tutor("WagJK", "Private", 100)
-generate_both("Jolly", "Contract", 0)
-generate_both("Xiyang", "Private", 100)
+generate_tutor("George", "Private", 100)
 MyTutors.objects.create()
-manage_sch.manage()

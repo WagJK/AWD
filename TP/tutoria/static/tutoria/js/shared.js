@@ -1,4 +1,5 @@
 function home() {
+	updateNumOfNotf();
 	$("#alert").text('');
 	$(".active").removeClass("active");
 	$("#nav-home").parent().addClass("active");
@@ -180,4 +181,19 @@ function withdraw() {
 			}
 		});
 	}
+}
+
+
+// ==========================================================
+// ======================== Others ==========================
+function manualScheduler() {
+	$.ajax({
+		url : "/manage/", // the endpoint
+		type : "GET", // http method
+		// handle a successful response
+		success : function(response) {
+			updateNumOfNotf();
+			updateNumOfMsg();
+		}
+	});
 }

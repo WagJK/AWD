@@ -8,6 +8,7 @@ from .views import log_view
 from .views import message_view
 from .views import notification_view
 from .views import wallet_view
+from .views import manage_view
 
 from .views.student_view import homepage_view as student_home
 from .views.student_view import schedule_view as student_schedule
@@ -23,6 +24,7 @@ from .views.mytutors_view import mytutors_view
 
 urlpatterns = [
 	url(r'^$', log_view.login, name='login'),
+	url(r'^manage/', manage_view.manage, name='manage'),
 	url(r'^registration/', log_view.registrate, name='registration'),
 	url(r'^logout/', log_view.logout, name='logout'),
 	url(r'^wallet/', include([
@@ -117,7 +119,7 @@ urlpatterns = [
 ]
 
 
-scheduler = BackgroundScheduler()
-job = scheduler.add_job(manage, 'interval', seconds=60)
-scheduler.configure(timezone=utc)
-scheduler.start()
+# scheduler = BackgroundScheduler()
+# job = scheduler.add_job(manage, 'interval', seconds=60)
+# scheduler.configure(timezone=utc)
+# scheduler.start()

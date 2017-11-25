@@ -1,10 +1,12 @@
 import pytz
 from datetime import timedelta
 from ..notification_create import *
+from django.shortcuts import render_to_response
+from django.http import HttpResponse
 
 DEBUG = False
 
-def manage():
+def manage(request):
 	
 	if (DEBUG):
 		print("[DEBUG] scheduler start")
@@ -92,3 +94,5 @@ def manage():
 		print("[DEBUG] not cancellable = " + str(len(non_cancellable_timeslots)))
 		print("[DEBUG] now = " + str(datetime.now(tz=tz_hkt)))
 		print("[DEBUG] scheduler end processing")
+
+	return HttpResponse("success")

@@ -75,7 +75,7 @@ def createTransactionNotification(slot, money, type):
 		tutorNotification = Notification(
 			category="transaction",
 			content=tutorContent,
-			user=slot.student.tutor,
+			user=slot.tutor.user,
 			createTime=datetime.now(),
 		)
 		tutorNotification.save()

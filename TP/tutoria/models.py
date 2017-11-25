@@ -31,7 +31,7 @@ class MyTutors(models.Model):
 class TutorProfile(models.Model):
 	university = models.CharField(max_length=50)
 	hourly_rate = models.IntegerField(default=10)
-	average_review = models.IntegerField(default=-1)
+	average_review = models.DecimalField(default=-1, max_digits=4, decimal_places=2)
 	introduction = models.TextField(default="This is an introduction")
 	availability = models.BooleanField(default=True)
 
