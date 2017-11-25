@@ -35,30 +35,20 @@
 
 <h3>Course</h3>
 <div class="custom-form-group" id="course_list">
-	{% for course in all_course %}
-	<div class="checkbox">
-		<label class="custom-control custom-checkbox">
-			<input type="checkbox" name="checkbox" class="custom-control-input course" value="{{course}}">
-			<span class="custom-control-indicator"></span>
-			<span class="custom-control-description"> {{course}} </span>
-		</label>
-	</div>
-	{% endfor %}
+<label class="col-lg-8 control-label">Search by courses, saperate with ;</span></label>
+<div class="col-lg-8">
+	<input id="courses" name="courses" class="form-control" type="text">
+</div>
 </div>
 
 <hr>
 
 <h3>Tag</h3>
 <div class="custom-form-group" id="tag_list">
-	{% for tag in all_tag %}
-	<div class="checkbox">
-		<label class="custom-control custom-checkbox">
-			<input type="checkbox" name="checkbox" class="custom-control-input tag" value="{{tag}}">
-			<span class="custom-control-indicator"></span>
-			<span class="custom-control-description"> {{tag}} </span>
-		</label>
-	</div>
-	{% endfor %}
+<label class="col-lg-8 control-label">Search by tags, saperate with ;</span></label>
+<div class="col-lg-8">
+	<input id="tags" name="tags" class="form-control" type="text">
+</div>
 </div>
 
 <hr>

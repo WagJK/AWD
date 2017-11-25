@@ -28,7 +28,9 @@ def shortProfile(request):
 
 		all_tutors = all_tutors.intersection(temp)
 
-	cour_list = request.POST.getlist('course_list[]',[])
+	#cour_list = request.POST.getlist('course_list[]',[])
+	cour_list = request.POST['course_list'].split(';')
+	cour_list = cour_list[0:len(cour_list)-1]
 	if cour_list:
 		temp = Tutor.objects.none()
 		for cour in cour_list:
@@ -36,7 +38,9 @@ def shortProfile(request):
 
 		all_tutors = all_tutors.intersection(temp)
 
-	tag_list = request.POST.getlist('tag_list[]',[])
+	#tag_list = request.POST.getlist('tag_list[]',[])
+	tag_list = request.POST['tag_list'].split(';')
+	tag_list = tag_list[0:len(tag_list)-1]
 	if tag_list:
 		temp = Tutor.objects.none()
 		for tag in tag_list:
