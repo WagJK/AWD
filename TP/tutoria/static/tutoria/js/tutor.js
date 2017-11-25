@@ -110,7 +110,7 @@ function editTutorProfile(){
 }
 
 function postTutorProfile(){
-	if ($("#hourlyrate").val() %10 != 0){
+	if ($("#hourlyrate").val() % 10 != 0){
 		alert("Hourly rate not a multiple of 10")
 	} else {
 		$.ajax({

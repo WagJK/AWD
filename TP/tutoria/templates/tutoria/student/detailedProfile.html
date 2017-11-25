@@ -1,10 +1,11 @@
 {% load static %}
 <h2> Tutor Detailed Profile </h2> <br>
-<img src="{% static 'tutoria/img/default.png' %}" width="120" height="120">
-
 <table class="table table-striped" id="detailed_profile">
     <tbody>
     <tr>
+        <tr> <td colspan=2> 
+            <img style="border:1px white solid; border-radius:10px" src="{% static 'tutoria/img/default.png' %}" width="120" height="120"> 
+        </td> </tr>
         <tr> <th>Name</th> <td> {{ selectedTutor.user.username }} </td> </tr>
         <tr> <th>University</th> <td> {{ selectedTutor.profile.university }} </td> </tr>
         <tr> <th>Hourly Rate</th> <td>{{ selectedTutor.profile.hourly_rate }}</td> </tr>
@@ -18,14 +19,16 @@
                 {% endif %}
             </td>
         </tr>
-        <tr>
-            <th>Subject Tags</th>
-            <td>
-                {% for tag in tags %}
-                {{ tag }} &nbsp
-                {% endfor %}
-            </td>
-        </tr>
+        <tr> <th>Course</th> <td>
+            <h5> {% for course in courses %}
+            <span class="badge badge-primary"> {{ course }} </span> &nbsp
+            {% endfor %} </h5>
+        </td> </tr>
+        <tr> <th>Tag</th> <td>
+            <h5> {% for tag in tags %}
+            <span class="badge badge-success"> {{ tag }} </span> &nbsp
+            {% endfor %} </h5>
+        </td> </tr>
         <tr> <th>Introduction </th> <td> {{ selectedTutor.profile.introduction }} </td> </tr>
         <tr> <th>Availability</th> <td> {{ selectedTutor.profile.availability }} </td> </tr>
         <tr>

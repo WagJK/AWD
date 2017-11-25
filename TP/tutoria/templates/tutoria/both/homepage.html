@@ -68,10 +68,11 @@
 		<div id="profile" onload="loadProfile()">
 			<button id="editProfileBtn" class="btn btn-outline-success col-2 float-right" onclick="editTutorProfile()">Edit Profile</button>
 			<h1> My Profile </h1>
-			<img src="{% static 'tutoria/img/default.png' %}" width="120" height="120">
-
 			<table id="userProfile" class="table table-striped">
-				<tr> <th>Name</th> <td>{{ tutor.user.username }}</td> </tr>
+				<tr> <td colspan=2> 
+					<img style="border:1px white solid; border-radius:10px" src="{% static 'tutoria/img/default.png' %}" width="120" height="120"> 
+				</td> </tr>
+				<tr> <th style="width:20%">Name</th> <td>{{ tutor.user.username }}</td> </tr>
 				<tr> <th>First name</th> <td>{{ tutor.user.first_name }}</td> </tr>
 				<tr> <th>Last name</th> <td>{{ tutor.user.last_name }}</td> </tr>
 				<tr> <th>Email</th> <td>{{ tutor.user.email }}</td> </tr>
@@ -82,14 +83,14 @@
 				<tr> <th>Hourly rate</th> <td>{{ tutor.profile.hourly_rate }}</td> </tr>
 				{% endifnotequal %}
 				<tr> <th>Course</th> <td>
-					{% for course in courses %}
+					<h5> {% for course in courses %}
 					<span class="badge badge-primary"> {{ course }} </span> &nbsp
-					{% endfor %}
+					{% endfor %} </h5>
 				</td> </tr>
 				<tr> <th>Tag</th> <td>
-					{% for tag in tags %}
-					<span class="badge badge-primary"> {{ tag }} </span> &nbsp
-					{% endfor %}
+					<h5> {% for tag in tags %}
+					<span class="badge badge-success"> {{ tag }} </span> &nbsp
+					{% endfor %} </h5>
 				</td> </tr>
 				<tr> <th>Biography</th> <td>{{ tutor.profile.introduction }}</td> </tr>
 			</table>

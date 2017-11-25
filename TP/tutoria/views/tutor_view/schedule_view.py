@@ -57,7 +57,6 @@ def deactivate(request):
 	slotID = int(request.POST['slotID'])
 	timeslot = Timeslot.objects.get(id = slotID)
 	time_str = (timeslot.startTime + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
-	print(time_str)
 	timeslot.delete()
 	return HttpResponse(time_str)
 
