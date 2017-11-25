@@ -26,7 +26,7 @@ def shortProfile(request):
 		for univ in univ_list:
 			temp = temp.union(Tutor.objects.filter(profile__university=univ))
 
-		all_tutors = all_tutors.intersection(temp)
+		all_tutors = set(all_tutors) & set(temp)
 
 	#cour_list = request.POST.getlist('course_list[]',[])
 	cour_list = request.POST['course_list'].split(';')
@@ -38,8 +38,8 @@ def shortProfile(request):
 		temp = Tutor.objects.none()
 		for cour in cour_list:
 			temp = temp.union(Tutor.objects.filter(course__code=cour))
-
-		all_tutors = all_tutors.intersection(temp)
+		
+		all_tutors = set(all_tutors) & set(temp)
 
 	#tag_list = request.POST.getlist('tag_list[]',[])
 	tag_list = request.POST['tag_list'].split(';')
@@ -51,23 +51,25 @@ def shortProfile(request):
 		temp = Tutor.objects.none()
 		for tag in tag_list:
 			temp = temp.union(Tutor.objects.filter(tag__content=tag))
-		all_tutors = all_tutors.intersection(temp)
+
+		all_tutors = set(all_tutors) & set(temp)
 
 	min = request.POST.get('min_rate','')
 	if min != '':
-		all_tutors = all_tutors.filter(profile__hourly_rate__gte=(int)(min)).distinct()
+		temp = Tutor.objects.filter(profile__hourly_rate__gte=(int)(min))
+		all_tutors = set(all_tutors) & set(temp)
 
 	max = request.POST.get('max_rate','')
 	if max != '':
-		all_tutors = all_tutors.filter(profile__hourly_rate__lte=(int)(max)).distinct()
+		temp = Tutor.objects.filter(profile__hourly_rate__lte=(int)(max))
+		all_tutors= set(all_tutors) & set(temp)
 
 	type = request.POST.getlist('type[]',[])
 	if type:
 		temp = Tutor.objects.none()
 		for ty in type:
 			temp = temp.union(Tutor.objects.filter(tutor_type=str(ty)))
-
-		all_tutors = all_tutors.intersection(temp)
+		all_tutors= set(all_tutors) & set(temp)
 
 	# Within seven days, to be added
 	limited = request.POST.get('limited[]',[])
@@ -76,16 +78,18 @@ def shortProfile(request):
 		slot_in_week = Timeslot.objects.filter(within_week=True)
 		for slot in slot_in_week:
 			list_of_ids.append(slot.tutor.id)
-
-		all_tutors = all_tutors.filter(id__in=list_of_ids)
+		temp = Tutor.objects.filter(id__in=list_of_ids)
+		all_tutors= set(all_tutors) & set(temp)
 
 	last = request.POST.get('last_name')
 	if last != '':
-		all_tutors= all_tutors.filter(user__last_name=last)
+		temp = Tutor.objects.filter(user__last_name=last)
+		all_tutors= set(all_tutors) & set(temp)
 
 	first = request.POST.get('first_name')
 	if first != '':
-		all_tutors = all_tutors.filter(user__first_name=first)
+		temp = Tutor.objects.filter(user__first_name=first)
+		all_tutors= set(all_tutors) & set(temp)
 
 	if (all_tutors):
 		tutor_tags = []
@@ -190,7 +194,7 @@ def sort(request):
 		elif request.POST['option'] == "Lowest Average Review":
 			all_tutors = all_tutors.order_by('profile__average_review')
 		elif request.POST['option'] == "Highest Average Review":
-			all_tutors = all_tutors.order_by('-profile__average_review')
+			all_tutors = all_tutors.order_by('-profile__average_review') 
 
 		tutor_tags = []
 		for tut in all_tutors:
