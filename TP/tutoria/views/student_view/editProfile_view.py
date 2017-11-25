@@ -42,7 +42,7 @@ def editProfile(request):
 
         #only perform a reset when user enter 3 passwords
         if old_password and password and confirm_password:
-            user = auth.authenticate(username=username,password=old_password)
+            user = auth.authenticate(username=request.user.username,password=old_password)
             if  user is not None:
                 if password == confirm_password:
                     request.user.set_password(password)

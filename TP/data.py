@@ -79,7 +79,6 @@ def generate_tutor(num_tutor, tutor_type):
 			new_tutor_profile = TutorProfile.objects.create(
 				university = list_university[rand(len(list_university))],
 				hourly_rate = hourly_rate,
-				average_review = rand(40) + 60,
 				introduction = list_introduction[rand(len(list_introduction))],
 				availability = True
 			)
@@ -102,6 +101,7 @@ def generate_tutor(num_tutor, tutor_type):
 						bookable = False,
 						cancellable = False,
 						tutor = new_tutor,
+						fee = new_tutor.profile.hourly_rate,
 						startTime = timeslot[0] + "+08:00",
 						endTime = timeslot[1] + "+08:00",
 					)
@@ -186,7 +186,6 @@ def generate_both(num_tutor, tutor_type):
 			new_tutor_profile = TutorProfile.objects.create(
 				university = list_university[rand(len(list_university))],
 				hourly_rate = hourly_rate,
-				average_review = rand(40) + 60,
 				introduction = list_introduction[rand(len(list_introduction))],
 				availability = True
 			)
@@ -209,6 +208,7 @@ def generate_both(num_tutor, tutor_type):
 						bookable = False,
 						cancellable = False,
 						tutor = new_tutor,
+						fee = new_tutor.profile.hourly_rate,
 						startTime = timeslot[0] + "+08:00",
 						endTime = timeslot[1] + "+08:00",
 					)

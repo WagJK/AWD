@@ -32,12 +32,12 @@ function activate(that, time) {
 		},
 		// handle a successful response
 		success : function(response) {
-			$(that).removeClass("timeslot-activate");
-			$(that).addClass("timeslot-available");
-			$(that).text("blackout");
-			$(that).attr("onclick", "deactivate(this, '" + response +"')");
 			$(that).attr("onmouseover", "hoverDeactivate(this)");
 			$(that).attr("onmouseout", "unhoverDeactivate(this)");
+			$(that).removeClass("timeslot-activate");
+			$(that).addClass("timeslot-available");
+			//$(that).text("blackout");
+			$(that).attr("onclick", "deactivate(this, '" + response +"')");
 		}
 	});
 }
