@@ -101,12 +101,16 @@ function getShortProfiles() {
 			'university_list': $('.university:checked').map(function() {
 				return this.value;
 			}).get(),
+			/*
 			'course_list': $('.course:checked').map(function() {
 				return this.value;
 			}).get(),
 			'tag_list': $('.tag:checked').map(function() {
 				return this.value;
 			}).get(),
+			*/
+			'course_list' : $('#courses').val(),
+			'tag_list' : $('#tags').val(),
 			'min_rate': $('#min').val(),
 			'max_rate': $('#max').val(),
 			'type': $('.type:checked').map(function() {

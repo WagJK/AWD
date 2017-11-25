@@ -81,6 +81,7 @@ def editProfile(request):
         failedCourses = []
         for course in newCourses:
             if course:
+                print(course)
                 if Course.objects.filter(university=university).filter(code=course).exists():
                     tmpCourse = Course.objects.filter(university=university).filter(code=course)[0]
                     tutor.course.add(tmpCourse)
