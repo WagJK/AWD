@@ -30,7 +30,10 @@ def shortProfile(request):
 
 	#cour_list = request.POST.getlist('course_list[]',[])
 	cour_list = request.POST['course_list'].split(';')
-	cour_list = cour_list[0:len(cour_list)-1]
+	cour_list = cour_list[0:len(cour_list)]
+	if (len(cour_list) == 1 and cour_list[0] == ''):
+		cour_list = []
+	
 	if cour_list:
 		temp = Tutor.objects.none()
 		for cour in cour_list:
@@ -40,7 +43,10 @@ def shortProfile(request):
 
 	#tag_list = request.POST.getlist('tag_list[]',[])
 	tag_list = request.POST['tag_list'].split(';')
-	tag_list = tag_list[0:len(tag_list)-1]
+	tag_list = tag_list[0:len(tag_list)]
+	if (len(tag_list) == 1 and tag_list[0] == ''):
+		tag_list = []
+
 	if tag_list:
 		temp = Tutor.objects.none()
 		for tag in tag_list:
@@ -97,6 +103,7 @@ def detailedProfile(request):
 	selectedTutor = Tutor.objects.get(id=tutor_id)
 	all_reviews = Review.objects.filter(tutor=selectedTutor).order_by('-createTime', '-id')
 	tags = Tag.objects.filter(tutor=selectedTutor)
+	courses = Course.objects.filter(tutor=selectedTutor)
 
 	has_booking_between = (len(Timeslot.objects.filter(
 		tutor = selectedTutor,
