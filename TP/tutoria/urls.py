@@ -119,7 +119,7 @@ urlpatterns = [
 ]
 
 
-# scheduler = BackgroundScheduler()
-# job = scheduler.add_job(manage, 'interval', seconds=60)
-# scheduler.configure(timezone=utc)
-# scheduler.start()
+scheduler = BackgroundScheduler()
+job = scheduler.add_job(manage, 'interval', seconds=60)
+scheduler.configure(timezone=utc)
+scheduler.start()

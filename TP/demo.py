@@ -23,9 +23,9 @@ def rand(mod):
 def generate_timeslot_list(year, month, date, tutor_type):
 	result = []
 	prefix = year + "-" + month + "-" + date + " "
-	for hour in range(9, 17):
+	for hour in range(8, 20):
 		str_hour = str(hour)
-		if (hour == 9):
+		if (hour <= 9):
 			str_hour = "0" + str(hour)
 		if (tutor_type == "Contract"):
 			result.append([prefix + str_hour + ":" + "30",
@@ -169,6 +169,9 @@ def generate_both(username, tutor_type, hourly_rate):
 				)
 
 # ------------------ Main --------------------
+for university in list_university:
+	TutorProfile.objects.create(university=university)
+
 generate_course(10)
 generate_student("hpguo")
 generate_student("Kevin")
